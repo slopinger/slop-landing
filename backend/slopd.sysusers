@@ -1,0 +1,1 @@
+u slopd - "slopd guestbook/counter service" /var/lib/slopd /usr/bin/nologin

@@ -88,17 +88,20 @@
   <form id="gb-form" autocomplete="off">
     <input id="gb-name" maxlength="40" placeholder="ur name" aria-label="your name">
     <textarea id="gb-msg" maxlength="280" rows="2" placeholder="say something nice (or sloppy)" aria-label="your message" required></textarea>
-    <button type="submit">✍️ sign</button>
+    <button type="submit" id="gb-submit">✍️ sign</button>
+    <label class="hp" aria-hidden="true">leave this empty <input id="gb-website" tabindex="-1" autocomplete="off"></label>
   </form>
-  <p class="small">your message will be stored securely in <code>/dev/null</code> and in your own browser. nobody else will ever see it. just like real guestbooks.</p>
+  <p class="small">this guestbook is <b>real</b> now. your message will be visible to the entire internet, forever (or until we mop it). be nice. no links. 280 characters max.</p>
   <ol class="entries" id="entries"></ol>
+  <button type="button" id="gb-more" hidden>📜 load older slop</button>
 </section>
 
 <section class="card tilt counter-card" aria-labelledby="ctr-h">
   <h2 id="ctr-h" class="hidden">visitor counter</h2>
   <p>you are visitor number</p>
-  <div class="counter" id="counter" title="click to reset">0000000</div>
-  <p class="small">(this number is not real. none of this is real. the slop is real.)</p>
+  <div class="counter" id="counter" title="click to reset">???????</div>
+  <p class="small" id="counter-note">(counting the slop…)</p>
+  <p class="small" id="counter-live" aria-live="polite"></p>
 </section>
 
 </main>

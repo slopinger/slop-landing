@@ -503,63 +503,165 @@
   });
 
   // =====================================================================
-  // GUESTBOOK (storage backend: /dev/null + your browser)
+  // API (slopd, proxied by Caddy at /api/*)
   // =====================================================================
-  const seeded = [
-    { n: 'xX_SlopMaster_Xx', m: 'first!!!!1', d: '1998-04-01' },
-    { n: 'Gerald', m: 'oink', d: '2026-10-14' },
-    { n: 'your mom', m: 'very nice website sweetie. how do i make the letters bigger', d: '2003-11-23' },
-    { n: 'Clippy', m: "It looks like you're writing slop. Would you like help?", d: '1997-01-30' },
-    { n: 'webmaster', m: 'sorry, the site is under construction', d: '1999-12-31' },
-    { n: 'SSL Labs', m: 'A+ 🥇 we checked. we were surprised too.', d: '2026-10-14' },
-    { n: 'a mysterious stranger', m: 'i have seen the slop. the slop has seen me.', d: '2012-12-21' },
+  async function api(path, body) {
+    const opts = body === undefined ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) };
+    const r = await fetch(path, opts);
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || `the server made a weird noise (${r.status})`);
+    return j;
+  }
+
+  // =====================================================================
+  // GUESTBOOK (real! stored by slopd)
+  // =====================================================================
+  const archive = [
+    { name: 'xX_SlopMaster_Xx', message: 'first!!!!1', d: '1998-04-01' },
+    { name: 'your mom', message: 'very nice website sweetie. how do i make the letters bigger', d: '2003-11-23' },
+    { name: 'Clippy', message: "It looks like you're writing slop. Would you like help?", d: '1997-01-30' },
+    { name: 'webmaster', message: 'sorry, the site is under construction', d: '1999-12-31' },
+    { name: 'a mysterious stranger', message: 'i have seen the slop. the slop has seen me.', d: '2012-12-21' },
   ];
-  let mine = store.get('gb', []);
+  const gb = { entries: [], status: 'loading', more: false, freshId: null };
+  const entriesEl = $('#entries');
+  const moreBtn = $('#gb-more');
+  try { localStorage.removeItem('slop:gb'); localStorage.removeItem('slop:visits'); } catch { /* the old fake guestbook/counter state, now obsolete */ }
+
+  function ago(ts) {
+    const s = Date.now() / 1000 - ts;
+    if (s < 60) return 'just now';
+    if (s < 3600) return `${Math.floor(s / 60)} min ago`;
+    if (s < 86400) return `${Math.floor(s / 3600)} h ago`;
+    return new Date(ts * 1000).toISOString().slice(0, 10);
+  }
+  function entryEl(e, cls, when) {
+    const li = document.createElement('li');
+    if (cls) li.className = cls;
+    const b = document.createElement('b');
+    b.textContent = e.name;
+    const w = document.createElement('span');
+    w.className = 'when';
+    w.textContent = '· ' + when;
+    li.append(b, ': ', document.createTextNode(e.message), w);
+    return li;
+  }
+  function statusEl(text) {
+    const li = document.createElement('li');
+    li.className = 'status';
+    li.textContent = text;
+    return li;
+  }
   function renderEntries() {
-    const list = $('#entries');
-    list.textContent = '';
-    for (const e of [...mine.map((x) => ({ ...x, mine: true })), ...seeded]) {
-      const li = document.createElement('li');
-      if (e.mine) li.className = 'mine';
-      const b = document.createElement('b'); b.textContent = e.n;
-      const when = document.createElement('span'); when.className = 'when';
-      when.textContent = e.mine ? '· just now-ish · (only u can see this)' : '· ' + e.d;
-      li.append(b, ': ', document.createTextNode(e.m), when);
-      list.append(li);
+    entriesEl.textContent = '';
+    if (gb.status === 'loading') entriesEl.append(statusEl('loading slop…'));
+    else if (gb.status === 'down') entriesEl.append(statusEl('the guestbook server is busy eating. try again later. 🐖'));
+    else if (!gb.entries.length) entriesEl.append(statusEl('nobody has signed yet. be the first!!! (you are legally allowed to write "first!!!")'));
+    for (const e of gb.entries) entriesEl.append(entryEl(e, e.id === gb.freshId ? 'fresh' : '', ago(e.created)));
+    moreBtn.hidden = !gb.more;
+    if (gb.more) return; // the archive lives at the very bottom
+    const h = document.createElement('li');
+    h.className = 'archive-h';
+    h.textContent = '— recovered from the 1998 geocities archive —';
+    entriesEl.append(h);
+    for (const e of archive) entriesEl.append(entryEl(e, 'archived', e.d));
+  }
+  async function loadEntries(before) {
+    try {
+      const j = await api('/api/guestbook' + (before ? `?before=${before}` : ''));
+      gb.entries = before ? gb.entries.concat(j.entries) : j.entries;
+      gb.more = j.more;
+      gb.status = 'ok';
+    } catch {
+      if (!before) gb.status = 'down';
+      else toast('could not load older slop. it may have fossilized.');
     }
+    renderEntries();
   }
   renderEntries();
-  $('#gb-form').addEventListener('submit', (e) => {
+  loadEntries();
+  setInterval(() => { if (!document.hidden && gb.status !== 'loading') refreshEntries(); }, 60000);
+  async function refreshEntries() { // pick up new entries from other people without losing loaded pages
+    try {
+      const j = await api('/api/guestbook');
+      const known = new Set(gb.entries.map((e) => e.id));
+      const fresh = j.entries.filter((e) => !known.has(e.id));
+      if (fresh.length || gb.status !== 'ok') {
+        gb.entries = gb.status === 'ok' ? fresh.concat(gb.entries) : j.entries;
+        if (gb.status !== 'ok') gb.more = j.more;
+        gb.status = 'ok';
+        renderEntries();
+      }
+    } catch { /* still eating */ }
+  }
+  moreBtn.addEventListener('click', () => {
+    const last = gb.entries[gb.entries.length - 1];
+    if (last) loadEntries(last.id);
+  });
+
+  $('#gb-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const m = $('#gb-msg').value.trim();
-    if (!m) return;
-    const n = $('#gb-name').value.trim() || pick(['anonymous pig', 'a shy slopper', 'guest', 'Gerald (probably)']);
-    mine = [{ n, m }, ...mine].slice(0, 20);
-    store.set('gb', mine);
-    renderEntries();
-    e.target.reset();
-    toast('✅ message delivered to /dev/null');
+    const message = $('#gb-msg').value.trim();
+    if (!message) return;
+    const btn = $('#gb-submit');
+    btn.disabled = true;
+    btn.textContent = '⏳ ladling…';
+    try {
+      const j = await api('/api/guestbook', { name: $('#gb-name').value, message, website: $('#gb-website').value });
+      if (j.entry.id) {
+        gb.entries = [j.entry, ...gb.entries.filter((x) => x.id !== j.entry.id)];
+        gb.freshId = j.entry.id;
+        gb.status = 'ok';
+      }
+      renderEntries();
+      $('#gb-msg').value = '';
+      toast(pick(['✅ signed! the whole internet can see it now.', '✅ signed. Gerald read it. Gerald approves.', '✅ your slop has been immortalized.']));
+      const r = btn.getBoundingClientRect();
+      if (!reduceMotion) splat(r.left + r.width / 2, r.top, 18, .8);
+    } catch (err) {
+      toast('❌ ' + err.message, 3000);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✍️ sign';
+    }
   });
 
   // =====================================================================
-  // HIT COUNTER (100% fake, 0% tracking)
+  // HIT COUNTER (real! counted by slopd, one count per visitor per 30 min)
   // =====================================================================
   const counter = $('#counter');
-  let hits = 420 + store.get('visits', 0) * 69;
-  store.set('visits', store.get('visits', 0) + 1);
-  let nanUntil = 0;
+  const counterNote = $('#counter-note');
+  const counterLive = $('#counter-live');
   const pad = (n) => String(n).padStart(7, '0');
-  counter.textContent = pad(hits);
-  setInterval(() => {
-    if (Date.now() < nanUntil) return;
-    hits += Math.random() < .2 ? Math.floor(rand(2, 40)) : 1;
-    counter.textContent = pad(hits);
-  }, 1300);
+  let myNumber = null;
+  let nanTimer = null;
+  function showLive(total) {
+    if (myNumber == null || total <= myNumber) { counterLive.textContent = ''; return; }
+    const n = total - myNumber;
+    counterLive.textContent = `${n} more ${n === 1 ? 'person has' : 'people have'} arrived since you. total: ${total}.`;
+  }
+  api('/api/visits', {})
+    .then((j) => {
+      myNumber = j.visitor;
+      counter.textContent = pad(j.visitor);
+      counterNote.textContent = j.counted
+        ? (j.visitor === 1 ? '(you are the FIRST. this number is real. we are as surprised as you.)' : '(this number is real now. we are as surprised as you.)')
+        : '(welcome back! you were already counted. no double-dipping in the trough.)';
+      showLive(j.total);
+      setInterval(() => {
+        if (!document.hidden) api('/api/visits').then((v) => showLive(v.total)).catch(() => {});
+      }, 30000);
+    })
+    .catch(() => {
+      counter.textContent = 'ERR0R';
+      counterNote.textContent = '(the counter fell in the slop. it will be fished out shortly.)';
+    });
   counter.addEventListener('click', () => {
+    if (myNumber == null) return;
     counter.textContent = 'NaNNaNN';
-    nanUntil = Date.now() + 1500;
-    hits = 0;
-    toast('counter reset. you are now visitor #0. congrats?');
+    clearTimeout(nanTimer);
+    nanTimer = setTimeout(() => { counter.textContent = pad(myNumber); }, 1500);
+    toast('counter reset. (just kidding. it is a real counter now. no take-backs.)', 2600);
   });
 
   // =====================================================================

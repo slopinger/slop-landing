@@ -255,6 +255,13 @@ button.big:active { translate: 5px 5px; }
 .entries li b { color: #b5005b; }
 .entries li .when { font-size: 13px; opacity: .6; margin-left: 6px; }
 .entries li.mine { background: rgba(123, 212, 58, .15); }
+.entries li.fresh { animation: fresh 1.2s ease-out; }
+@keyframes fresh { from { background: rgba(255, 95, 162, .45); } }
+.entries li.archive-h { text-align: center; font-weight: 700; opacity: .7; border-top-style: dashed; padding-top: 14px; }
+.entries li.archived { opacity: .75; }
+.entries li.status { opacity: .7; font-style: italic; }
+#gb-more { margin-top: 6px; }
+#gb-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* ---------- counter ---------- */
 .counter-card { text-align: center; }
