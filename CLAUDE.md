@@ -19,3 +19,5 @@ and README current as part of every behavior, page structure, test or operationa
 - Local backups are handled by `slop/server-backups` and its daily timer; README there has restore steps.
   Public guestbook entries are user content: do not moderate or delete them without an actual reason.
 - Check git status, sign commits and push only your changes; preserve concurrent sessions' work.
+- Use small commits: one logical change per commit (with its tests/docs), each passing the checks above.
+  Don't bundle unrelated changes or a whole session's work into one commit.
