@@ -58,6 +58,14 @@ Data: `/var/lib/slopd/slopd.sqlite3`.
     slopctl delete 12         # gone for good
     slopctl set-visits 1000   # adjust the counter
 
+## Backend tests
+
+    python3 -m unittest discover -s backend/tests -v
+
+These HTTP integration tests start a loopback server with a temporary SQLite database. They cover
+posting, pagination, moderation visibility, visit deduplication, pot caps, JSON validation and origins
+without changing the live guestbook or counters.
+
 ## Deploy
 
     ./deploy.sh    # site/ -> /srv/http/freifick.net; installs + restarts slopd if backend changed (uses sudo)

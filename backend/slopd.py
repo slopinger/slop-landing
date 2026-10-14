@@ -223,6 +223,8 @@ class Handler(BaseHTTPRequestHandler):
             before = parse_qs(url.query).get('before', [None])[0]
             try:
                 before = int(before) if before is not None else None
+                if before is not None and not -(2**63) <= before < 2**63:
+                    raise ValueError('cursor outside SQLite integer range')
             except ValueError:
                 raise ApiError(400, 'that is not a number. that is slop.')
             entries = self.store.entries(before)
@@ -240,7 +242,7 @@ class Handler(BaseHTTPRequestHandler):
         if origin and origin not in ALLOWED_ORIGINS:
             self.close_connection = True
             raise ApiError(403, 'wrong trough')
-        if not (self.headers.get('Content-Type') or '').startswith('application/json'):
+        if self.headers.get_content_type() != 'application/json':
             self.close_connection = True
             raise ApiError(415, 'json only. gerald cannot read other formats.')
         try:
