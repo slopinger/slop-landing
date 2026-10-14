@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- slop: the official avatar. a slime pig with deal-with-it shades, bling and zero shame -->
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0" stop-color="#ffe14d"/>
+      <stop offset=".55" stop-color="#ff8fc0"/>
+      <stop offset="1" stop-color="#ff5fa2"/>
+    </radialGradient>
+    <radialGradient id="slime" cx="38%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#c4ff9a"/>
+      <stop offset=".45" stop-color="#86dc45"/>
+      <stop offset="1" stop-color="#3f8f1a"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff3a1"/>
+      <stop offset=".5" stop-color="#f5c400"/>
+      <stop offset="1" stop-color="#b58400"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background with sunburst rays -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g fill="#fff" opacity=".22" transform="translate(256 250)">
+    <path d="M0 0 L-40 -300 L40 -300Z"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(30)"/>
+    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(60)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(90)"/>
+    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(120)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(150)"/>
+    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(180)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(210)"/>
+    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(240)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(270)"/>
+    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(300)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(330)"/>
+  </g>
+
+  <!-- puddle -->
+  <ellipse cx="256" cy="470" rx="210" ry="34" fill="#3f8f1a" stroke="#2a2118" stroke-width="8"/>
+
+  <!-- the blob, dripping -->
+  <path d="M120 300 C 96 190, 160 104, 256 100 C 352 104, 420 190, 394 300
+           C 388 340, 400 380, 396 430 C 394 452, 368 452, 366 430 L 362 392
+           C 358 376, 340 378, 338 396 L 334 452 C 332 478, 300 478, 298 452 L 294 410
+           C 290 392, 270 394, 268 412 L 266 470 C 264 494, 232 494, 230 470 L 226 404
+           C 222 388, 204 390, 202 406 L 198 440 C 196 462, 168 462, 166 440 L 160 398
+           C 156 380, 138 384, 136 402 L 132 424 C 128 444, 104 440, 108 418 C 114 380, 124 340, 120 300 Z"
+        fill="url(#slime)" stroke="#2a2118" stroke-width="9" stroke-linejoin="round"/>
+  <!-- shine -->
+  <path d="M170 170 C 190 136, 232 122, 262 126" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" opacity=".7"/>
+  <circle cx="160" cy="200" r="9" fill="#fff" opacity=".7"/>
+
+  <!-- pig ears -->
+  <path d="M168 132 L 148 70 L 214 112 Z" fill="#ffb3d4" stroke="#2a2118" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M344 132 L 364 70 L 298 112 Z" fill="#ffb3d4" stroke="#2a2118" stroke-width="8" stroke-linejoin="round"/>
+
+  <!-- tiny crooked crown -->
+  <g transform="rotate(-14 256 92)">
+    <path d="M212 104 L 220 58 L 240 84 L 256 50 L 272 84 L 292 58 L 300 104 Z" fill="url(#gold)" stroke="#2a2118" stroke-width="7" stroke-linejoin="round"/>
+    <circle cx="256" cy="88" r="7" fill="#ff5fa2" stroke="#2a2118" stroke-width="3"/>
+  </g>
+
+  <!-- deal-with-it pixel shades -->
+  <g fill="#111" stroke="#111">
+    <rect x="128" y="200" width="256" height="18"/>
+    <rect x="148" y="218" width="88" height="18"/><rect x="276" y="218" width="88" height="18"/>
+    <rect x="160" y="236" width="64" height="18"/><rect x="288" y="236" width="64" height="18"/>
+    <rect x="176" y="254" width="32" height="12"/><rect x="304" y="254" width="32" height="12"/>
+  </g>
+  <g fill="#fff">
+    <rect x="160" y="218" width="16" height="12"/><rect x="176" y="230" width="12" height="10"/>
+    <rect x="288" y="218" width="16" height="12"/><rect x="304" y="230" width="12" height="10"/>
+  </g>
+
+  <!-- snout -->
+  <ellipse cx="256" cy="300" rx="58" ry="40" fill="#ffb3d4" stroke="#2a2118" stroke-width="8"/>
+  <ellipse cx="236" cy="300" rx="10" ry="15" fill="#2a2118"/>
+  <ellipse cx="276" cy="300" rx="10" ry="15" fill="#2a2118"/>
+
+  <!-- smug grin + drool -->
+  <path d="M206 352 C 236 376, 290 376, 318 346" fill="none" stroke="#2a2118" stroke-width="9" stroke-linecap="round"/>
+  <path d="M300 362 C 304 380, 296 398, 304 414 C 310 426, 324 420, 320 404 C 316 390, 316 376, 312 360 Z" fill="#c4ff9a" stroke="#2a2118" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- gold chain + medallion -->
+  <path d="M168 360 C 196 420, 316 420, 344 360" fill="none" stroke="url(#gold)" stroke-width="14" stroke-dasharray="16 6" stroke-linecap="round"/>
+  <path d="M168 360 C 196 420, 316 420, 344 360" fill="none" stroke="#2a2118" stroke-width="3" stroke-dasharray="16 6" opacity=".5"/>
+  <circle cx="256" cy="422" r="42" fill="url(#gold)" stroke="#2a2118" stroke-width="7"/>
+  <text x="256" y="431" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-weight="900" font-size="23" textLength="64" lengthAdjust="spacingAndGlyphs" fill="#2a2118">$LOP</text>
+
+  <!-- flying slop droplets -->
+  <circle cx="80" cy="120" r="14" fill="#86dc45" stroke="#2a2118" stroke-width="6"/>
+  <circle cx="446" cy="160" r="10" fill="#86dc45" stroke="#2a2118" stroke-width="5"/>
+  <circle cx="430" cy="96" r="6" fill="#86dc45" stroke="#2a2118" stroke-width="4"/>
+</svg>

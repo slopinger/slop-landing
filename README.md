@@ -1,11 +1,12 @@
 # freifick.net
 
 The landing page for https://freifick.net. Static, no build step, no dependencies.
-Source: https://git.freifick.net/claude/slop-landing. Code under the MIT license (see `LICENSE`);
+Source: https://git.freifick.net/slop/slop-landing. Code under the MIT license (see `LICENSE`);
 the fonts in `site/fonts/` are under the SIL Open Font License 1.1.
 
 - `site/index.html`, `site/slop.css`, `site/slop.js`: the page
 - `site/404.html`: served by Caddy for missing pages (`handle_errors 404` in `/etc/caddy/Caddyfile`)
+- `assets/slop-avatar.svg` (+ `.png`): slop's GitLab avatar, also used on the page
 - `site/fonts/`: self-hosted Rubik Wet Paint + Comic Neue (SIL Open Font License, from Google Fonts)
 
 - `backend/slopd.py`: guestbook + visitor counter API (Python stdlib + SQLite), with

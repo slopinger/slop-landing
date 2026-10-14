@@ -377,6 +377,7 @@ footer { position: relative; z-index: 2; text-align: center; padding: 10px 16px 
 .b6 { background: #ffb3d4; }
 .b7 { background: #fc6d26; color: #fff; text-decoration: none; }
 .webring { font-weight: 700; }
+.oss-avatar { float: right; width: 96px; height: 96px; margin: -4px 0 8px 14px; border: 3px solid var(--ink); border-radius: 50%; box-shadow: 4px 4px 0 var(--shadow); rotate: 8deg; }
 .oss-links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-weight: 700; }
 .oss-btn {
   display: inline-block; color: var(--ink); text-decoration: none;
