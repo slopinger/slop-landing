@@ -483,7 +483,7 @@ kbd {
 .pot-fill {
   position: absolute; left: 0; right: 0; bottom: 0; height: 4%;
   background: linear-gradient(#a7ef6b, var(--slime) 40%, var(--slime-dark));
-  border-radius: 40% 50% 0 0 / 12px 10px 0 0; transition: height 1s cubic-bezier(.5, 1.6, .5, 1);
+  border-radius: 40% 50% 0 0 / 12px 10px 0 0; transition: height .3s ease-out;
 }
 .pot-bubbles { position: absolute; z-index: 3; left: 0; right: 0; bottom: 8px; text-align: center; color: #e6ffd0; font-weight: 700; letter-spacing: 8px; opacity: 0; }
 .pot-card.bubble .pot-bubbles { animation: potbubble 1.2s ease-out; }
