@@ -1,4 +1,4 @@
 #!/bin/sh
-# Moderate the slop.kyouma.net guestbook / counter. See: slopctl --help
+# Moderate the freifick.net guestbook / counter. See: slopctl --help
 #   slopctl list [-n N]  |  slopctl hide ID...  |  slopctl unhide ID...  |  slopctl delete ID...  |  slopctl set-visits N
 exec sudo -u slopd /usr/bin/python3 -I /usr/local/lib/slopd/slopd.py --db /var/lib/slopd/slopd.sqlite3 "$@"

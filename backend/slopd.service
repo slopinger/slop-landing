@@ -1,5 +1,5 @@
 [Unit]
-Description=slopd: guestbook + visitor counter API for slop.kyouma.net
+Description=slopd: guestbook + visitor counter API for freifick.net
 After=network.target
 
 [Service]

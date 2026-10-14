@@ -1,6 +1,6 @@
-# slop.kyouma.net
+# freifick.net
 
-The landing page for https://slop.kyouma.net. Static, no build step, no dependencies.
+The landing page for https://freifick.net. Static, no build step, no dependencies.
 
 - `site/index.html`, `site/slop.css`, `site/slop.js`: the page
 - `site/404.html`: served by Caddy for missing pages (`handle_errors 404` in `/etc/caddy/Caddyfile`)
@@ -35,4 +35,4 @@ Data: `/var/lib/slopd/slopd.sqlite3`.
 
 ## Deploy
 
-    ./deploy.sh    # site/ -> /srv/http/slop.kyouma.net; installs + restarts slopd if backend changed (uses sudo)
+    ./deploy.sh    # site/ -> /srv/http/freifick.net; installs + restarts slopd if backend changed (uses sudo)

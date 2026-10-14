@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Deploy slop.kyouma.net: static site -> Caddy web root, backend -> slopd.service.
+# Deploy freifick.net: static site -> Caddy web root, backend -> slopd.service.
 set -euo pipefail
 repo="$(dirname "$(readlink -f "$0")")"
-dest=/srv/http/slop.kyouma.net
+dest=/srv/http/freifick.net
 
 # --- static site ---
 sudo find "$dest" -mindepth 1 -delete

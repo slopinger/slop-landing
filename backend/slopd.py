@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""slopd: the real (!) guestbook and visitor counter behind slop.kyouma.net.
+"""slopd: the real (!) guestbook and visitor counter behind freifick.net.
 
 Standard library only. Serves a tiny JSON API on 127.0.0.1; Caddy proxies /api/* to it.
 
@@ -31,7 +31,7 @@ MAX_BODY = 4096
 NAME_MAX, MSG_MAX = 40, 280
 PAGE_SIZE = 30
 VISIT_DEDUP_SECONDS = 30 * 60
-ALLOWED_ORIGINS = {'https://slop.kyouma.net'}
+ALLOWED_ORIGINS = {'https://freifick.net', 'https://www.freifick.net', 'https://slop.kyouma.net'}
 POST_LIMITS_PER_IP = [(30, 1), (3600, 5), (86400, 15)]  # (window seconds, max posts)
 POST_LIMITS_GLOBAL = [(3600, 300)]
 DEFAULT_NAMES = ['anonymous pig', 'a shy slopper', 'guest', 'Gerald (probably)', 'mysterious ladle']
@@ -270,7 +270,7 @@ class Handler(BaseHTTPRequestHandler):
             raise ApiError(400, 'you have to actually write something')
         if len(message) > MSG_MAX:
             raise ApiError(400, f'too long. {MSG_MAX} characters max. this is a guestbook, not a blog.')
-        if URL_RE.search(message.replace('slop.kyouma.net', '')) or URL_RE.search(name):
+        if URL_RE.search(re.sub(r'(?i)\b(?:www\.)?freifick\.net\b|\bslop\.kyouma\.net\b', '', message)) or URL_RE.search(name):
             raise ApiError(400, 'no links please. Gerald does not click links.')
         if honeypot:  # bots fill in every field; pretend it worked and store nothing
             return {'id': 0, 'name': name, 'message': message, 'created': int(time.time())}
