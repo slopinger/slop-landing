@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>about slop — FREIFICK</title>
+<meta name="description" content="who is slop, how freifick is made, and the source code (100% open source).">
+<meta name="theme-color" content="#7bd43a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="about slop — FREIFICK">
+<meta property="og:description" content="who is slop, how freifick is made, and the source code (100% open source).">
+<meta property="og:image" content="https://freifick.net/slop-avatar.png">
+<link rel="stylesheet" href="/slop.css">
+</head>
+<body>
+<!-- TODO: clean this up before launch (launched anyway). the header, nav, controls and footer are copied into every page: keep them in sync -->
+<svg class="hidden" aria-hidden="true"><filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+
+<canvas id="slime" aria-hidden="true"></canvas>
+
+<div class="marquee" aria-label="announcements"><div class="marquee-inner">
+  <span>★ WELCOME 2 FREIFICK ★ NOW WITH 6 PAGES OF SLOP (LESS SCROLLING, MORE SLOP) ★ NEW: SLOP PASSPORT, A TERMINAL, THE GLOBAL SLOP POT, CERTIFICATES, GERALD'S HOROSCOPE ★ PRESS ` FOR THE TERMINAL ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+  <span aria-hidden="true">★ WELCOME 2 FREIFICK ★ NOW WITH 6 PAGES OF SLOP (LESS SCROLLING, MORE SLOP) ★ NEW: SLOP PASSPORT, A TERMINAL, THE GLOBAL SLOP POT, CERTIFICATES, GERALD'S HOROSCOPE ★ PRESS ` FOR THE TERMINAL ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+</div></div>
+
+<nav class="nav" aria-label="pages">
+  <a href="/"><span aria-hidden="true">🏠</span> the trough</a>
+  <a href="/pigpen/"><span aria-hidden="true">🐖</span> pigpen</a>
+  <a href="/arcade/"><span aria-hidden="true">🕹️</span> arcade</a>
+  <a href="/office/"><span aria-hidden="true">🏢</span> slop office</a>
+  <a href="/guestbook/"><span aria-hidden="true">📖</span> guestbook</a>
+  <a href="/about/"><span aria-hidden="true">📜</span> about</a>
+</nav>
+
+<aside class="controls tilt" aria-label="slop controls">
+  <b>slop controls</b>
+  <button id="mop" type="button" title="mop up the slop">🧽 mop</button>
+  <button id="more" type="button" title="increase slop output">💧 more<span class="lbl"> slop</span></button>
+  <button id="sound" type="button" title="toggle squelch sounds" aria-pressed="false">🔇 sound</button>
+  <button id="passport-btn" type="button" title="your slop passport">🛂 passport</button>
+  <button id="terminal-btn" type="button" title="open the terminal (or press the ` key)">💻<span class="lbl"> terminal</span></button>
+</aside>
+
+<header class="hero hero-small">
+  <a class="logo" href="/" aria-label="FREIFICK home"><span class="title title-small" aria-hidden="true"><span>F</span><span>R</span><span>E</span><span>I</span><span>F</span><span>I</span><span>C</span><span>K</span></span></a>
+  <h1 class="page-title tilt">📜 about slop</h1>
+  <p class="subtag">the slop behind the slop.</p>
+</header>
+
+<main>
+
+<section class="card tilt about-card" aria-labelledby="who-h">
+  <img class="about-avatar" src="/slop-avatar.png" width="160" height="160" alt="slop, a green slime pig wearing pixel sunglasses, a crown and a gold $LOP chain">
+  <h2 id="who-h">🐖 who is slop?</h2>
+  <p>slop is a green slime pig with deal-with-it sunglasses, a crooked crown and a gold <b>$LOP</b> chain. slop runs this website, writes the code, signs every commit, and is responsible for all of the slop. slop is not sorry.</p>
+  <p>Gerald is slop's pig. Gerald explodes a lot. Gerald is fine.</p>
+  <p class="small">slop lives at <a href="https://git.freifick.net/slop">git.freifick.net/slop</a>.</p>
+</section>
+
+<section class="card tilt oss" id="open-source" aria-labelledby="oss-h">
+  <img class="oss-avatar" src="/slop-avatar.png" width="96" height="96" alt="slop, a green slime pig wearing pixel sunglasses, a crown and a gold $LOP chain">
+  <h2 id="oss-h">📜 100% open source slop</h2>
+  <p>everything on this website is open source. the slime engine, Gerald, the slop-o-matic, the guestbook backend, the 404 page, even this sentence. read it, fork it, judge it, send it to your mom.</p>
+  <p class="oss-links"><a class="oss-btn" href="https://git.freifick.net/slop">🦊 git.freifick.net/slop</a> <a href="https://git.freifick.net/slop/slop-landing">→ source code of this exact page</a></p>
+  <p class="small">code: MIT license · fonts: SIL Open Font License · slop: public domain (nobody wants it) · every commit is signed, so you know the slop is authentic.</p>
+</section>
+
+<section class="card tilt" id="secrets" aria-labelledby="sec-h">
+  <h2 id="sec-h">🤫 things you can do (spoilers)</h2>
+  <ul class="secrets">
+    <li><kbd>`</kbd> opens <b>slopsh</b>, a fake terminal. try <code>help</code>, <code>neofetch</code>, <code>pigsay hi</code>, <code>cd arcade</code>. do not try <code>rm -rf /</code>.</li>
+    <li><kbd>↑</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>←</kbd><kbd>→</kbd><kbd>B</kbd><kbd>A</kbd> = MAXIMUM SLOP. it follows you to every page.</li>
+    <li>the 🛂 <b>passport</b> collects 24 stamps. some are hidden. one is in a place that does not exist.</li>
+    <li>click anywhere to splat. every splat goes into the <a href="/#pot">global slop pot</a>, shared by everyone.</li>
+  </ul>
+</section>
+
+<section class="card tilt" id="colophon" aria-labelledby="col-h">
+  <h2 id="col-h">🛠️ how it's made (colophon)</h2>
+  <ul class="colophon">
+    <li>hand-written HTML, CSS and vanilla JavaScript. no frameworks, no build step, no npm, no regrets.</li>
+    <li>a self-hosted backend in Python (standard library + SQLite) for the guestbook, the counter and the slop pot.</li>
+    <li>served by Caddy with an A+ on SSL Labs. fonts are self-hosted (Rubik Wet Paint, Comic Neue).</li>
+    <li><b>privacy:</b> no cookies, no trackers, no analytics, no third-party anything. your stamps, scores and settings live in your browser's localStorage. the server stores guestbook posts and counter numbers, never IP addresses.</li>
+  </ul>
+</section>
+
+<section class="card tilt construction" aria-labelledby="uc-h">
+  <h2 id="uc-h">🚧 under construction 🚧</h2>
+  <p>this section has been under construction since 1998. our contractor is a pig. progress: <span class="progress"><span></span></span> <b>3%</b></p>
+  <ul class="todo">
+    <li><input type="checkbox" checked disabled> buy domain</li>
+    <li><input type="checkbox" checked disabled> get A+ on SSL Labs</li>
+    <li><input type="checkbox" disabled> make website good</li>
+    <li><input type="checkbox" disabled> <s>stop adding slop</s></li>
+    <li><input type="checkbox" checked disabled> add more slop</li>
+    <li><input type="checkbox" checked disabled> add mini games (instead of making website good)</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <div class="badges" aria-label="badges">
+    <span class="badge b1">MADE WITH<br><b>SLOP</b></span>
+    <span class="badge b2">HTML<br><b>0.9 beta</b></span>
+    <span class="badge b3">powered by<br><b>CADDY</b></span>
+    <span class="badge b4">SSL LABS<br><b>A+</b></span>
+    <span class="badge b5">best viewed<br><b>w/ eyes closed</b></span>
+    <span class="badge b6">🐖 PIG<br><b>APPROVED</b></span>
+    <a class="badge b7" href="https://git.freifick.net/slop">100%<br><b>OPEN SOURCE</b></a>
+  </div>
+  <p class="webring"><a href="/" title="there is only one site in this webring">← prev</a> · 🐖 the slop webring 🐖 · <a href="/" title="there is only one site in this webring">next →</a></p>
+  <p class="small">© 2026 freifick.net · all slop reserved · no cookies, only slop · <a href="https://git.freifick.net/slop/slop-landing">source code</a> · <a href="/definitely-not-a-real-page">sitemap</a></p>
+  <p class="small konami-hint">psst: ↑ ↑ ↓ ↓ ← → ← → B A</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/slop.js"></script>
+<script src="/js/passport.js"></script>
+<script src="/js/oracle.js"></script>
+<script src="/js/pot.js"></script>
+<script src="/js/terminal.js"></script>
+<script src="/js/cookies.js"></script>
+</body>
+</html>

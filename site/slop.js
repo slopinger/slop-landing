@@ -14,6 +14,11 @@
     set(k, v) { try { localStorage.setItem('slop:' + k, JSON.stringify(v)); } catch { /* /dev/null */ } },
   };
 
+  // ---------- tiny event bus: features emit, the passport and the pot listen ----------
+  const bus = new EventTarget();
+  const on = (type, fn) => bus.addEventListener(type, (e) => fn(e.detail));
+  const emit = (type, detail) => bus.dispatchEvent(new CustomEvent(type, { detail }));
+
   // ---------- every visit is uniquely crooked ----------
   const wobbleScale = Math.min(1, innerWidth / 800);
   document.querySelectorAll('.tilt').forEach((el) => {
@@ -297,6 +302,7 @@
   document.addEventListener('pointerdown', (e) => {
     if (reduceMotion || e.button > 0 || e.target.closest(interactive)) return;
     splat(e.clientX, e.clientY);
+    emit('splat');
   });
   document.addEventListener('pointermove', (e) => {
     if (e.pointerType !== 'mouse') return;
@@ -309,197 +315,13 @@
     drips.length = blobs.length = trails.length = 0;
     pool.level = pool.target = 0; pool.draining = false;
     if (reduceMotion) render(0);
+    emit('mop');
     toast(pick(['🧽 mopped. (it will be back)', '🧽 squeaky clean. for now.', '🧽 the slop remembers.']));
   });
   $('#more').addEventListener('click', () => {
     spawnRate = Math.min(spawnRate * 1.6, 25);
     for (let i = 0; i < 6; i++) spawnDrip();
     toast(`💧 slop output: ${Math.round((spawnRate / .75) * 100)}%`);
-  });
-
-  // =====================================================================
-  // SLOP-O-MATIC 3000
-  // =====================================================================
-  const words = {
-    adj: ['robust', 'seamless', 'transformative', 'holistic', 'cutting-edge', 'multifaceted', 'synergistic', 'game-changing',
-      'vibrant', 'pivotal', 'nuanced', 'ever-evolving', 'scalable', 'bespoke', 'frictionless', 'disruptive', 'intricate',
-      'AI-powered', 'next-generation', 'mission-critical', 'deeply human', 'blockchain-enabled', 'artisanal', 'moist'],
-    noun: ['synergy', 'the human experience', 'paradigms', 'innovation', 'stakeholder alignment', 'the slop economy',
-      'thought leadership', 'the customer journey', 'value creation', 'our core competencies', 'digital transformation',
-      'the trough', 'best practices', 'empowerment', 'the rich tapestry of life', 'growth hacking', 'the metaverse',
-      'actionable insights', 'company culture', 'the pig', 'quarterly vibes', 'the grindset', 'authentic engagement',
-      'learnings', 'the bottom line', 'circular slop'],
-    verb: ['elevate', 'empower', 'unlock', 'reimagine', 'streamline', 'harness', 'foster', 'navigate', 'supercharge',
-      'delve into', 'revolutionize', 'operationalize', 'ladle', 'double-click on', 'circle back on', 'democratize'],
-    persona: ['seasoned professional', 'curious beginner', 'visionary founder', 'hungry pig', '10x engineer',
-      'LinkedIn influencer', 'sentient spreadsheet', 'Chief Slop Officer', 'unpaid intern', 'thought leader', 'golden retriever'],
-    num: ['3', '5', '7', '10', '11', '42', '69'],
-    emoji: ['🚀', '✨', '💡', '🔥', '🙌', '📈', '🐖', '💯', '🤝', '🌟', '🧠', '⚡', '🎯', '🫡'],
-  };
-  const openers = [
-    'Great question!', "In today's fast-paced digital landscape, everything is changing.", "Let's delve into it.",
-    'Buckle up.', 'In an era defined by rapid change, one thing remains constant: slop.', 'Picture this:',
-    "Here's the thing nobody is talking about:", 'I was today years old when I realized something.',
-    'Unpopular opinion:', 'I almost didn\'t post this.', 'Stop scrolling.', 'My pig taught me a powerful lesson about {noun}.',
-  ];
-  const templates = [
-    "It's not just {noun} — it's {noun}.",
-    'By leveraging {adj} {noun}, we can {verb} {noun} at scale.',
-    "This isn't merely about {noun}; it's about how we {verb} {noun}.",
-    'The {adj} tapestry of {noun} invites us to {verb} {noun}.',
-    "Whether you're a {persona} or a {persona}, {noun} offers something for everyone.",
-    'Here are {num} key takeaways about {noun} that changed my life.',
-    'Let that sink in.',
-    'And honestly? That\'s {adj}.',
-    "Here's why that matters 👇",
-    'At its core, {noun} is a {adj} journey, not a destination.',
-    'We must {verb} {noun} to truly {verb} {noun}.',
-    'Studies show* that {num}% of every {persona} underestimates {noun}. (*no they don\'t)',
-    'Navigating the {adj} world of {noun} requires a {adj} mindset.',
-    'I asked a {persona} about {noun}. Their answer? Silence. Then: slop.',
-    'In many ways, {noun} is the new {noun}.',
-    'The real {noun} was the {noun} we made along the way.',
-    'This is a {adj} reminder that {noun} is {adj}.',
-    'I hired a {persona}. Best decision I ever made for {noun}.',
-  ];
-  const closers = [
-    'In conclusion, the future of {noun} is {adj}.', "Ultimately, it's a testament to the power of {noun}.",
-    'I hope this helps! 😊', "Let me know if you'd like me to delve deeper!", 'Agree? ♻️ Repost to spread the slop.',
-    'Thoughts? 👇', "I'm humbled and honored to share this.", "What's your take on {noun}? Let's discuss in the comments.",
-    '#slop #{noun} #thoughtleadership #grateful',
-  ];
-  const fill = (s) => s.replace(/\{(\w+)\}/g, (_, k) => {
-    const w = pick(words[k]);
-    return s.startsWith('#') && k === 'noun' ? w.replace(/[^a-z0-9]/gi, '') : w;
-  });
-
-  function typo(word) {
-    if (word.length < 4 || Math.random() > .5) return word;
-    const i = Math.floor(rand(1, word.length - 2));
-    return word.slice(0, i) + word[i + 1] + word[i] + word.slice(i + 2);
-  }
-  function sprinkle(s, lvl) {
-    let out = s;
-    if (Math.random() < lvl / 15) {
-      const w = out.split(' ');
-      const i = Math.floor(Math.random() * w.length);
-      if (/^[a-z-]{4,}$/i.test(w[i])) w[i] = '**' + w[i] + '**';
-      out = w.join(' ');
-    }
-    if (lvl >= 7 && Math.random() < .3) out = out.replace(/, /, ' — ');
-    if (lvl >= 11) out = out.split(' ').map((w) => (Math.random() < .15 ? w.toUpperCase() : Math.random() < .12 ? typo(w) : w)).join(' ');
-    if (Math.random() < lvl / 12) out += ' ' + pick(words.emoji) + (lvl >= 10 ? pick(words.emoji) : '');
-    return out;
-  }
-  function generateSlop(lvl) {
-    const lines = [];
-    if (lvl >= 9) lines.push(pick(['Certainly! Here is the slop you requested:', 'Absolutely! 🙌', 'As an AI language model, I love slop.']));
-    lines.push(fill(pick(openers)));
-    const pool = templates.slice().sort(() => Math.random() - .5);
-    const n = 1 + Math.round(lvl * .7);
-    for (let i = 0; i < n; i++) lines.push(fill(pool[i % pool.length]));
-    lines.push(fill(pick(closers)));
-    const s = lines.map((l) => sprinkle(l, lvl));
-    if (lvl >= 8) return s.join('\n\n'); // full broetry
-    if (lvl >= 4) { const p = []; for (let i = 0; i < s.length; i += 2) p.push(s.slice(i, i + 2).join(' ')); return p.join('\n\n'); }
-    return s.join(' ');
-  }
-
-  const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const somOut = $('#som-out');
-  const intensity = $('#intensity');
-  let currentSlop = '';
-  let typer = null;
-  function renderSlop(text, typing) {
-    let html = escapeHtml(text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\*\*/g, '');
-    somOut.innerHTML = html + (typing ? '<span class="caret"></span>' : '');
-  }
-  function syncIntensity() {
-    const v = +intensity.value;
-    $('#intensity-val').textContent = v;
-    $('#intensity-warn').textContent = v === 11 ? '☢️ THIS ONE GOES TO ELEVEN' : v >= 9 ? '⚠️ hazardous' : v <= 2 ? '(barely slop)' : '';
-    $('#slopomatic').classList.toggle('intensity-11', v === 11 && !reduceMotion);
-  }
-  intensity.addEventListener('input', syncIntensity);
-  syncIntensity();
-
-  $('#generate').addEventListener('click', () => {
-    currentSlop = generateSlop(+intensity.value);
-    clearInterval(typer);
-    squelch(1.4, .25);
-    if (reduceMotion) { renderSlop(currentSlop, false); return; }
-    let i = 0;
-    const step = Math.max(2, Math.ceil(currentSlop.length / 80));
-    typer = setInterval(() => {
-      i = Math.min(currentSlop.length, i + step);
-      renderSlop(currentSlop.slice(0, i), i < currentSlop.length);
-      if (i >= currentSlop.length) clearInterval(typer);
-    }, 18);
-  });
-  $('#copy').addEventListener('click', async () => {
-    if (!currentSlop) { toast('generate some slop first, you absolute muffin'); return; }
-    try {
-      await navigator.clipboard.writeText(currentSlop.replace(/\*\*/g, ''));
-      toast(pick(['📋 copied! go forth and post.', '📋 copied. your network will be thrilled.', '📋 copied. #grateful']));
-    } catch { toast('clipboard said no. select it manually like a peasant.'); }
-  });
-
-  // =====================================================================
-  // GERALD THE PIG
-  // =====================================================================
-  const MAX_FAT = 12;
-  const gerald = $('#gerald');
-  const bubble = $('#bubble');
-  const feedBtn = $('#feed');
-  let fat = 0;
-  let ladles = store.get('ladles', 0);
-  let exploded = store.get('exploded', 0);
-  const pigSays = [
-    ['oink', 'more pls', 'mmm, synergy', 'is this organic?', 'delicious', 'ah yes. slop.', 'OINK', 'thank u'],
-    ['*chewing noises*', 'i can taste colors', 'one more. just one more.', 'this is my passion', 'i am thriving', 'oink (satisfied)'],
-    ['i feel... unstable', 'tell my piglets i love them', 'my pants are tight (i have no pants)', 'GERALD IS BECOME SLOP', 'this is fine', 'oink...?'],
-  ];
-  function restart(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
-  function syncPig() {
-    gerald.style.setProperty('--fat', (1 + fat * .085).toFixed(3));
-    $('#meter').style.width = (fat / MAX_FAT) * 100 + '%';
-    $('#trough-slop').style.setProperty('--slop', 15 + (fat % 4) * 20 + '%');
-    $('#ladles').textContent = ladles;
-    $('#exploded').textContent = exploded;
-  }
-  syncPig();
-
-  feedBtn.addEventListener('click', () => {
-    fat++; ladles++;
-    store.set('ladles', ladles);
-    bubble.textContent = pick(pigSays[fat < 5 ? 0 : fat < 9 ? 1 : 2]);
-    restart(gerald, 'chomp');
-    squelch(rand(.9, 1.2), .4);
-    setTimeout(oink, 180);
-    const r = $('.trough').getBoundingClientRect();
-    if (!reduceMotion) for (let i = 0; i < 3; i++) blobs.push({ x: r.left + rand(10, r.width - 10), y: r.top + 6, vx: rand(-60, 60), vy: rand(-220, -80), r: rand(4, 8) });
-    if (fat >= MAX_FAT) {
-      feedBtn.disabled = true;
-      bubble.textContent = 'pig.exe has stopped responding';
-      gerald.classList.remove('chomp');
-      gerald.classList.add('boom');
-      setTimeout(() => {
-        const g = gerald.getBoundingClientRect();
-        if (!reduceMotion) { splat(g.left + g.width / 2, g.top + g.height / 2, 70, 1.5); squelch(.4, .8); }
-        exploded++;
-        store.set('exploded', exploded);
-        toast('💥 GERALD HAS EXPLODED. a new Gerald will be along shortly.', 2600);
-        fat = 0;
-        syncPig();
-      }, 380);
-      setTimeout(() => {
-        gerald.classList.remove('boom');
-        restart(gerald, 'respawn');
-        bubble.textContent = pick(["hi i'm Gerald (new)", 'hello. i am Gerald.', 'what happened to the last guy?', 'Gerald v' + (exploded + 1) + '.0 online']);
-        feedBtn.disabled = false;
-      }, 1800);
-    }
-    syncPig();
   });
 
   // =====================================================================
@@ -514,181 +336,44 @@
   }
 
   // =====================================================================
-  // GUESTBOOK (real! stored by slopd)
-  // =====================================================================
-  const archive = [
-    { name: 'xX_SlopMaster_Xx', message: 'first!!!!1', d: '1998-04-01' },
-    { name: 'your mom', message: 'very nice website sweetie. how do i make the letters bigger', d: '2003-11-23' },
-    { name: 'Clippy', message: "It looks like you're writing slop. Would you like help?", d: '1997-01-30' },
-    { name: 'webmaster', message: 'sorry, the site is under construction', d: '1999-12-31' },
-    { name: 'a mysterious stranger', message: 'i have seen the slop. the slop has seen me.', d: '2012-12-21' },
-  ];
-  const gb = { entries: [], status: 'loading', more: false, freshId: null };
-  const entriesEl = $('#entries');
-  const moreBtn = $('#gb-more');
-  try { localStorage.removeItem('slop:gb'); localStorage.removeItem('slop:visits'); } catch { /* the old fake guestbook/counter state, now obsolete */ }
-
-  function ago(ts) {
-    const s = Date.now() / 1000 - ts;
-    if (s < 60) return 'just now';
-    if (s < 3600) return `${Math.floor(s / 60)} min ago`;
-    if (s < 86400) return `${Math.floor(s / 3600)} h ago`;
-    return new Date(ts * 1000).toISOString().slice(0, 10);
-  }
-  function entryEl(e, cls, when) {
-    const li = document.createElement('li');
-    if (cls) li.className = cls;
-    const b = document.createElement('b');
-    b.textContent = e.name;
-    const w = document.createElement('span');
-    w.className = 'when';
-    w.textContent = '· ' + when;
-    li.append(b, ': ', document.createTextNode(e.message), w);
-    return li;
-  }
-  function statusEl(text) {
-    const li = document.createElement('li');
-    li.className = 'status';
-    li.textContent = text;
-    return li;
-  }
-  function renderEntries() {
-    entriesEl.textContent = '';
-    if (gb.status === 'loading') entriesEl.append(statusEl('loading slop…'));
-    else if (gb.status === 'down') entriesEl.append(statusEl('the guestbook server is busy eating. try again later. 🐖'));
-    else if (!gb.entries.length) entriesEl.append(statusEl('nobody has signed yet. be the first!!! (you are legally allowed to write "first!!!")'));
-    for (const e of gb.entries) entriesEl.append(entryEl(e, e.id === gb.freshId ? 'fresh' : '', ago(e.created)));
-    moreBtn.hidden = !gb.more;
-    if (gb.more) return; // the archive lives at the very bottom
-    const h = document.createElement('li');
-    h.className = 'archive-h';
-    h.textContent = '— recovered from the 1998 geocities archive —';
-    entriesEl.append(h);
-    for (const e of archive) entriesEl.append(entryEl(e, 'archived', e.d));
-  }
-  async function loadEntries(before) {
-    try {
-      const j = await api('/api/guestbook' + (before ? `?before=${before}` : ''));
-      gb.entries = before ? gb.entries.concat(j.entries) : j.entries;
-      gb.more = j.more;
-      gb.status = 'ok';
-    } catch {
-      if (!before) gb.status = 'down';
-      else toast('could not load older slop. it may have fossilized.');
-    }
-    renderEntries();
-  }
-  renderEntries();
-  loadEntries();
-  setInterval(() => { if (!document.hidden && gb.status !== 'loading') refreshEntries(); }, 60000);
-  async function refreshEntries() { // pick up new entries from other people without losing loaded pages
-    try {
-      const j = await api('/api/guestbook');
-      const known = new Set(gb.entries.map((e) => e.id));
-      const fresh = j.entries.filter((e) => !known.has(e.id));
-      if (fresh.length || gb.status !== 'ok') {
-        gb.entries = gb.status === 'ok' ? fresh.concat(gb.entries) : j.entries;
-        if (gb.status !== 'ok') gb.more = j.more;
-        gb.status = 'ok';
-        renderEntries();
-      }
-    } catch { /* still eating */ }
-  }
-  moreBtn.addEventListener('click', () => {
-    const last = gb.entries[gb.entries.length - 1];
-    if (last) loadEntries(last.id);
-  });
-
-  $('#gb-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const message = $('#gb-msg').value.trim();
-    if (!message) return;
-    const btn = $('#gb-submit');
-    btn.disabled = true;
-    btn.textContent = '⏳ ladling…';
-    try {
-      const j = await api('/api/guestbook', { name: $('#gb-name').value, message, website: $('#gb-website').value });
-      if (j.entry.id) {
-        gb.entries = [j.entry, ...gb.entries.filter((x) => x.id !== j.entry.id)];
-        gb.freshId = j.entry.id;
-        gb.status = 'ok';
-      }
-      renderEntries();
-      $('#gb-msg').value = '';
-      toast(pick(['✅ signed! the whole internet can see it now.', '✅ signed. Gerald read it. Gerald approves.', '✅ your slop has been immortalized.']));
-      const r = btn.getBoundingClientRect();
-      if (!reduceMotion) splat(r.left + r.width / 2, r.top, 18, .8);
-    } catch (err) {
-      toast('❌ ' + err.message, 3000);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = '✍️ sign';
-    }
-  });
-
-  // =====================================================================
-  // HIT COUNTER (real! counted by slopd, one count per visitor per 30 min)
-  // =====================================================================
-  const counter = $('#counter');
-  const counterNote = $('#counter-note');
-  const counterLive = $('#counter-live');
-  const pad = (n) => String(n).padStart(7, '0');
-  let myNumber = null;
-  let nanTimer = null;
-  function showLive(total) {
-    if (myNumber == null || total <= myNumber) { counterLive.textContent = ''; return; }
-    const n = total - myNumber;
-    counterLive.textContent = `${n} more ${n === 1 ? 'person has' : 'people have'} arrived since you. total: ${total}.`;
-  }
-  api('/api/visits', {})
-    .then((j) => {
-      myNumber = j.visitor;
-      counter.textContent = pad(j.visitor);
-      counterNote.textContent = j.counted
-        ? (j.visitor === 1 ? '(you are the FIRST. this number is real. we are as surprised as you.)' : '(this number is real now. we are as surprised as you.)')
-        : '(welcome back! you were already counted. no double-dipping in the trough.)';
-      showLive(j.total);
-      setInterval(() => {
-        if (!document.hidden) api('/api/visits').then((v) => showLive(v.total)).catch(() => {});
-      }, 30000);
-    })
-    .catch(() => {
-      counter.textContent = 'ERR0R';
-      counterNote.textContent = '(the counter fell in the slop. it will be fished out shortly.)';
-    });
-  counter.addEventListener('click', () => {
-    if (myNumber == null) return;
-    counter.textContent = 'NaNNaNN';
-    clearTimeout(nanTimer);
-    nanTimer = setTimeout(() => { counter.textContent = pad(myNumber); }, 1500);
-    toast('counter reset. (just kidding. it is a real counter now. no take-backs.)', 2600);
-  });
-
-  // =====================================================================
   // ↑ ↑ ↓ ↓ ← → ← → B A
   // =====================================================================
   const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   let kpos = 0;
   let maxSlop = false;
+  function setMaxSlop(onOff, quiet) { // persists across pages, because once is never enough
+    maxSlop = onOff;
+    store.set('maxslop', maxSlop);
+    document.documentElement.classList.toggle('max-slop', maxSlop);
+    spawnRate = maxSlop ? 12 : .75;
+    emit('maxslop', maxSlop);
+    if (quiet) return;
+    if (maxSlop && !reduceMotion) splat(W / 2, H / 2, 120, 2);
+    toast(maxSlop ? '☢️ MAXIMUM SLOP ENGAGED ☢️' : 'slop levels returning to "normal"', 2500);
+  }
   document.addEventListener('keydown', (e) => {
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     kpos = k === konami[kpos] ? kpos + 1 : k === konami[0] ? 1 : 0;
     if (kpos < konami.length) return;
     kpos = 0;
-    maxSlop = !maxSlop;
-    document.documentElement.classList.toggle('max-slop', maxSlop);
-    spawnRate = maxSlop ? 12 : .75;
-    intensity.value = maxSlop ? 11 : 5;
-    syncIntensity();
-    if (maxSlop && !reduceMotion) splat(W / 2, H / 2, 120, 2);
-    toast(maxSlop ? '☢️ MAXIMUM SLOP ENGAGED ☢️' : 'slop levels returning to "normal"', 2500);
+    setMaxSlop(!maxSlop);
   });
 
-  // shared bits for games.js (the slop arcade)
+  // ---------- nav: mark the current page ----------
+  const here = location.pathname.replace(/index\.html$/, '');
+  document.querySelectorAll('.nav a').forEach((a) => {
+    if (new URL(a.href).pathname === here) a.setAttribute('aria-current', 'page');
+  });
+
+  // shared bits for the page modules in js/
   window.slop = {
-    $, rand, pick, clamp, toast, squelch, oink, store, reduceMotion,
+    $, rand, pick, clamp, toast, squelch, oink, store, reduceMotion, api, on, emit,
     splat(x, y, n, power) { if (!reduceMotion) splat(x, y, n, power); },
+    blob(x, y, vx, vy, r) { if (!reduceMotion && blobs.length < 500) blobs.push({ x, y, vx, vy, r }); },
+    setMaxSlop, get maxSlop() { return maxSlop; },
   };
+  // modules load after this script, so re-apply a persisted MAXIMUM SLOP once they've subscribed
+  if (store.get('maxslop', false)) addEventListener('DOMContentLoaded', () => setMaxSlop(true, true));
 
   console.log('%cFREIFICK', 'font: 64px "Rubik Wet Paint", cursive; color: #7bd43a; text-shadow: 3px 3px 0 #ff5fa2', '\nhi. you found the console. there is no more slop in here. (there is always more slop.)');
 })();

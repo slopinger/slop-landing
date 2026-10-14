@@ -7,6 +7,8 @@ Standard library only. Serves a tiny JSON API on 127.0.0.1; Caddy proxies /api/*
   POST /api/guestbook {"name","message","website"}   sign it ("website" is a honeypot)
   GET  /api/visits                           {"total"}
   POST /api/visits                           count this visit -> {"visitor","total","counted"}
+  GET  /api/pot                              the global slop pot: {"splats","ladles"}
+  POST /api/pot {"splats","ladles"}          add to the pot (increment-only, capped per request)
 
 Visits are deduplicated per client IP for 30 minutes. IPs are never written to disk: they are
 only kept in memory, hashed with a per-process random salt, for rate limiting and dedup.
@@ -34,6 +36,9 @@ VISIT_DEDUP_SECONDS = 30 * 60
 ALLOWED_ORIGINS = {'https://freifick.net', 'https://www.freifick.net', 'https://slop.kyouma.net'}
 POST_LIMITS_PER_IP = [(30, 1), (3600, 5), (86400, 15)]  # (window seconds, max posts)
 POST_LIMITS_GLOBAL = [(3600, 300)]
+POT_MAX = {'splats': 50, 'ladles': 20}  # per request; clients batch every few seconds
+POT_LIMITS_PER_IP = [(10, 3), (3600, 600)]
+POT_LIMITS_GLOBAL = [(60, 3000)]
 DEFAULT_NAMES = ['anonymous pig', 'a shy slopper', 'guest', 'Gerald (probably)', 'mysterious ladle']
 
 URL_RE = re.compile(r'(?i)[a-z][a-z0-9+.-]*://|\bwww\.|\b[a-z0-9-]+\.(?:com|net|org|ru|xyz|top|info|io|cn|biz|link|click|shop|site|online)\b')
@@ -104,6 +109,8 @@ class Store:
             );
             CREATE TABLE IF NOT EXISTS counters (name TEXT PRIMARY KEY, value INTEGER NOT NULL);
             INSERT OR IGNORE INTO counters VALUES ('visits', 0);
+            INSERT OR IGNORE INTO counters VALUES ('pot_splats', 0);
+            INSERT OR IGNORE INTO counters VALUES ('pot_ladles', 0);
         ''')
 
     def entries(self, before=None, limit=PAGE_SIZE, include_hidden=False):
@@ -141,6 +148,18 @@ class Store:
     def bump_visits(self):
         with self.lock:
             return self.conn.execute("UPDATE counters SET value = value + 1 WHERE name = 'visits' RETURNING value").fetchone()[0]
+
+    def pot(self):
+        with self.lock:
+            rows = dict(self.conn.execute("SELECT name, value FROM counters WHERE name IN ('pot_splats', 'pot_ladles')").fetchall())
+        return {'splats': rows.get('pot_splats', 0), 'ladles': rows.get('pot_ladles', 0)}
+
+    def add_pot(self, splats, ladles):
+        with self.lock:
+            self.conn.execute('BEGIN')
+            self.conn.execute("UPDATE counters SET value = value + ? WHERE name = 'pot_splats'", (splats,))
+            self.conn.execute("UPDATE counters SET value = value + ? WHERE name = 'pot_ladles'", (ladles,))
+            self.conn.execute('COMMIT')
 
     def set_visits(self, n):
         with self.lock:
@@ -212,6 +231,8 @@ class Handler(BaseHTTPRequestHandler):
             return 200, {'entries': entries, 'more': len(entries) == PAGE_SIZE}
         if url.path == '/api/visits':
             return 200, {'total': self.store.visits()}
+        if url.path == '/api/pot':
+            return 200, self.store.pot()
         raise ApiError(404, 'no slop here')
 
     def read_json(self):
@@ -239,13 +260,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def handle_post(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/guestbook', '/api/visits'):
+        if path not in ('/api/guestbook', '/api/visits', '/api/pot'):
             self.close_connection = True
             raise ApiError(404, 'no slop here')
         data = self.read_json()
         key = ip_key(self.client_ip())
         if path == '/api/visits':
             return 200, self.count_visit(key)
+        if path == '/api/pot':
+            return 200, self.add_to_pot(key, data)
         return 201, {'entry': self.sign_guestbook(key, data)}
 
     def count_visit(self, key):
@@ -259,6 +282,20 @@ class Handler(BaseHTTPRequestHandler):
             if len(self.visitors) > 50000:
                 Handler.visitors = {k: v for k, v in self.visitors.items() if now - v[0] < VISIT_DEDUP_SECONDS}
         return {'visitor': n, 'total': n, 'counted': True}
+
+    def add_to_pot(self, key, data):
+        add = {}
+        for k, cap in POT_MAX.items():
+            v = data.get(k, 0)
+            if type(v) is not int or v < 0:  # bool is an int subclass; `type() is` rejects it
+                raise ApiError(400, 'the pot only accepts whole, positive slop')
+            add[k] = min(v, cap)
+        if not any(add.values()):
+            return self.store.pot()
+        if not self.limiter.allow('pot:' + key, POT_LIMITS_PER_IP) or not self.limiter.allow('pot:global', POT_LIMITS_GLOBAL):
+            raise ApiError(429, 'the pot is overflowing. slow down.')
+        self.store.add_pot(add['splats'], add['ladles'])
+        return self.store.pot()
 
     def sign_guestbook(self, key, data):
         name, message, honeypot = data.get('name', ''), data.get('message', ''), data.get('website', '')

@@ -4,29 +4,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FREIFICK — artisanal, hand-ladled slop</title>
-<meta name="description" content="freifick.net: artisanal, hand-ladled slop since 2026. Now with 40% more slop.">
+<meta name="description" content="freifick.net: artisanal, hand-ladled slop since 2026. feed the pig. bonk the pig. fly the pig. collect stamps.">
 <meta name="theme-color" content="#7bd43a">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="FREIFICK">
-<meta property="og:description" content="artisanal, hand-ladled slop. feed the pig. bonk the pig. fly the pig.">
-<link rel="stylesheet" href="slop.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="FREIFICK — artisanal, hand-ladled slop">
+<meta property="og:description" content="freifick.net: artisanal, hand-ladled slop since 2026. feed the pig. bonk the pig. fly the pig. collect stamps.">
+<meta property="og:image" content="https://freifick.net/slop-avatar.png">
+<link rel="stylesheet" href="/slop.css">
 </head>
 <body>
-<!-- TODO: clean this up before launch (launched anyway) -->
+<!-- TODO: clean this up before launch (launched anyway). the header, nav, controls and footer are copied into every page: keep them in sync -->
 <svg class="hidden" aria-hidden="true"><filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
 
 <canvas id="slime" aria-hidden="true"></canvas>
 
 <div class="marquee" aria-label="announcements"><div class="marquee-inner">
-  <span>★ WELCOME 2 FREIFICK ★ NOW WITH 40% MORE SLOP ★ NEW: THE SLOP ARCADE (4 GAMES, 0 QA) ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
-  <span aria-hidden="true">★ WELCOME 2 FREIFICK ★ NOW WITH 40% MORE SLOP ★ NEW: THE SLOP ARCADE (4 GAMES, 0 QA) ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+  <span>★ WELCOME 2 FREIFICK ★ NOW WITH 6 PAGES OF SLOP (LESS SCROLLING, MORE SLOP) ★ NEW: SLOP PASSPORT, A TERMINAL, THE GLOBAL SLOP POT, CERTIFICATES, GERALD'S HOROSCOPE ★ PRESS ` FOR THE TERMINAL ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+  <span aria-hidden="true">★ WELCOME 2 FREIFICK ★ NOW WITH 6 PAGES OF SLOP (LESS SCROLLING, MORE SLOP) ★ NEW: SLOP PASSPORT, A TERMINAL, THE GLOBAL SLOP POT, CERTIFICATES, GERALD'S HOROSCOPE ★ PRESS ` FOR THE TERMINAL ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
 </div></div>
+
+<nav class="nav" aria-label="pages">
+  <a href="/"><span aria-hidden="true">🏠</span> the trough</a>
+  <a href="/pigpen/"><span aria-hidden="true">🐖</span> pigpen</a>
+  <a href="/arcade/"><span aria-hidden="true">🕹️</span> arcade</a>
+  <a href="/office/"><span aria-hidden="true">🏢</span> slop office</a>
+  <a href="/guestbook/"><span aria-hidden="true">📖</span> guestbook</a>
+  <a href="/about/"><span aria-hidden="true">📜</span> about</a>
+</nav>
 
 <aside class="controls tilt" aria-label="slop controls">
   <b>slop controls</b>
   <button id="mop" type="button" title="mop up the slop">🧽 mop</button>
-  <button id="more" type="button" title="increase slop output">💧 more slop</button>
+  <button id="more" type="button" title="increase slop output">💧 more<span class="lbl"> slop</span></button>
   <button id="sound" type="button" title="toggle squelch sounds" aria-pressed="false">🔇 sound</button>
+  <button id="passport-btn" type="button" title="your slop passport">🛂 passport</button>
+  <button id="terminal-btn" type="button" title="open the terminal (or press the ` key)">💻<span class="lbl"> terminal</span></button>
 </aside>
 
 <header class="hero">
@@ -36,107 +48,26 @@
 </header>
 
 <div class="note note-1" aria-hidden="true">TODO:<br>center this div</div>
-<div class="note note-2" aria-hidden="true">remember to<br>buy more slop<br><small>(we're out)</small></div>
+<div class="note note-2" aria-hidden="true">press <kbd>`</kbd><br>for a<br>terminal<br><small>(trust me)</small></div>
 <div class="stain stain-1" aria-hidden="true"></div>
 <div class="stain stain-2" aria-hidden="true"></div>
 
 <main>
 
-<section class="card tilt" id="slopomatic" aria-labelledby="som-h">
-  <h2 id="som-h">🤖 the slop-o-matic 3000™</h2>
-  <p class="small">industrial-grade thought leadership, generated locally, ethically sourced from the finest buzzwords. no AI was harmed. (no AI was used either. it's <code>Math.random()</code> all the way down.)</p>
-  <div class="som-controls">
-    <label for="intensity">slop intensity: <b id="intensity-val">5</b><span id="intensity-warn"></span></label>
-    <input id="intensity" type="range" min="1" max="11" value="5">
-  </div>
-  <div class="som-out" id="som-out" aria-live="polite"><span class="ph">press the big button. you know you want to.</span></div>
-  <div class="som-buttons">
-    <button id="generate" class="big" type="button">🚀 GENERATE SLOP</button>
-    <button id="copy" type="button">📋 copy (post it on linkedin)</button>
-  </div>
-</section>
+<nav class="doors" aria-label="where to go">
+  <a class="door n-yellow" href="/pigpen/"><span class="door-emoji" aria-hidden="true">🐖</span><b>the pigpen</b><span>feed Gerald until he explodes. read his horoscope. crack a fortune.</span></a>
+  <a class="door n-pink" href="/arcade/"><span class="door-emoji" aria-hidden="true">🕹️</span><b>the slop arcade</b><span>4 games, 0 QA. bonk, flap, catch and remember slop.</span></a>
+  <a class="door n-green" href="/office/"><span class="door-emoji" aria-hidden="true">🏢</span><b>the slop office</b><span>industrial thought leadership + your official slop certificate.</span></a>
+  <a class="door n-blue" href="/guestbook/"><span class="door-emoji" aria-hidden="true">📖</span><b>the guestbook</b><span>a REAL guestbook. sign it. the whole internet will see.</span></a>
+  <a class="door n-orange" href="/about/"><span class="door-emoji" aria-hidden="true">📜</span><b>about slop</b><span>who is slop. why is slop. 100% open source slop.</span></a>
+</nav>
 
-<section class="card tilt" id="pig" aria-labelledby="pig-h">
-  <h2 id="pig-h">🐖 feed the pig</h2>
-  <p class="small">this is Gerald. Gerald is hungry. Gerald is always hungry. please do not feed Gerald more than 12 ladles. (please feed Gerald more than 12 ladles.)</p>
-  <div class="pen">
-    <div class="bubble" id="bubble" aria-live="polite">oink?</div>
-    <div class="gerald" id="gerald" role="img" aria-label="Gerald the pig">🐖</div>
-    <div class="trough"><div class="trough-slop" id="trough-slop"></div></div>
-  </div>
-  <div class="meter" aria-hidden="true"><div class="meter-fill" id="meter"></div></div>
-  <div class="pig-row">
-    <button id="feed" class="big" type="button">🥄 LADLE SLOP</button>
-    <p class="small stats">ladles served (by you): <b id="ladles">0</b> · pigs exploded: <b id="exploded">0</b></p>
-  </div>
-</section>
-
-<p class="arcade-sign tilt" id="arcade"><span>🕹️ THE SLOP ARCADE 🕹️</span><small>insert 0 coins · high scores stored on ur own computer, like a caveman</small></p>
-
-<section class="card tilt" id="whack" aria-labelledby="whack-h">
-  <h2 id="whack-h">🔨 whack-a-gerald</h2>
-  <p class="small">Gerald's cousins have tunneled into the yard. bonk them back into the mud before they eat the fence. do <b>not</b> bonk the soap. (the cousins consented to this. we asked. they said "oink".)</p>
-  <div class="yard" id="holes"></div>
-  <div class="game-row">
-    <button id="whack-start" class="big" type="button">🔨 START BONKING</button>
-    <p class="small stats">score: <b id="whack-score">0</b> · time: <b id="whack-time">20</b>s · best: <b id="whack-best">0</b></p>
-  </div>
-</section>
-
-<section class="card tilt" id="flappy" aria-labelledby="flappy-h">
-  <h2 id="flappy-h">🪽 flappy gerald</h2>
-  <p class="small">scientists glued wings to Gerald. Gerald does not know how wings work. neither do the scientists. click, tap or press space to flap between the slop pillars.</p>
-  <canvas class="arena" id="flappy-canvas" tabindex="0" aria-label="flappy gerald game: press space or click to flap"></canvas>
-  <div class="game-row">
-    <button id="flappy-start" class="big" type="button">🪽 FLAP</button>
-    <p class="small stats">pillars passed: <b id="flappy-score">0</b> · best: <b id="flappy-best">0</b> · geralds lost: <b id="flappy-deaths">0</b></p>
-  </div>
-</section>
-
-<section class="card tilt" id="catcher" aria-labelledby="catcher-h">
-  <h2 id="catcher-h">🪣 catch the slop</h2>
-  <p class="small">the ceiling is leaking again. catch the slop in the bucket (it's Gerald's dinner). dodge the soap and the salad: Gerald has <b>standards</b>. move with the mouse, your finger, or ← →.</p>
-  <canvas class="arena" id="catcher-canvas" tabindex="0" aria-label="catch the slop game: use the arrow keys or the mouse to move the bucket"></canvas>
-  <div class="game-row">
-    <button id="catcher-start" class="big" type="button">🪣 CATCH SLOP</button>
-    <p class="small stats">slop caught: <b id="catcher-score">0</b> · best: <b id="catcher-best">0</b></p>
-  </div>
-</section>
-
-<section class="card tilt" id="memory" aria-labelledby="mem-h">
-  <h2 id="mem-h">🧠 slop memory</h2>
-  <p class="small">find the matching pairs. a classic game of skill, memory, and touching sticky cards. Gerald's record is 4 moves (he ate the other cards).</p>
-  <div class="memory" id="mem-grid"></div>
-  <div class="game-row">
-    <button id="mem-new" class="big" type="button">🔀 SHUFFLE THE SLOP</button>
-    <p class="small stats">moves: <b id="mem-moves">0</b> · pairs: <b id="mem-pairs">0</b>/8 · best: <b id="mem-best">–</b></p>
-  </div>
-</section>
-
-<section class="card tilt construction" aria-labelledby="uc-h">
-  <h2 id="uc-h">🚧 under construction 🚧</h2>
-  <p>this section has been under construction since 1998. our contractor is a pig. progress: <span class="progress"><span></span></span> <b>3%</b></p>
-  <ul class="todo">
-    <li><input type="checkbox" checked disabled> buy domain</li>
-    <li><input type="checkbox" checked disabled> get A+ on SSL Labs</li>
-    <li><input type="checkbox" disabled> make website good</li>
-    <li><input type="checkbox" disabled> <s>stop adding slop</s></li>
-    <li><input type="checkbox" checked disabled> add more slop</li>
-    <li><input type="checkbox" checked disabled> add mini games (instead of making website good)</li>
-  </ul>
-</section>
-
-<section class="card tilt" id="guestbook" aria-labelledby="gb-h">
-  <h2 id="gb-h">📖 sign the guestbook!!!</h2>
-  <form id="gb-form" autocomplete="off">
-    <input id="gb-name" maxlength="40" placeholder="ur name" aria-label="your name">
-    <textarea id="gb-msg" maxlength="280" rows="2" placeholder="say something nice (or sloppy)" aria-label="your message" required></textarea>
-    <button type="submit" id="gb-submit">✍️ sign</button>
-    <label class="hp" aria-hidden="true">leave this empty <input id="gb-website" tabindex="-1" autocomplete="off"></label>
-  </form>
-  <p class="small">this guestbook is <b>real</b> now. your message will be visible to the entire internet, forever (or until we mop it). be nice. no links. 280 characters max.</p>
-  <ol class="entries" id="entries"></ol>
-  <button type="button" id="gb-more" hidden>📜 load older slop</button>
+<div class="duo">
+<section class="card tilt mood-card" id="mood" aria-labelledby="mood-h">
+  <h2 id="mood-h">🔮 Gerald today</h2>
+  <p class="mood-big"><span class="mood-emoji" aria-hidden="true">🐖</span> <b class="mood-word">…</b></p>
+  <p class="mood-line small">consulting the mud…</p>
+  <p class="small"><a href="/pigpen/#mood-full">full pig horoscope →</a></p>
 </section>
 
 <section class="card tilt counter-card" aria-labelledby="ctr-h">
@@ -146,13 +77,19 @@
   <p class="small" id="counter-note">(counting the slop…)</p>
   <p class="small" id="counter-live" aria-live="polite"></p>
 </section>
+</div>
 
-<section class="card tilt oss" id="open-source" aria-labelledby="oss-h">
-  <img class="oss-avatar" src="slop-avatar.png" width="96" height="96" alt="slop, a green slime pig wearing pixel sunglasses, a crown and a gold $LOP chain">
-  <h2 id="oss-h">📜 100% open source slop</h2>
-  <p>everything on this website is open source. the slime engine, Gerald, the slop-o-matic, the guestbook backend, the 404 page, even this sentence. read it, fork it, judge it, send it to your mom.</p>
-  <p class="oss-links"><a class="oss-btn" href="https://git.freifick.net/slop">🦊 git.freifick.net/slop</a> <a href="https://git.freifick.net/slop/slop-landing">→ source code of this exact page</a></p>
-  <p class="small">code: MIT license · fonts: SIL Open Font License · slop: public domain (nobody wants it) · every commit is signed, so you know the slop is authentic.</p>
+<section class="card tilt pot-card" id="pot" aria-labelledby="pot-h">
+  <h2 id="pot-h">🍲 the global slop pot</h2>
+  <div class="pot-row">
+    <div class="cauldron" aria-hidden="true"><div class="pot-fill"></div><span class="pot-bubbles">° ° °</span></div>
+    <div>
+      <p class="pot-total-line"><b class="pot-total">…</b> slop units</p>
+      <p class="small pot-detail">stirring…</p>
+      <p class="small pot-next"></p>
+      <p class="small">every splat and every ladle from <b>every visitor</b> lands in this one pot. click around. contribute. it is your civic duty.</p>
+    </div>
+  </div>
 </section>
 
 </main>
@@ -173,8 +110,12 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="slop.js"></script>
-<script src="games.js"></script>
-
+<script src="/slop.js"></script>
+<script src="/js/passport.js"></script>
+<script src="/js/oracle.js"></script>
+<script src="/js/pot.js"></script>
+<script src="/js/terminal.js"></script>
+<script src="/js/cookies.js"></script>
+<script src="/js/counter.js"></script>
 </body>
 </html>

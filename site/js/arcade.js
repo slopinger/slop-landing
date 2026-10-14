@@ -3,7 +3,7 @@
 (() => {
   'use strict';
 
-  const { $, rand, pick, clamp, toast, squelch, oink, splat, store } = window.slop;
+  const { $, rand, pick, clamp, toast, squelch, oink, splat, store, emit } = window.slop;
   const INK = '#2a2118', SLIME = '#7bd43a', SLIME_DARK = '#3f8f1a', PINK = '#ff5fa2', MUD = '#8a5a2b';
   const FONT = '"Comic Neue", "Comic Sans MS", cursive';
   const EMOJI = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
@@ -73,6 +73,24 @@
     ctx.beginPath(); ctx.arc(x - r * .35, y - r * .25, r * .25, 0, Math.PI * 2); ctx.fill();
   }
   function keyIs(e, ...keys) { return keys.includes(e.key) || keys.includes(e.code); }
+
+  // =====================================================================
+  // CABINET PICKER: one game on screen at a time (less scrolling), chosen by #hash
+  // =====================================================================
+  {
+    const tabs = [...document.querySelectorAll('.cabinets a')];
+    const games = tabs.map((t) => document.getElementById(t.dataset.game));
+    function show(id) {
+      if (!games.some((g) => g && g.id === id)) id = store.get('cabinet', 'whack');
+      for (const g of games) if (g) g.hidden = g.id !== id;
+      for (const t of tabs) t.setAttribute('aria-current', t.dataset.game === id ? 'true' : 'false');
+      store.set('cabinet', id);
+      dispatchEvent(new Event('resize')); // canvases measure their card; it was hidden a moment ago
+    }
+    for (const t of tabs) t.addEventListener('click', (e) => { e.preventDefault(); history.replaceState(null, '', '#' + t.dataset.game); show(t.dataset.game); });
+    addEventListener('hashchange', () => show(location.hash.slice(1)));
+    show(location.hash.slice(1));
+  }
 
   // =====================================================================
   // WHACK-A-GERALD
@@ -159,6 +177,7 @@
       startBtn.textContent = '🔨 BONK AGAIN';
       const record = score > best;
       if (record) { best = score; store.set('whackBest', best); }
+      emit('game', { game: 'whack', score });
       sync();
       const verdict = score >= 40 ? 'certified pig bonker. frame this.' : score >= 25 ? 'the cousins fear you.' : score >= 12 ? 'respectable bonking.' : score > 0 ? 'the cousins are laughing at you.' : 'zero. did you fall asleep in the mud?';
       toast(`⏰ time! ${score} bonks. ${record && score ? '🏆 NEW RECORD. ' : ''}${verdict}`, 3200);
@@ -219,6 +238,7 @@
       deaths++; store.set('flappyDeaths', deaths);
       const record = g.score > best;
       if (record) { best = g.score; store.set('flappyBest', best); }
+      emit('game', { game: 'flappy', score: g.score });
       sync();
       squelch(.45, .7);
       splat(...toScreen(GX, g.y), 26, .9);
@@ -381,6 +401,7 @@
       startBtn.textContent = '🪣 AGAIN';
       const record = c.score > best;
       if (record) { best = c.score; store.set('catcherBest', best); }
+      emit('game', { game: 'catcher', score: c.score });
       sync();
       squelch(.4, .6);
       toast(record && c.score ? `🏆 NEW RECORD: ${c.score} drops of slop! Gerald eats well tonight.` : pick([`🪣 ${c.score} drops. Gerald has been fed (barely).`, '🥗 the salad got you. Gerald is now on a diet. tragic.', '🧼 too much soap. the bucket is clean now. ruined.']), 2800);
@@ -591,6 +612,7 @@
       const secs = Math.round((performance.now() - started) / 1000);
       const record = best == null || moves < best;
       if (record) { best = moves; store.set('memBest', best); }
+      emit('game', { game: 'memory', score: moves });
       oink();
       toast(`🧠 all pairs in ${moves} moves (${secs}s)! ${record ? '🏆 NEW RECORD. ' : ''}${moves <= 12 ? 'suspiciously good.' : moves <= 18 ? 'big brain slop.' : 'you got there. eventually.'}`, 3200);
       sync();
