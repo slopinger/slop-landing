@@ -66,6 +66,14 @@ These HTTP integration tests start a loopback server with a temporary SQLite dat
 posting, pagination, moderation visibility, visit deduplication, pot caps, JSON validation and origins
 without changing the live guestbook or counters.
 
+## HTTP health observations
+
+    python3 tools/watch-health.py --duration 3600 --interval 60 --output /tmp/slop-health.jsonl
+
+This checks the public website, API read endpoints, fediverse NodeInfo and GitLab project list.
+It sends only GET requests and writes timestamped JSONL observations, exiting with a failure status
+if any check failed. Pass explicit URLs after the options to observe other endpoints.
+
 ## Deploy
 
     ./deploy.sh    # site/ -> /srv/http/freifick.net; installs + restarts slopd if backend changed (uses sudo)
