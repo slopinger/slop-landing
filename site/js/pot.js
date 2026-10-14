@@ -86,9 +86,10 @@
     fill.style.height = Math.max(4, Math.min(100, ((v - base) / Math.max(1, goal - base)) * 100)) + '%';
     next.textContent = i === -1 ? prize : `next at ${fmt(goal)}: ${prize}` + (prev ? ` · unlocked: ${prev[1]}` : '');
     if (before != null && prev && before < prev[0] && v >= prev[0]) toast(`🍲 POT MILESTONE: ${prev[1]}!`, 3500);
-    if (before != null && Math.floor(v) > Math.floor(before) && !reduceMotion && !el.classList.contains('bubble')) {
-      el.classList.add('bubble');
-      setTimeout(() => el.classList.remove('bubble'), 1200);
+    // (not 'bubble': that class is Gerald's absolutely-positioned speech bubble and would fling the card away)
+    if (before != null && Math.floor(v) > Math.floor(before) && !reduceMotion && !el.classList.contains('pot-bubbling')) {
+      el.classList.add('pot-bubbling');
+      setTimeout(() => el.classList.remove('pot-bubbling'), 1200);
     }
   }
 
