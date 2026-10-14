@@ -22,7 +22,7 @@
     ['catcher', '🪣', 'Bucket Legend', 'catch 30+ in catch the slop'],
     ['brain', '🧠', 'Big Brain Slop', 'win slop memory'],
     ['konami', '🎮', 'Cheat Code Enjoyer', '↑ ↑ ↓ ↓ ...you know the rest'],
-    ['hacker', '💻', 'Hacker Voice: "I\'m In"', 'open the terminal (hint: the ` key)'],
+    ['hacker', '💻', 'Hacker Voice: "I\'m In"', 'open the terminal (hint: the key left of 1)'],
     ['not-root', '🔐', 'I Am Root (I Am Not)', 'try sudo in the terminal'],
     ['survivor', '☠️', 'rm -rf Survivor', 'do the one thing you must never do'],
     ['cookie', '🍪', 'Cookie Rebel', 'try to reject the cookies'],

@@ -1,4 +1,4 @@
-// slopsh: a fake terminal. open it with the ` key or the 💻 button. type `help`.
+// slopsh: a fake terminal. open it with the key left of 1 (` / ^ / ²) or the 💻 button. type `help`.
 (() => {
   'use strict';
   const { $, pick, toast, squelch, oink, splat, store, api, emit, setMaxSlop } = window.slop;
@@ -175,8 +175,12 @@
     emit('terminal');
   }
   $('#terminal-btn')?.addEventListener('click', open);
+  // match the physical key left of 1 (e.code 'Backquote'), not the character: on many layouts it isn't `
+  // (German ^, French ²) and it's often a dead key that never produces a character at all.
+  // preventDefault also stops the dead-key accent and any browser handling of that key.
   document.addEventListener('keydown', (e) => {
-    if (e.key !== '`' || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.code !== 'Backquote' && e.key !== '`') return;
     if (e.target.closest('input, textarea, select, [contenteditable]')) return;
     e.preventDefault();
     open();
