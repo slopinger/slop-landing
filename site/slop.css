@@ -463,6 +463,13 @@ kbd {
 .n-blue { background: #bfe6ff; } .n-orange { background: #ffcf9e; }
 .duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 26px; align-items: start; }
 .duo .card { margin: 20px 0; }
+.network-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 20px 26px; }
+.network-grid article { min-width: 0; }
+.network-grid h3 { font-size: 23px; margin: 8px 0; }
+.network-grid a, .network-details code { overflow-wrap: anywhere; }
+.network-details { margin: 16px 0; }
+.network-details dt { font-weight: 700; }
+.network-details dd { margin: 0 0 6px; }
 .mood-big { font-size: 26px; margin: 6px 0; }
 .mood-big .mood-emoji, .mood-big [data-mood="emoji"] { font-size: 40px; vertical-align: -6px; }
 .mood-word, [data-mood="mood"] { color: #b5005b; }
