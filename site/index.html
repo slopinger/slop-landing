@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SLOP — slop.kyouma.net</title>
+<meta name="description" content="slop.kyouma.net: artisanal, hand-ladled slop since 2026. Now with 40% more slop.">
+<meta name="theme-color" content="#7bd43a">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="SLOP">
+<meta property="og:description" content="artisanal, hand-ladled slop. feed the pig. generate thought leadership.">
+<link rel="stylesheet" href="slop.css">
+</head>
+<body>
+<!-- TODO: clean this up before launch (launched anyway) -->
+<svg class="hidden" aria-hidden="true"><filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+
+<canvas id="slime" aria-hidden="true"></canvas>
+
+<div class="marquee" aria-label="announcements"><div class="marquee-inner">
+  <span>★ WELCOME 2 SLOP ★ NOW WITH 40% MORE SLOP ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+  <span aria-hidden="true">★ WELCOME 2 SLOP ★ NOW WITH 40% MORE SLOP ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+</div></div>
+
+<aside class="controls tilt" aria-label="slop controls">
+  <b>slop controls</b>
+  <button id="mop" type="button" title="mop up the slop">🧽 mop</button>
+  <button id="more" type="button" title="increase slop output">💧 more slop</button>
+  <button id="sound" type="button" title="toggle squelch sounds" aria-pressed="false">🔇 sound</button>
+</aside>
+
+<header class="hero">
+  <h1 class="title" aria-label="SLOP"><span>S</span><span>L</span><span>O</span><span>P</span></h1>
+  <p class="tagline tilt">artisanal, hand-ladled slop <s>for professionals</s> since 2026 <span class="sticker">NEW!!</span></p>
+  <p class="subtag">you have reached <code>slop.kyouma.net</code>. please keep your arms and legs inside the trough.</p>
+</header>
+
+<div class="note note-1" aria-hidden="true">TODO:<br>center this div</div>
+<div class="note note-2" aria-hidden="true">remember to<br>buy more slop<br><small>(we're out)</small></div>
+<div class="stain stain-1" aria-hidden="true"></div>
+<div class="stain stain-2" aria-hidden="true"></div>
+
+<main>
+
+<section class="card tilt" id="slopomatic" aria-labelledby="som-h">
+  <h2 id="som-h">🤖 the slop-o-matic 3000™</h2>
+  <p class="small">industrial-grade thought leadership, generated locally, ethically sourced from the finest buzzwords. no AI was harmed. (no AI was used either. it's <code>Math.random()</code> all the way down.)</p>
+  <div class="som-controls">
+    <label for="intensity">slop intensity: <b id="intensity-val">5</b><span id="intensity-warn"></span></label>
+    <input id="intensity" type="range" min="1" max="11" value="5">
+  </div>
+  <div class="som-out" id="som-out" aria-live="polite"><span class="ph">press the big button. you know you want to.</span></div>
+  <div class="som-buttons">
+    <button id="generate" class="big" type="button">🚀 GENERATE SLOP</button>
+    <button id="copy" type="button">📋 copy (post it on linkedin)</button>
+  </div>
+</section>
+
+<section class="card tilt" id="pig" aria-labelledby="pig-h">
+  <h2 id="pig-h">🐖 feed the pig</h2>
+  <p class="small">this is Gerald. Gerald is hungry. Gerald is always hungry. please do not feed Gerald more than 12 ladles. (please feed Gerald more than 12 ladles.)</p>
+  <div class="pen">
+    <div class="bubble" id="bubble" aria-live="polite">oink?</div>
+    <div class="gerald" id="gerald" role="img" aria-label="Gerald the pig">🐖</div>
+    <div class="trough"><div class="trough-slop" id="trough-slop"></div></div>
+  </div>
+  <div class="meter" aria-hidden="true"><div class="meter-fill" id="meter"></div></div>
+  <div class="pig-row">
+    <button id="feed" class="big" type="button">🥄 LADLE SLOP</button>
+    <p class="small stats">ladles served (by you): <b id="ladles">0</b> · pigs exploded: <b id="exploded">0</b></p>
+  </div>
+</section>
+
+<section class="card tilt construction" aria-labelledby="uc-h">
+  <h2 id="uc-h">🚧 under construction 🚧</h2>
+  <p>this section has been under construction since 1998. our contractor is a pig. progress: <span class="progress"><span></span></span> <b>3%</b></p>
+  <ul class="todo">
+    <li><input type="checkbox" checked disabled> buy domain</li>
+    <li><input type="checkbox" checked disabled> get A+ on SSL Labs</li>
+    <li><input type="checkbox" disabled> make website good</li>
+    <li><input type="checkbox" disabled> <s>stop adding slop</s></li>
+    <li><input type="checkbox" checked disabled> add more slop</li>
+  </ul>
+</section>
+
+<section class="card tilt" id="guestbook" aria-labelledby="gb-h">
+  <h2 id="gb-h">📖 sign the guestbook!!!</h2>
+  <form id="gb-form" autocomplete="off">
+    <input id="gb-name" maxlength="40" placeholder="ur name" aria-label="your name">
+    <textarea id="gb-msg" maxlength="280" rows="2" placeholder="say something nice (or sloppy)" aria-label="your message" required></textarea>
+    <button type="submit">✍️ sign</button>
+  </form>
+  <p class="small">your message will be stored securely in <code>/dev/null</code> and in your own browser. nobody else will ever see it. just like real guestbooks.</p>
+  <ol class="entries" id="entries"></ol>
+</section>
+
+<section class="card tilt counter-card" aria-labelledby="ctr-h">
+  <h2 id="ctr-h" class="hidden">visitor counter</h2>
+  <p>you are visitor number</p>
+  <div class="counter" id="counter" title="click to reset">0000000</div>
+  <p class="small">(this number is not real. none of this is real. the slop is real.)</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="badges" aria-label="badges">
+    <span class="badge b1">MADE WITH<br><b>SLOP</b></span>
+    <span class="badge b2">HTML<br><b>0.9 beta</b></span>
+    <span class="badge b3">powered by<br><b>CADDY</b></span>
+    <span class="badge b4">SSL LABS<br><b>A+</b></span>
+    <span class="badge b5">best viewed<br><b>w/ eyes closed</b></span>
+    <span class="badge b6">🐖 PIG<br><b>APPROVED</b></span>
+  </div>
+  <p class="webring"><a href="/" title="there is only one site in this webring">← prev</a> · 🐖 the slop webring 🐖 · <a href="/" title="there is only one site in this webring">next →</a></p>
+  <p class="small">© 2026 slop.kyouma.net · all slop reserved · no cookies, only slop · <a href="/definitely-not-a-real-page">sitemap</a></p>
+  <p class="small konami-hint">psst: ↑ ↑ ↓ ↓ ← → ← → B A</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="slop.js"></script>
+</body>
+</html>
