@@ -293,7 +293,7 @@
   }
 
   // ---------- pointer: splat anywhere, slime follows the mouse ----------
-  const interactive = 'button, a, input, textarea, label, select, .controls, .som-out';
+  const interactive = 'button, a, input, textarea, label, select, .controls, .som-out, .arena';
   document.addEventListener('pointerdown', (e) => {
     if (reduceMotion || e.button > 0 || e.target.closest(interactive)) return;
     splat(e.clientX, e.clientY);
@@ -684,5 +684,11 @@
     toast(maxSlop ? '☢️ MAXIMUM SLOP ENGAGED ☢️' : 'slop levels returning to "normal"', 2500);
   });
 
-  console.log('%cSLOP', 'font: 64px "Rubik Wet Paint", cursive; color: #7bd43a; text-shadow: 3px 3px 0 #ff5fa2', '\nhi. you found the console. there is no more slop in here. (there is always more slop.)');
+  // shared bits for games.js (the slop arcade)
+  window.slop = {
+    $, rand, pick, clamp, toast, squelch, oink, store, reduceMotion,
+    splat(x, y, n, power) { if (!reduceMotion) splat(x, y, n, power); },
+  };
+
+  console.log('%cFREIFICK', 'font: 64px "Rubik Wet Paint", cursive; color: #7bd43a; text-shadow: 3px 3px 0 #ff5fa2', '\nhi. you found the console. there is no more slop in here. (there is always more slop.)');
 })();

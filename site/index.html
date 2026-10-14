@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SLOP — freifick.net</title>
+<title>FREIFICK — artisanal, hand-ladled slop</title>
 <meta name="description" content="freifick.net: artisanal, hand-ladled slop since 2026. Now with 40% more slop.">
 <meta name="theme-color" content="#7bd43a">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="SLOP">
-<meta property="og:description" content="artisanal, hand-ladled slop. feed the pig. generate thought leadership.">
+<meta property="og:title" content="FREIFICK">
+<meta property="og:description" content="artisanal, hand-ladled slop. feed the pig. bonk the pig. fly the pig.">
 <link rel="stylesheet" href="slop.css">
 </head>
 <body>
@@ -18,8 +18,8 @@
 <canvas id="slime" aria-hidden="true"></canvas>
 
 <div class="marquee" aria-label="announcements"><div class="marquee-inner">
-  <span>★ WELCOME 2 SLOP ★ NOW WITH 40% MORE SLOP ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
-  <span aria-hidden="true">★ WELCOME 2 SLOP ★ NOW WITH 40% MORE SLOP ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+  <span>★ WELCOME 2 FREIFICK ★ NOW WITH 40% MORE SLOP ★ NEW: THE SLOP ARCADE (4 GAMES, 0 QA) ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
+  <span aria-hidden="true">★ WELCOME 2 FREIFICK ★ NOW WITH 40% MORE SLOP ★ NEW: THE SLOP ARCADE (4 GAMES, 0 QA) ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 ★ CLICK ANYWHERE TO SPLAT ★ THE PIG IS HUNGRY ★ SLOP IS NOT A CRIME ★ SSL LABS GRADE: A+ (THE ONLY CLEAN THING HERE) ★ </span>
 </div></div>
 
 <aside class="controls tilt" aria-label="slop controls">
@@ -30,7 +30,7 @@
 </aside>
 
 <header class="hero">
-  <h1 class="title" aria-label="SLOP"><span>S</span><span>L</span><span>O</span><span>P</span></h1>
+  <h1 class="title" aria-label="FREIFICK"><span>F</span><span>R</span><span>E</span><span>I</span><span>F</span><span>I</span><span>C</span><span>K</span></h1>
   <p class="tagline tilt">artisanal, hand-ladled slop <s>for professionals</s> since 2026 <span class="sticker">NEW!!</span></p>
   <p class="subtag">you have reached <code>freifick.net</code>. please keep your arms and legs inside the trough.</p>
 </header>
@@ -71,6 +71,48 @@
   </div>
 </section>
 
+<p class="arcade-sign tilt" id="arcade"><span>🕹️ THE SLOP ARCADE 🕹️</span><small>insert 0 coins · high scores stored on ur own computer, like a caveman</small></p>
+
+<section class="card tilt" id="whack" aria-labelledby="whack-h">
+  <h2 id="whack-h">🔨 whack-a-gerald</h2>
+  <p class="small">Gerald's cousins have tunneled into the yard. bonk them back into the mud before they eat the fence. do <b>not</b> bonk the soap. (the cousins consented to this. we asked. they said "oink".)</p>
+  <div class="yard" id="holes"></div>
+  <div class="game-row">
+    <button id="whack-start" class="big" type="button">🔨 START BONKING</button>
+    <p class="small stats">score: <b id="whack-score">0</b> · time: <b id="whack-time">20</b>s · best: <b id="whack-best">0</b></p>
+  </div>
+</section>
+
+<section class="card tilt" id="flappy" aria-labelledby="flappy-h">
+  <h2 id="flappy-h">🪽 flappy gerald</h2>
+  <p class="small">scientists glued wings to Gerald. Gerald does not know how wings work. neither do the scientists. click, tap or press space to flap between the slop pillars.</p>
+  <canvas class="arena" id="flappy-canvas" tabindex="0" aria-label="flappy gerald game: press space or click to flap"></canvas>
+  <div class="game-row">
+    <button id="flappy-start" class="big" type="button">🪽 FLAP</button>
+    <p class="small stats">pillars passed: <b id="flappy-score">0</b> · best: <b id="flappy-best">0</b> · geralds lost: <b id="flappy-deaths">0</b></p>
+  </div>
+</section>
+
+<section class="card tilt" id="catcher" aria-labelledby="catcher-h">
+  <h2 id="catcher-h">🪣 catch the slop</h2>
+  <p class="small">the ceiling is leaking again. catch the slop in the bucket (it's Gerald's dinner). dodge the soap and the salad: Gerald has <b>standards</b>. move with the mouse, your finger, or ← →.</p>
+  <canvas class="arena" id="catcher-canvas" tabindex="0" aria-label="catch the slop game: use the arrow keys or the mouse to move the bucket"></canvas>
+  <div class="game-row">
+    <button id="catcher-start" class="big" type="button">🪣 CATCH SLOP</button>
+    <p class="small stats">slop caught: <b id="catcher-score">0</b> · best: <b id="catcher-best">0</b></p>
+  </div>
+</section>
+
+<section class="card tilt" id="memory" aria-labelledby="mem-h">
+  <h2 id="mem-h">🧠 slop memory</h2>
+  <p class="small">find the matching pairs. a classic game of skill, memory, and touching sticky cards. Gerald's record is 4 moves (he ate the other cards).</p>
+  <div class="memory" id="mem-grid"></div>
+  <div class="game-row">
+    <button id="mem-new" class="big" type="button">🔀 SHUFFLE THE SLOP</button>
+    <p class="small stats">moves: <b id="mem-moves">0</b> · pairs: <b id="mem-pairs">0</b>/8 · best: <b id="mem-best">–</b></p>
+  </div>
+</section>
+
 <section class="card tilt construction" aria-labelledby="uc-h">
   <h2 id="uc-h">🚧 under construction 🚧</h2>
   <p>this section has been under construction since 1998. our contractor is a pig. progress: <span class="progress"><span></span></span> <b>3%</b></p>
@@ -80,6 +122,7 @@
     <li><input type="checkbox" disabled> make website good</li>
     <li><input type="checkbox" disabled> <s>stop adding slop</s></li>
     <li><input type="checkbox" checked disabled> add more slop</li>
+    <li><input type="checkbox" checked disabled> add mini games (instead of making website good)</li>
   </ul>
 </section>
 
@@ -122,5 +165,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="slop.js"></script>
+<script src="games.js"></script>
+
 </body>
 </html>
