@@ -9,10 +9,10 @@
   const ctx = canvas.getContext('2d');
   const W = 1200, H = 850;
   canvas.width = W; canvas.height = H;
-  const INK = '#2a2118', SLIME = '#7bd43a', PINK = '#ff5fa2', GOLD = '#f5c400';
+  const INK = '#16152a', SLIME = '#7bd43a', ACCENT = '#5865f2', GOLD = '#f5c400';
   const RANKS = [
-    [0, 'Mild Drizzle of Slop'], [4, 'Certified Puddle'], [9, 'Senior Sludge Consultant'],
-    [15, 'Principal Slop Engineer'], [21, 'Grand Trough Master'], [24, 'Sentient Puddle (final form)'],
+    [0, 'Casual Lurker'], [4, 'Certified Reply Guy'], [9, 'Senior Discord Moderator'],
+    [15, 'Principal Basement Dweller'], [21, 'Grand Copelord'], [24, 'Terminally Online (final form)'],
   ];
   const avatar = new Image();
   avatar.src = '/slop-avatar.png';
@@ -35,7 +35,7 @@
 
   async function draw() {
     try { await Promise.all([document.fonts.load('80px "Rubik Wet Paint"'), document.fonts.load('700 40px "Comic Neue"')]); } catch { /* draw with fallbacks */ }
-    const name = ($('#cert-name').value.trim() || 'An Anonymous Pig').slice(0, 40);
+    const name = ($('#cert-name').value.trim() || 'Anonymous').slice(0, 40);
     // paper
     ctx.fillStyle = '#fbf3dc'; ctx.fillRect(0, 0, W, H);
     ctx.strokeStyle = 'rgba(80,140,220,.18)'; ctx.lineWidth = 2;
@@ -44,7 +44,7 @@
     ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(-0.006);
     ctx.strokeStyle = INK; ctx.lineWidth = 14; ctx.strokeRect(-W / 2 + 30, -H / 2 + 30, W - 60, H - 60);
     ctx.strokeStyle = SLIME; ctx.lineWidth = 8; ctx.strokeRect(-W / 2 + 52, -H / 2 + 52, W - 104, H - 104);
-    ctx.setLineDash([18, 10]); ctx.strokeStyle = PINK; ctx.lineWidth = 4; ctx.strokeRect(-W / 2 + 68, -H / 2 + 68, W - 136, H - 136);
+    ctx.setLineDash([18, 10]); ctx.strokeStyle = ACCENT; ctx.lineWidth = 4; ctx.strokeRect(-W / 2 + 68, -H / 2 + 68, W - 136, H - 136);
     ctx.restore(); ctx.setLineDash([]);
     // slime drips from the top border
     ctx.fillStyle = SLIME; ctx.strokeStyle = INK; ctx.lineWidth = 4;
@@ -60,12 +60,12 @@
     ctx.strokeText(name, W / 2, 300, W - 220); ctx.fillText(name, W / 2, 300, W - 220);
     ctx.fillStyle = INK; ctx.font = '700 32px "Comic Neue", "Comic Sans MS", cursive';
     ctx.fillText('is an officially recognized', W / 2, 375);
-    ctx.font = '700 54px "Comic Neue", "Comic Sans MS", cursive'; ctx.fillStyle = PINK;
+    ctx.font = '700 54px "Comic Neue", "Comic Sans MS", cursive'; ctx.fillStyle = ACCENT;
     ctx.fillText(rank().toUpperCase(), W / 2, 450, W - 220);
     ctx.fillStyle = INK; ctx.font = '26px "Comic Neue", "Comic Sans MS", cursive';
     wrapText(pick([
-      'having demonstrated exceptional sloppiness, an unwavering commitment to the trough, and a frankly concerning number of clicks.',
-      'for outstanding contributions to the field of slop, including but not limited to splatting, ladling and general dampness.',
+      'having demonstrated exceptional sloppiness, an unwavering commitment to the basement, and a frankly concerning number of clicks.',
+      'for outstanding contributions to the field of slop, including but not limited to splatting, coping and never once touching grass.',
       'in recognition of their tireless dedication to doing absolutely nothing useful on the internet.',
     ]), W / 2, 510, W - 300, 36);
     // footer: date, citizen no, serial, signature
@@ -84,8 +84,8 @@
     ctx.strokeStyle = 'rgba(200, 20, 60, .85)'; ctx.fillStyle = 'rgba(200, 20, 60, .85)'; ctx.lineWidth = 7;
     ctx.beginPath(); ctx.arc(0, 0, 78, 0, Math.PI * 2); ctx.stroke();
     ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(0, 0, 66, 0, Math.PI * 2); ctx.stroke();
-    ctx.font = '700 22px "Comic Neue", cursive'; ctx.fillText('APPROVED', 0, -14); ctx.fillText('BY GERALD', 0, 14);
-    ctx.font = '30px sans-serif'; ctx.fillText('🐖', 0, 50);
+    ctx.font = '700 22px "Comic Neue", cursive'; ctx.fillText('APPROVED', 0, -14); ctx.fillText('BY MOM', 0, 14);
+    ctx.font = '30px sans-serif'; ctx.fillText('🤓', 0, 50);
     ctx.restore();
     ctx.fillStyle = GOLD; ctx.strokeStyle = INK; ctx.lineWidth = 4;
     ctx.beginPath(); ctx.arc(W - 120, 150, 40, 0, Math.PI * 2); ctx.fill(); ctx.stroke();

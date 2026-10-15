@@ -10,24 +10,24 @@
   const words = {
     adj: ['robust', 'seamless', 'transformative', 'holistic', 'cutting-edge', 'multifaceted', 'synergistic', 'game-changing',
       'vibrant', 'pivotal', 'nuanced', 'ever-evolving', 'scalable', 'bespoke', 'frictionless', 'disruptive', 'intricate',
-      'AI-powered', 'next-generation', 'mission-critical', 'deeply human', 'blockchain-enabled', 'artisanal', 'moist'],
+      'AI-powered', 'next-generation', 'mission-critical', 'deeply human', 'blockchain-enabled', 'artisanal', 'sigma', 'moist'],
     noun: ['synergy', 'the human experience', 'paradigms', 'innovation', 'stakeholder alignment', 'the slop economy',
       'thought leadership', 'the customer journey', 'value creation', 'our core competencies', 'digital transformation',
-      'the trough', 'best practices', 'empowerment', 'the rich tapestry of life', 'growth hacking', 'the metaverse',
-      'actionable insights', 'company culture', 'the pig', 'quarterly vibes', 'the grindset', 'authentic engagement',
-      'learnings', 'the bottom line', 'circular slop'],
+      'the basement', 'best practices', 'empowerment', 'the rich tapestry of life', 'growth hacking', 'the metaverse',
+      'actionable insights', 'company culture', 'touching grass', 'quarterly vibes', 'the grindset', 'authentic engagement',
+      'learnings', 'the bottom line', 'circular slop', 'looksmaxxing', 'monk mode', 'my discord server', 'the dopamine detox'],
     verb: ['elevate', 'empower', 'unlock', 'reimagine', 'streamline', 'harness', 'foster', 'navigate', 'supercharge',
       'delve into', 'revolutionize', 'operationalize', 'ladle', 'double-click on', 'circle back on', 'democratize'],
-    persona: ['seasoned professional', 'curious beginner', 'visionary founder', 'hungry pig', '10x engineer',
-      'LinkedIn influencer', 'sentient spreadsheet', 'Chief Slop Officer', 'unpaid intern', 'thought leader', 'golden retriever'],
+    persona: ['seasoned professional', 'curious beginner', 'visionary founder', 'basement-dwelling visionary', '10x engineer',
+      'LinkedIn influencer', 'sentient spreadsheet', 'Chief Slop Officer', 'unpaid intern', 'thought leader', 'discord moderator', 'reply guy'],
     num: ['3', '5', '7', '10', '11', '42', '69'],
-    emoji: ['🚀', '✨', '💡', '🔥', '🙌', '📈', '🐖', '💯', '🤝', '🌟', '🧠', '⚡', '🎯', '🫡'],
+    emoji: ['🚀', '✨', '💡', '🔥', '🙌', '📈', '🗿', '💯', '🤝', '🌟', '🧠', '⚡', '🎯', '🫡'],
   };
   const openers = [
     'Great question!', "In today's fast-paced digital landscape, everything is changing.", "Let's delve into it.",
     'Buckle up.', 'In an era defined by rapid change, one thing remains constant: slop.', 'Picture this:',
     "Here's the thing nobody is talking about:", 'I was today years old when I realized something.',
-    'Unpopular opinion:', 'I almost didn\'t post this.', 'Stop scrolling.', 'My pig taught me a powerful lesson about {noun}.',
+    'Unpopular opinion:', 'I almost didn\'t post this.', 'Stop scrolling.', 'My mom taught me a powerful lesson about {noun}. (she wants rent.)', 'I woke up at 4am (I never went to sleep).',
   ];
   const templates = [
     "It's not just {noun} — it's {noun}.",
