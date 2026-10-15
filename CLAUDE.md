@@ -10,7 +10,7 @@ and README current as part of every behavior, page structure, test or operationa
   the design; do not remove them merely to make pixel alignment conventional.
 - `site/slop.js` is shared core; optional modules start only where their elements exist. Preserve
   reduced-motion behavior, opt-in sound, accessibility labels and existing interactive features.
-- Home `#mayfly` advertises the Gleam temporary file host at https://mayfly.freifick.net,
+- Home `#mayfly` uses a short announcement (upload limits + anime artwork) to advertise the Gleam temporary file host at https://mayfly.freifick.net,
   linking its public MIT source at https://git.freifick.net/slop/mayfly. Keep limits in sync
   with that service (200 MiB, 1/12/24/72 hours).
 - Home `#network` describes dn42 + trough software/instance. Verify dn42 facts against the live BIRD/
