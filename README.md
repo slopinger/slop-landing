@@ -6,7 +6,7 @@ the fonts in `site/fonts/` are under the SIL Open Font License 1.1.
 
 Pages (plain HTML; the marquee, nav, controls and footer are copied into each page, so keep them in sync):
 
-- `site/index.html`: home ("the trough"): doors to every page, dn42 + fediverse links, Gerald's mood, counter, global slop pot
+- `site/index.html`: home ("the basement"): doors to every page, dn42 + fediverse links, Gerald's mood, counter, global slop pot
 - `site/room/`: slop's room: bring slop tendies, his daily doomer forecast, the fortune oracle (shareable `#f=<seed>` links)
 - `site/pigpen/`: redirect stub: the old pig page forwards to `/room/` (keeping `#f=` fortune links)
 - `site/arcade/`: whack-a-gerald, flappy gerald, catch the slop, slop memory (one cabinet at a time, `#<game>`)

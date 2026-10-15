@@ -3,7 +3,7 @@
   'use strict';
   const { $, pick, toast, squelch, oink, splat, store, api, emit, setMaxSlop } = window.slop;
 
-  const PAGES = { '~': '/', trough: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
+  const PAGES = { '~': '/', basement: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
   const FILES = {
     'gerald.txt': 'Gerald. pig. 3 years old. likes: slop, mud, you. dislikes: salad, soap, mondays.\nhas exploded 1,000+ times. always comes back. nobody knows how.',
     'todo.md': '- [x] buy domain\n- [x] get A+ on SSL Labs\n- [x] add a terminal nobody asked for\n- [ ] make website good\n- [ ] stop adding slop (never)',
