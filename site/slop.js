@@ -376,5 +376,5 @@
   // modules load after this script, so re-apply a persisted MAXIMUM SLOP once they've subscribed
   if (store.get('maxslop', false)) addEventListener('DOMContentLoaded', () => setMaxSlop(true, true));
 
-  console.log('%cFREIFICK', 'font: 64px "Rubik Wet Paint", cursive; color: #7bd43a; text-shadow: 3px 3px 0 #ff5fa2', '\nhi. you found the console. there is no more slop in here. (there is always more slop.)');
+  console.log('%cFREIFICK', 'font: 64px "Rubik Wet Paint", cursive; color: #7bd43a; text-shadow: 3px 3px 0 #5865f2', '\nhi. you found the console. you are now the second person in this basement. (there is always more slop.)');
 })();
