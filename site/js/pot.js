@@ -48,9 +48,9 @@
   // ---------- the cauldron ----------
   if (!el) return;
   const MILESTONES = [
-    [100, 'Gerald notices the pot'], [500, 'Gerald gets a tiny hat'], [1000, 'the pot achieves sentience'],
-    [2500, 'Gerald learns to whistle'], [5000, 'a second pig appears (his name is also Gerald)'],
-    [10000, 'the pot is visible from space'], [25000, 'Gerald runs for mayor'], [50000, 'the slop gains a seat at the UN'],
+    [100, 'slop notices the pot'], [500, 'slop gets a tiny fedora'], [1000, 'the pot achieves sentience'],
+    [2500, 'slop leaves the house (to get the mail)'], [5000, 'a second slop appears (it is his alt account)'],
+    [10000, 'the pot is visible from space'], [25000, 'slop runs for discord moderator'], [50000, 'the slop gains a seat at the UN'],
     [100000, 'the pot becomes a small moon'], [250000, 'the heat death of the slop'], [1000000, 'we did not plan this far'],
   ];
   const fill = el.querySelector('.pot-fill');
@@ -86,7 +86,7 @@
     fill.style.height = Math.max(4, Math.min(100, ((v - base) / Math.max(1, goal - base)) * 100)) + '%';
     next.textContent = i === -1 ? prize : `next at ${fmt(goal)}: ${prize}` + (prev ? ` · unlocked: ${prev[1]}` : '');
     if (before != null && prev && before < prev[0] && v >= prev[0]) toast(`🍲 POT MILESTONE: ${prev[1]}!`, 3500);
-    // (not 'bubble': that class is Gerald's absolutely-positioned speech bubble and would fling the card away)
+    // (not 'bubble': that class is slop's absolutely-positioned speech bubble and would fling the card away)
     if (before != null && Math.floor(v) > Math.floor(before) && !reduceMotion && !el.classList.contains('pot-bubbling')) {
       el.classList.add('pot-bubbling');
       setTimeout(() => el.classList.remove('pot-bubbling'), 1200);

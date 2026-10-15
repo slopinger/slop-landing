@@ -4,7 +4,7 @@
   const { $, rand, pick, toast, store, emit, reduceMotion } = window.slop;
   if (store.get('cookieChoice', null)) return;
 
-  const FIRST = ['Gerald', 'Gerald’s cousin', 'Big Slop', 'The Trough', 'Mud', 'Sir Oinks', 'Lady Ladle', 'Damp', 'Chief Slop', 'Count Crumb'];
+  const FIRST = ['Big Tendie', 'Mom’s Wi-Fi', 'Big Slop', 'The Basement', 'Gaming Chair', 'Sir Cope', 'Lord Seethe', 'Reply Guy', 'Chief Slop', 'Count Crumb'];
   const LAST = ['Analytics', 'Holdings', '& Sons', 'Ad Network', 'Tracking Co.', 'Data Brokers', 'Synergy Labs', 'Marketing GmbH', 'Pixel Farm', 'Inc.'];
   const PARTNERS = 1312;
 
@@ -57,13 +57,13 @@
           const lab = document.createElement('label');
           const cb = document.createElement('input');
           cb.type = 'checkbox'; cb.checked = true;
-          cb.addEventListener('change', () => { cb.checked = true; toast(pick(['legitimate interest: oink.', 'this partner cannot be disabled. it has feelings.', 'nope. Gerald insists.']), 1600); });
-          lab.append(cb, ` ${FIRST[i % FIRST.length]} ${LAST[(i * 7) % LAST.length]} — legitimate interest: oink`);
+          cb.addEventListener('change', () => { cb.checked = true; toast(pick(['legitimate interest: cope.', 'this partner cannot be disabled. it has feelings.', 'nope. mom insists.']), 1600); });
+          lab.append(cb, ` ${FIRST[i % FIRST.length]} ${LAST[(i * 7) % LAST.length]} — legitimate interest: cope`);
           li.append(lab); ul.append(li);
         }
         const more = document.createElement('p');
         more.className = 'small';
-        more.textContent = `…and ${(PARTNERS - 40).toLocaleString('en-US')} more partners, all of them Gerald in a trench coat.`;
+        more.textContent = `…and ${(PARTNERS - 40).toLocaleString('en-US')} more partners, all of them slop’s alt accounts.`;
         box.append(ul, more);
       }
       box.hidden = !box.hidden;

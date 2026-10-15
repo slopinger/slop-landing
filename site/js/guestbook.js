@@ -46,7 +46,7 @@
   function renderEntries() {
     entriesEl.textContent = '';
     if (gb.status === 'loading') entriesEl.append(statusEl('loading slop…'));
-    else if (gb.status === 'down') entriesEl.append(statusEl('the guestbook server is busy eating. try again later. 🐖'));
+    else if (gb.status === 'down') entriesEl.append(statusEl('the guestbook server is eating tendies. try again later. 🤓'));
     else if (!gb.entries.length) entriesEl.append(statusEl('nobody has signed yet. be the first!!! (you are legally allowed to write "first!!!")'));
     for (const e of gb.entries) entriesEl.append(entryEl(e, e.id === gb.freshId ? 'fresh' : '', ago(e.created)));
     moreBtn.hidden = !gb.more;
@@ -107,7 +107,7 @@
       renderEntries();
       $('#gb-msg').value = '';
       emit('signed');
-      toast(pick(['✅ signed! the whole internet can see it now.', '✅ signed. Gerald read it. Gerald approves.', '✅ your slop has been immortalized.']));
+      toast(pick(['✅ signed! the whole internet can see it now.', '✅ signed. slop has read it 14 times already.', '✅ your slop has been immortalized.']));
       const r = btn.getBoundingClientRect();
       if (!reduceMotion) splat(r.left + r.width / 2, r.top, 18, .8);
     } catch (err) {
