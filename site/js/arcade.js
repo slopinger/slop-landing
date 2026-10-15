@@ -231,7 +231,7 @@
       sync();
       squelch(.45, .7);
       splat(...toScreen(GX, g.y), 26, .9);
-      toast(record && g.score ? `🏆 NEW RECORD: ${g.score}! slop is a legend (in his own mind).` : pick(["🌱 slop touched grass. it's over.", '🪦 gamers cannot fly. this has now been proven.', '🪦 slop has rage-quit.', '🪦 the wings were decorative.']), 2400);
+      toast(record && g.score ? `🏆 NEW RECORD: ${g.score}! slop is a legend (in her own mind).` : pick(["🌱 slop touched grass. it's over.", '🪦 gamers cannot fly. this has now been proven.', '🪦 slop has rage-quit.', '🪦 the wings were decorative.']), 2400);
     }
     function step(dt) {
       g.t += dt;
@@ -252,7 +252,7 @@
           if (!p.passed && p.x + PW < GX - R) {
             p.passed = true; g.score++; sync();
             squelch(1.3, .25);
-            if (g.score % 10 === 0) { sigh(); toast(`🤓 ${g.score} pillars! slop is soaring (falling slowly)`, 1600); }
+            if (g.score % 10 === 0) { sigh(); toast(`🖤 ${g.score} pillars! slop is soaring (falling slowly)`, 1600); }
           }
           const hitX = GX + R > p.x + 4 && GX - R < p.x + PW - 4;
           if (hitX && (g.y - R < p.top || g.y + R > p.top + p.gap)) { die(); break; }
@@ -323,7 +323,7 @@
       ctx.fillStyle = '#fff'; ctx.strokeStyle = INK; ctx.lineWidth = 2.5;
       ctx.beginPath(); ctx.ellipse(0, -10, 8, 15, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.restore();
-      emoji(ctx, '🤓', 0, 2, 36);
+      emoji(ctx, '🖤', 0, 2, 36);
       ctx.restore();
 
       if (g.state !== 'ready') label(ctx, String(g.score), W / 2, 42, 44);
@@ -532,7 +532,7 @@
   // SLOP MEMORY
   // =====================================================================
   {
-    const POOL = ['🤓', '🍗', '🥤', '🎧', '🖥️', '🎮', '🪑', '🧦', '🕸️', '🌚', '💀', '🫠', '📉', '🗿', '🛌', '🍜', '🔔', '🧃'];
+    const POOL = ['🖤', '🍗', '🥤', '🎧', '🖥️', '🎮', '🪑', '🧦', '🕸️', '🌚', '💀', '🫠', '📉', '🗿', '🛌', '🍜', '🔔', '🧃'];
     const grid = $('#mem-grid');
     let cards = [], open = [], lock = false, moves = 0, pairs = 0, started = 0;
     let best = store.get('memBest', null);

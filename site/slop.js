@@ -236,7 +236,7 @@
       pool.level += (pool.target - pool.level) * Math.min(1, dt * 2);
       if (pool.level >= pool.max) {
         pool.draining = true;
-        toast(pick(['*SLUUUURP*', '*glorp*', '🤓 *slurping intensifies*', '*schlorp*']), 1400);
+        toast(pick(['*SLUUUURP*', '*glorp*', '🖤 *slurping intensifies*', '*schlorp*']), 1400);
         squelch(.5, .6);
       }
     }

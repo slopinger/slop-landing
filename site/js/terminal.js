@@ -5,7 +5,7 @@
 
   const PAGES = { '~': '/', basement: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
   const FILES = {
-    'slop.txt': "slop. age: yes. lives: mom's basement. likes: tendies, energy drinks, being right online.\ndislikes: sunlight, phone calls, mondays. last touched grass: 2019. has passed out from tendies 1,000+ times.",
+    'slop.txt': "slop. age: yes. lives: the boymoder room. likes: tendies, energy drinks, being right online.\ndislikes: sunlight, phone calls, mondays. last touched grass: 2019. has passed out from tendies 1,000+ times.",
     'gerald.txt': 'Gerald. pig. retired to a farm upstate. sends a postcard sometimes. it just says "oink".',
     'todo.md': '- [x] buy domain\n- [x] get A+ on SSL Labs\n- [x] add a terminal nobody asked for\n- [ ] make website good\n- [ ] touch grass\n- [ ] stop adding slop (never)',
     'secrets.txt': 'nice try.\n(there are no secrets. the whole website is open source: https://git.freifick.net/slop)',
@@ -63,7 +63,7 @@
     },
     cd: (a) => {
       const d = (a[0] || '~').replace(/\/$/, '').replace(/^\//, '') || '~';
-      if (d === '..') return "cd: there is nothing above the basement. (well, there is mom's house. we don't go up there.)";
+      if (d === '..') return "cd: there is nothing above the hoodie zone. (well, there is mom's house. we don't go up there.)";
       const target = Object.hasOwn(PAGES, d) ? PAGES[d] : null;
       if (!target) return `cd: ${d}: No such directory. try: ${Object.keys(PAGES).filter((k) => !['home', '~', 'pigpen'].includes(k)).join(', ')}`;
       setTimeout(() => { location.href = target; }, 350);
@@ -77,7 +77,7 @@
       try { visits = (await api('/api/visits')).total; } catch { /* the counter fell in the slop */ }
       try { const p = await api('/api/pot'); pot = `${p.splats} splats, ${p.ladles} ladles`; } catch { /* lid stuck */ }
       const info = [
-        'slop@freifick', '-------------', 'OS: SlopOS 0.9 beta (rolling, like slop out of bed at 4pm)', "Host: mom's basement",
+        'slop@freifick', '-------------', 'OS: SlopOS 0.9 beta (rolling, like slop out of bed at 4pm)', "Host: the boymoder room",
         'Kernel: 7.2.9-slop', `Uptime: ${uptime()}`, 'Shell: slopsh 1.0', 'Resolution: 800x600 (best viewed)',
         'Theme: Comic Neue [dark circles]', `CPU: 1x slop @ ${(Math.random() * 3 + 1).toFixed(2)} copes/s`,
         `Visitors: ${visits}`, `Global pot: ${pot}`, `Passport: ${window.slop.passport ? window.slop.passport.count() : 0} stamps`,
@@ -131,7 +131,7 @@
       : a[0] === 'grass' ? "touch: cannot touch 'grass': No such file or directory (it is outside)"
       : `touched ${a[0]}. that is more than slop has touched today.`),
     xyzzy: () => 'nothing happens. (something happened. you just cannot see it.)',
-    hello: () => "hello! 🤓 (you're the first person to talk to me today)", hi: () => 'hi! 🤓',
+    hello: () => "hello! 🖤 (you're the first person to talk to me today)", hi: () => 'hi! 🖤',
     matrix: () => { document.documentElement.classList.toggle('matrix'); return 'wake up, slop...'; },
     man: (a) => (a[0] ? `No manual entry for ${a[0]}. this is a basement, not a library.` : 'What manual page do you want? (there are none. there is only slop.)'),
   };
@@ -177,7 +177,7 @@
 
   function open() {
     if (dialog.open) return;
-    if (!out.childElementCount) print(`slopsh 1.0 — type \`help\` to begin. last login: ${new Date().toUTCString()} from the basement\n`, 'term-motd');
+    if (!out.childElementCount) print(`slopsh 1.0 — type \`help\` to begin. last login: ${new Date().toUTCString()} from the hoodie zone\n`, 'term-motd');
     dialog.showModal();
     input.focus();
     emit('terminal');

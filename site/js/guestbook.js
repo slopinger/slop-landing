@@ -46,7 +46,7 @@
   function renderEntries() {
     entriesEl.textContent = '';
     if (gb.status === 'loading') entriesEl.append(statusEl('loading slop…'));
-    else if (gb.status === 'down') entriesEl.append(statusEl('the guestbook server is eating tendies. try again later. 🤓'));
+    else if (gb.status === 'down') entriesEl.append(statusEl('the guestbook server is eating tendies. try again later. 🖤'));
     else if (!gb.entries.length) entriesEl.append(statusEl('nobody has signed yet. be the first!!! (you are legally allowed to write "first!!!")'));
     for (const e of gb.entries) entriesEl.append(entryEl(e, e.id === gb.freshId ? 'fresh' : '', ago(e.created)));
     moreBtn.hidden = !gb.more;

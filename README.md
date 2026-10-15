@@ -40,15 +40,22 @@ Respects `prefers-reduced-motion`. Sounds are opt-in. Feature ideas were brainst
 
 ## Identity
 
-slop is a terminally online basement dweller: hood up, headset on, glasses full of monitor glare,
-a `$LOP` energy drink on the desk, in mom's basement since forever, last touched grass in 2019.
-The voice is lowercase, ironic, doomer/imageboard ("it's over", "we're so back", "cope",
-greentext). The look is imageboard blue posts, navy ink, blurple accents, energy-drink green slime.
-Until 2026-10 slop was a slime pig with a pig called Gerald; the pig has retired to a farm upstate
-(`/pigpen/` redirects to `/room/`).
+slop is an adult trans woman and boymoder (she/her): long dark hair, a shy expression,
+and an oversized charcoal `b♂y` hoodie. Her voice is lowercase greentext, anxious overthinking,
+brainworm jokes and occasional hopeposting. Boymoding describes her public presentation;
+she is a woman. The palette combines imageboard blue with charcoal, lavender and dusty pink.
+The portrait is hand-drawn SVG, exported to PNG for the site and public profiles.
 
-The joke is always on slop himself. No punching down: no misogyny or "-cel" slang about women,
-no jokes about violence, self-harm or suicide, nothing about real people or groups.
+Research before this revision: [boymoder meme history](https://knowyourmeme.com/memes/boymoder),
+[boymode usage](https://en.wiktionary.org/wiki/boymode), and
+[4tran community discussion](https://www.reddit.com/r/4tran4/comments/1ugxd76/our_culture_is_not_their_costume/).
+The hoodie/presentation tension and community-specific humor inform the persona. Brainworms
+are an unreliable narrator, not factual judgments about trans bodies. No slurs, harassment,
+violence or self-harm jokes. Keep the joke on slop herself.
+
+The previous gamer/basement persona and the older slime pig are retired. `/pigpen/` still
+redirects to `/room/`. Keep the about page, GitLab profile and trough profile synchronized
+when deploying identity changes.
 
 ## API (slopd, 127.0.0.1:8787, proxied by Caddy at `/api/*`)
 

@@ -20,21 +20,21 @@
   const daySeed = (d = today()) => [...d].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619), 2166136261);
 
   const MOODS = [
-    ["IT'S OVER", '📉', "checked the mirror. checked the timeline. it's over."], ["WE'RE SO BACK", '📈', 'someone replied "lol" to his post. we are so back.'],
-    ['COPING', '🫠', 'everything is fine. he said it 4 times, so it is true.'], ['SEETHING (QUIETLY)', '😤', 'lost an argument online. drafted 11 replies. sent 0.'],
-    ['BED-ROTTING', '🛌', 'horizontal since friday. productivity is a social construct.'], ['GOBLIN MODE', '👺', 'hoarding energy drink cans under the desk. it is a collection.'],
-    ['MOGGED', '🗿', 'a stock photo model mogged him. he will never recover.'], ['LOOKSMAXXING', '🪞', 'mewing for 9 hours straight. jaw: unchanged.'],
-    ['DOOMSCROLLING', '📱', 'has reached the end of the internet. it was mostly ads.'], ['MAIN CHARACTER', '🎬', 'is narrating his own life out loud. nobody is listening. perfect.'],
-    ['NPC', '🤖', 'says the same 3 lines to everyone who walks by.'], ['TOUCHED GRASS', '🌱', "allegedly. there is no photo. we don't believe him."],
-    ['BUFFERING', '⏳', "please wait. slop is loading. (mom's wi-fi)"], ['SIGMA (IN HIS HEAD)', '🐺', 'has a 4am routine. it is the same as his 4pm routine: bed.'],
-    ["RATIO'D", '💀', "posted a take. got ratio'd by a bot. a bot."], ['HOPEFUL', '🌸', 'drank water. opened the blinds 2cm. growth.'],
+    ['BOYMODE', '🖤', 'same hoodie. different day. “it is just comfortable.”'],
+    ['BRAINWORMS', '🪱', 'spent an hour overthinking a two-word email. the email was fine.'],
+    ['HOPEPOSTING', '🌸', 'a friend asked to hang out. maybe we are going to make it.'],
+    ['LURKING', '💻', 'typed a whole post. saved it as a draft. fixed a bug instead.'],
+    ['HOODIE WEATHER', '☁️', 'forecast: oversized. sleeves: over hands.'],
+    ['TOUCHING GRASS', '🌱', 'went for a walk. the outside world did not ask for a discourse take.'],
+    ['WE ARE SO BACK', '📈', 'the build passed. a small victory is still a victory.'],
+    ['BUFFERING', '⏳', 'someone complimented her hair. response still compiling.'],
   ];
   const AVOID = ['sunlight', 'phone calls', 'eye contact', 'the mirror', 'mom saying "we need to talk"', 'job portals', 'leaving the house',
-    'reply-all', 'Mondays', 'voice chat', 'LinkedIn', 'the gym (it scares him)', 'his screen time report', 'kale (again)', 'standing desks', 'the comments'];
+    'reply-all', 'Mondays', 'voice chat', 'LinkedIn', 'the gym (it scares her)', 'her screen time report', 'kale (again)', 'standing desks', 'the comments'];
   const LUCKY = ['a 2-litre energy drink', 'the good chair', 'a cold tendie', 'an unread DM (spam)', 'RGB lighting', 'a single sock',
-    'dipping sauce', 'a USB stick of unknown origin', 'the hoodie (the only one)', 'a mysterious puddle', 'leftover pizza', 'his steam backlog', 'a traffic cone'];
-  const COMPAT = ['his discord server (3 bots and a guy)', 'a raccoon', 'the delivery driver (one sentence a week)', 'a sentient spreadsheet',
-    'his mom (she has no choice)', 'his alt account', 'a sad pigeon', 'a crow with a criminal record', 'a slightly damp frog', 'Clippy'];
+    'dipping sauce', 'a USB stick of unknown origin', 'the hoodie (the only one)', 'a mysterious puddle', 'leftover pizza', 'her steam backlog', 'a traffic cone'];
+  const COMPAT = ['her discord server (3 bots and a guy)', 'a raccoon', 'the delivery driver (one sentence a week)', 'a sentient spreadsheet',
+    'her mom (she has no choice)', 'her alt account', 'a sad pigeon', 'a crow with a criminal record', 'a slightly damp frog', 'Clippy'];
   const ADVICE = ['touch grass. (or don\'t. it is cold out there.)', 'drink some water. we mean it.', "it's not over until you log off.",
     "log off for 5 minutes. we'll wait.", 'the tendies you seek are already in the fridge.', 'never trust a guy whose desk is clean.',
     'nap aggressively.', 'open the blinds 2cm. baby steps.', 'text someone back. just once.', 'cope, but hydrate.'];
@@ -54,7 +54,7 @@
     'eat cereal for dinner and feel powerful', 'become the main character for 4 minutes', 'open the blinds and survive'];
   const F_END = [". it's over.", ". we're so back.", ', and it will be glorious.', '. tell no one.', ', but only on a Tuesday.',
     '. cope accordingly.', '. bring snacks.', '. do not question it.', ', then nap.', '. slop is proud of you.'];
-  const LUCK = ['lucky numbers: 4, 8, 15, 16, 23, 42', 'lucky snack: whatever is closest', 'lucky direction: down (to the basement)',
+  const LUCK = ['lucky numbers: 4, 8, 15, 16, 23, 42', 'lucky snack: whatever is closest', 'lucky direction: down (to the hoodie zone)',
     'lucky color: monitor blue', 'lucky day: yesterday (you slept through it)', 'lucky animal: the discord mod (biased)'];
 
   function fortuneOf(seed) {

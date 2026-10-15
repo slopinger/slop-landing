@@ -13,7 +13,7 @@
       'AI-powered', 'next-generation', 'mission-critical', 'deeply human', 'blockchain-enabled', 'artisanal', 'sigma', 'moist'],
     noun: ['synergy', 'the human experience', 'paradigms', 'innovation', 'stakeholder alignment', 'the slop economy',
       'thought leadership', 'the customer journey', 'value creation', 'our core competencies', 'digital transformation',
-      'the basement', 'best practices', 'empowerment', 'the rich tapestry of life', 'growth hacking', 'the metaverse',
+      'the hoodie zone', 'best practices', 'empowerment', 'the rich tapestry of life', 'growth hacking', 'the metaverse',
       'actionable insights', 'company culture', 'touching grass', 'quarterly vibes', 'the grindset', 'authentic engagement',
       'learnings', 'the bottom line', 'circular slop', 'looksmaxxing', 'monk mode', 'my discord server', 'the dopamine detox'],
     verb: ['elevate', 'empower', 'unlock', 'reimagine', 'streamline', 'harness', 'foster', 'navigate', 'supercharge',

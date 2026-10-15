@@ -17,8 +17,8 @@
   let comas = store.get('exploded', 0);
   const slopSays = [
     ['thanks mom', 'tendies 🙏', 'is this organic? doesn\'t matter', 'we\'re so back', 'nom', 'ah yes. sustenance.', 'any dipping sauce?', 'ty'],
-    ['*chewing with the headset on*', 'one more. just one more.', 'this is my passion', 'i am thriving (indoors)', 'gaming fuel acquired', 'don\'t tell my discord'],
-    ['i feel... horizontal', 'tell my discord i was a good mod', 'my hoodie is tight (it was always tight)', 'it\'s over', 'this is fine', 'logging off... forever... (10 min)'],
+    ['*chewing with the sleeves over my hands*', 'one more. just one more.', 'this is my passion', 'i am thriving (indoors)', 'hoodie pocket snacks acquired', 'don\'t tell my discord'],
+    ['i feel... horizontal', 'tell my discord i was a good mod', 'this hoodie has room for one more nap', 'it\'s over', 'this is fine', 'logging off... forever... (10 min)'],
   ];
   function restart(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
   function sync() {

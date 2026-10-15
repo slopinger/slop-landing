@@ -49,7 +49,7 @@
   if (!el) return;
   const MILESTONES = [
     [100, 'slop notices the pot'], [500, 'slop gets a tiny fedora'], [1000, 'the pot achieves sentience'],
-    [2500, 'slop leaves the house (to get the mail)'], [5000, 'a second slop appears (it is his alt account)'],
+    [2500, 'slop leaves the house (to get the mail)'], [5000, 'a second slop appears (it is her alt account)'],
     [10000, 'the pot is visible from space'], [25000, 'slop runs for discord moderator'], [50000, 'the slop gains a seat at the UN'],
     [100000, 'the pot becomes a small moon'], [250000, 'the heat death of the slop'], [1000000, 'we did not plan this far'],
   ];

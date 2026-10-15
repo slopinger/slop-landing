@@ -5,12 +5,12 @@
 @font-face { font-family: "Comic Neue"; font-weight: 700; src: url(fonts/comic-neue-700.woff2) format("woff2"); font-display: swap; }
 
 :root {
-  /* "the basement at 3am": imageboard blue, monitor blurple, energy-drink green, greentext */
-  --slime: #7bd43a;
-  --slime-dark: #3f8f1a;
+  /* "the basement at 3am": imageboard blue, monitor blurple, soft lavender, greentext */
+  --slime: #b7a4ce;
+  --slime-dark: #75618e;
   --accent: #5865f2;
   --accent-soft: #c9d0ff;
-  --mustard: #f5c400;
+  --mustard: #e2c7d5;
   --paper: #eef2ff;
   --ink: #16152a;
   --card: #d6daf0; /* an imageboard post */
@@ -622,3 +622,6 @@ button.linklike { background: none; border: 0; box-shadow: none; padding: 2px 4p
   .marquee { white-space: normal; }
   .marquee-inner span[aria-hidden] { display: none; }
 }
+
+/* The same boymoder portrait appears on the room toy and public profiles. */
+.guy img { width: 120px; height: 120px; border-radius: 30%; object-fit: cover; }

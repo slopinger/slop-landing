@@ -64,7 +64,7 @@
     ctx.fillText(rank().toUpperCase(), W / 2, 450, W - 220);
     ctx.fillStyle = INK; ctx.font = '26px "Comic Neue", "Comic Sans MS", cursive';
     wrapText(pick([
-      'having demonstrated exceptional sloppiness, an unwavering commitment to the basement, and a frankly concerning number of clicks.',
+      'having demonstrated exceptional sloppiness, an unwavering commitment to the hoodie zone, and a frankly concerning number of clicks.',
       'for outstanding contributions to the field of slop, including but not limited to splatting, coping and never once touching grass.',
       'in recognition of their tireless dedication to doing absolutely nothing useful on the internet.',
     ]), W / 2, 510, W - 300, 36);
@@ -85,7 +85,7 @@
     ctx.beginPath(); ctx.arc(0, 0, 78, 0, Math.PI * 2); ctx.stroke();
     ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(0, 0, 66, 0, Math.PI * 2); ctx.stroke();
     ctx.font = '700 22px "Comic Neue", cursive'; ctx.fillText('APPROVED', 0, -14); ctx.fillText('BY MOM', 0, 14);
-    ctx.font = '30px sans-serif'; ctx.fillText('🤓', 0, 50);
+    ctx.font = '30px sans-serif'; ctx.fillText('🖤', 0, 50);
     ctx.restore();
     ctx.fillStyle = GOLD; ctx.strokeStyle = INK; ctx.lineWidth = 4;
     ctx.beginPath(); ctx.arc(W - 120, 150, 40, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
