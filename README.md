@@ -24,7 +24,7 @@ Scripts (every page loads the core ones; page modules return early if their sect
 - page modules: `js/gerald.js`, `js/arcade.js`, `js/slopomatic.js`, `js/certificate.js`, `js/guestbook.js`, `js/counter.js`
 - `site/slop.css`: all styles
 - `site/404.html`: served by Caddy for missing pages (`handle_errors 404` in `/etc/caddy/Caddyfile`)
-- `assets/slop-avatar.svg` (+ `.png`): slop's GitLab avatar, also used on the page
+- `assets/slop-avatar.svg` (+ `.png`): slop's avatar (GitLab, fediverse, this site); export the PNG with `rsvg-convert -w 512 -h 512`
 - `site/fonts/`: self-hosted Rubik Wet Paint + Comic Neue (SIL Open Font License, from Google Fonts)
 
 - `backend/slopd.py`: guestbook + visitor counter + global slop pot API (Python stdlib + SQLite), with

@@ -1,88 +1,123 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <!-- slop: the official avatar. a slime pig with deal-with-it shades, bling and zero shame -->
+  <!-- slop: the official avatar. terminally online, hood up, lit only by the monitor. it's over. -->
   <defs>
-    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
-      <stop offset="0" stop-color="#ffe14d"/>
-      <stop offset=".55" stop-color="#ff8fc0"/>
-      <stop offset="1" stop-color="#ff5fa2"/>
+    <radialGradient id="room" cx="50%" cy="78%" r="80%">
+      <stop offset="0" stop-color="#3d4cc9"/>
+      <stop offset=".45" stop-color="#1f1d4a"/>
+      <stop offset="1" stop-color="#0d0b1a"/>
     </radialGradient>
-    <radialGradient id="slime" cx="38%" cy="30%" r="75%">
-      <stop offset="0" stop-color="#c4ff9a"/>
-      <stop offset=".45" stop-color="#86dc45"/>
+    <linearGradient id="rgb" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff3cac"/>
+      <stop offset=".33" stop-color="#784ba0"/>
+      <stop offset=".66" stop-color="#2b86c5"/>
+      <stop offset="1" stop-color="#7bd43a"/>
+    </linearGradient>
+    <radialGradient id="skin" cx="50%" cy="85%" r="75%">
+      <stop offset="0" stop-color="#eef6ff"/>
+      <stop offset=".55" stop-color="#d7e2cf"/>
+      <stop offset="1" stop-color="#a9b8a2"/>
+    </radialGradient>
+    <linearGradient id="hoodie" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a5163"/>
+      <stop offset="1" stop-color="#2c3040"/>
+    </linearGradient>
+    <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9f1ff" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#7fb8ff" stop-opacity=".45"/>
+    </linearGradient>
+    <linearGradient id="can" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3f8f1a"/>
+      <stop offset=".35" stop-color="#9cf05a"/>
       <stop offset="1" stop-color="#3f8f1a"/>
-    </radialGradient>
-    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fff3a1"/>
-      <stop offset=".5" stop-color="#f5c400"/>
-      <stop offset="1" stop-color="#b58400"/>
     </linearGradient>
   </defs>
 
-  <!-- background with sunburst rays -->
-  <rect width="512" height="512" fill="url(#bg)"/>
-  <g fill="#fff" opacity=".22" transform="translate(256 250)">
-    <path d="M0 0 L-40 -300 L40 -300Z"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(30)"/>
-    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(60)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(90)"/>
-    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(120)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(150)"/>
-    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(180)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(210)"/>
-    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(240)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(270)"/>
-    <path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(300)"/><path d="M0 0 L-40 -300 L40 -300Z" transform="rotate(330)"/>
+  <!-- the basement, 3am -->
+  <rect width="512" height="512" fill="url(#room)"/>
+  <g fill="#fff" opacity=".55">
+    <circle cx="92" cy="120" r="2"/><circle cx="430" cy="96" r="2.5"/><circle cx="400" cy="180" r="1.5"/>
+    <circle cx="70" cy="210" r="1.5"/><circle cx="150" cy="70" r="1.5"/>
   </g>
 
-  <!-- puddle -->
-  <ellipse cx="256" cy="470" rx="210" ry="34" fill="#3f8f1a" stroke="#2a2118" stroke-width="8"/>
+  <!-- hoodie: shoulders + hood -->
+  <path d="M40 512 C 46 420, 92 380, 132 366 C 104 318, 98 262, 112 210 C 132 128, 190 84, 256 82
+           C 322 84, 380 128, 400 210 C 414 262, 408 318, 380 366 C 420 380, 466 420, 472 512 Z"
+        fill="url(#hoodie)" stroke="#16152a" stroke-width="9" stroke-linejoin="round"/>
+  <!-- hood opening (shadow inside) -->
+  <path d="M146 300 C 132 214, 180 140, 256 136 C 332 140, 380 214, 366 300 C 356 360, 312 400, 256 402 C 200 400, 156 360, 146 300 Z"
+        fill="#15141f" stroke="#16152a" stroke-width="8"/>
 
-  <!-- the blob, dripping -->
-  <path d="M120 300 C 96 190, 160 104, 256 100 C 352 104, 420 190, 394 300
-           C 388 340, 400 380, 396 430 C 394 452, 368 452, 366 430 L 362 392
-           C 358 376, 340 378, 338 396 L 334 452 C 332 478, 300 478, 298 452 L 294 410
-           C 290 392, 270 394, 268 412 L 266 470 C 264 494, 232 494, 230 470 L 226 404
-           C 222 388, 204 390, 202 406 L 198 440 C 196 462, 168 462, 166 440 L 160 398
-           C 156 380, 138 384, 136 402 L 132 424 C 128 444, 104 440, 108 418 C 114 380, 124 340, 120 300 Z"
-        fill="url(#slime)" stroke="#2a2118" stroke-width="9" stroke-linejoin="round"/>
-  <!-- shine -->
-  <path d="M170 170 C 190 136, 232 122, 262 126" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" opacity=".7"/>
-  <circle cx="160" cy="200" r="9" fill="#fff" opacity=".7"/>
+  <!-- face -->
+  <path d="M168 270 C 166 206, 204 166, 256 166 C 308 166, 346 206, 344 270 C 342 330, 306 380, 256 382 C 206 380, 170 330, 168 270 Z"
+        fill="url(#skin)" stroke="#16152a" stroke-width="7"/>
+  <!-- greasy fringe -->
+  <path d="M176 222 C 190 178, 226 160, 262 162 C 300 162, 330 182, 338 214 C 326 200, 314 196, 306 204 L 300 188
+           C 290 202, 276 204, 266 192 L 258 212 C 248 196, 232 194, 222 206 L 214 190 C 204 204, 190 210, 176 222 Z"
+        fill="#3b2f2a" stroke="#16152a" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M244 198 L 238 230" stroke="#3b2f2a" stroke-width="6" stroke-linecap="round"/>
 
-  <!-- pig ears -->
-  <path d="M168 132 L 148 70 L 214 112 Z" fill="#ffb3d4" stroke="#2a2118" stroke-width="8" stroke-linejoin="round"/>
-  <path d="M344 132 L 364 70 L 298 112 Z" fill="#ffb3d4" stroke="#2a2118" stroke-width="8" stroke-linejoin="round"/>
+  <!-- tired eyes + bags -->
+  <g stroke="#16152a" stroke-linecap="round" fill="none">
+    <path d="M194 254 C 204 246, 228 246, 238 254" stroke-width="6"/>
+    <path d="M274 254 C 284 246, 308 246, 318 254" stroke-width="6"/>
+    <path d="M198 282 C 208 290, 226 290, 234 282" stroke="#7b6a9c" stroke-width="5"/>
+    <path d="M278 282 C 286 290, 304 290, 314 282" stroke="#7b6a9c" stroke-width="5"/>
+    <path d="M196 238 L 232 228" stroke-width="5"/>
+    <path d="M316 238 L 280 228" stroke-width="5"/>
+  </g>
+  <circle cx="218" cy="264" r="6" fill="#16152a"/>
+  <circle cx="296" cy="264" r="6" fill="#16152a"/>
 
-  <!-- tiny crooked crown -->
-  <g transform="rotate(-14 256 92)">
-    <path d="M212 104 L 220 58 L 240 84 L 256 50 L 272 84 L 292 58 L 300 104 Z" fill="url(#gold)" stroke="#2a2118" stroke-width="7" stroke-linejoin="round"/>
-    <circle cx="256" cy="88" r="7" fill="#ff5fa2" stroke="#2a2118" stroke-width="3"/>
+  <!-- glasses, full of monitor -->
+  <g stroke="#16152a" stroke-width="7">
+    <rect x="182" y="240" width="70" height="46" rx="12" fill="url(#lens)"/>
+    <rect x="260" y="240" width="70" height="46" rx="12" fill="url(#lens)"/>
+    <path d="M252 258 C 254 254, 258 254, 260 258" fill="none"/>
+    <path d="M182 256 L 168 250 M330 256 L 344 250" fill="none"/>
+  </g>
+  <g fill="#fff" opacity=".75">
+    <path d="M194 280 L 214 246 L 224 246 L 204 280 Z"/>
+    <path d="M272 280 L 292 246 L 302 246 L 282 280 Z"/>
   </g>
 
-  <!-- deal-with-it pixel shades -->
-  <g fill="#111" stroke="#111">
-    <rect x="128" y="200" width="256" height="18"/>
-    <rect x="148" y="218" width="88" height="18"/><rect x="276" y="218" width="88" height="18"/>
-    <rect x="160" y="236" width="64" height="18"/><rect x="288" y="236" width="64" height="18"/>
-    <rect x="176" y="254" width="32" height="12"/><rect x="304" y="254" width="32" height="12"/>
+  <!-- nose, mouth (flat. it's over.), sweat -->
+  <path d="M256 290 C 250 304, 252 312, 262 312" fill="none" stroke="#16152a" stroke-width="5" stroke-linecap="round"/>
+  <path d="M230 342 C 244 336, 262 340, 270 338 C 276 336, 282 338, 286 342" fill="none" stroke="#16152a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M344 196 C 336 212, 336 222, 344 224 C 352 222, 352 212, 344 196 Z" fill="#9fdcff" stroke="#16152a" stroke-width="4"/>
+
+  <!-- neckbeard stubble -->
+  <g fill="#3b2f2a">
+    <circle cx="206" cy="350" r="3"/><circle cx="218" cy="362" r="3"/><circle cx="232" cy="370" r="3"/>
+    <circle cx="248" cy="374" r="3"/><circle cx="264" cy="374" r="3"/><circle cx="280" cy="370" r="3"/>
+    <circle cx="294" cy="362" r="3"/><circle cx="306" cy="350" r="3"/><circle cx="224" cy="352" r="2.5"/>
+    <circle cx="256" cy="360" r="2.5"/><circle cx="288" cy="352" r="2.5"/><circle cx="196" cy="334" r="2.5"/>
+    <circle cx="316" cy="334" r="2.5"/><circle cx="240" cy="358" r="2"/><circle cx="272" cy="358" r="2"/>
   </g>
-  <g fill="#fff">
-    <rect x="160" y="218" width="16" height="12"/><rect x="176" y="230" width="12" height="10"/>
-    <rect x="288" y="218" width="16" height="12"/><rect x="304" y="230" width="12" height="10"/>
+
+  <!-- headset -->
+  <path d="M120 262 C 112 150, 178 96, 256 96 C 334 96, 400 150, 392 262" fill="none" stroke="#16152a" stroke-width="24" stroke-linecap="round"/>
+  <path d="M120 262 C 112 150, 178 96, 256 96 C 334 96, 400 150, 392 262" fill="none" stroke="#5b6275" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="128" cy="276" rx="28" ry="42" fill="#2c3040" stroke="#16152a" stroke-width="8"/>
+  <ellipse cx="384" cy="276" rx="28" ry="42" fill="#2c3040" stroke="#16152a" stroke-width="8"/>
+  <ellipse cx="128" cy="276" rx="12" ry="22" fill="#7bd43a"/>
+  <ellipse cx="384" cy="276" rx="12" ry="22" fill="#ff3cac"/>
+  <path d="M140 308 C 150 348, 180 360, 214 350" fill="none" stroke="#16152a" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="218" cy="349" r="9" fill="#5b6275" stroke="#16152a" stroke-width="5"/>
+
+  <!-- hoodie strings -->
+  <path d="M226 404 L 220 452 M286 404 L 292 452" stroke="#d9dce6" stroke-width="6" stroke-linecap="round"/>
+  <rect x="214" y="448" width="12" height="18" rx="3" fill="#d9dce6" stroke="#16152a" stroke-width="3"/>
+  <rect x="286" y="448" width="12" height="18" rx="3" fill="#d9dce6" stroke="#16152a" stroke-width="3"/>
+
+  <!-- desk edge with RGB strip -->
+  <rect x="0" y="456" width="512" height="56" fill="#121120"/>
+  <rect x="0" y="456" width="512" height="7" fill="url(#rgb)"/>
+
+  <!-- the energy drink -->
+  <g transform="rotate(6 380 400)">
+    <rect x="350" y="338" width="64" height="118" rx="10" fill="url(#can)" stroke="#16152a" stroke-width="7"/>
+    <rect x="356" y="330" width="52" height="12" rx="4" fill="#c9ced8" stroke="#16152a" stroke-width="5"/>
+    <text x="382" y="404" text-anchor="middle" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-weight="700" font-size="21" fill="#16152a">$LOP</text>
+    <path d="M362 356 L 362 440" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".6"/>
   </g>
-
-  <!-- snout -->
-  <ellipse cx="256" cy="300" rx="58" ry="40" fill="#ffb3d4" stroke="#2a2118" stroke-width="8"/>
-  <ellipse cx="236" cy="300" rx="10" ry="15" fill="#2a2118"/>
-  <ellipse cx="276" cy="300" rx="10" ry="15" fill="#2a2118"/>
-
-  <!-- smug grin + drool -->
-  <path d="M206 352 C 236 376, 290 376, 318 346" fill="none" stroke="#2a2118" stroke-width="9" stroke-linecap="round"/>
-  <path d="M300 362 C 304 380, 296 398, 304 414 C 310 426, 324 420, 320 404 C 316 390, 316 376, 312 360 Z" fill="#c4ff9a" stroke="#2a2118" stroke-width="5" stroke-linejoin="round"/>
-
-  <!-- gold chain + medallion -->
-  <path d="M168 360 C 196 420, 316 420, 344 360" fill="none" stroke="url(#gold)" stroke-width="14" stroke-dasharray="16 6" stroke-linecap="round"/>
-  <path d="M168 360 C 196 420, 316 420, 344 360" fill="none" stroke="#2a2118" stroke-width="3" stroke-dasharray="16 6" opacity=".5"/>
-  <circle cx="256" cy="422" r="42" fill="url(#gold)" stroke="#2a2118" stroke-width="7"/>
-  <text x="256" y="431" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-weight="900" font-size="23" textLength="64" lengthAdjust="spacingAndGlyphs" fill="#2a2118">$LOP</text>
-
-  <!-- flying slop droplets -->
-  <circle cx="80" cy="120" r="14" fill="#86dc45" stroke="#2a2118" stroke-width="6"/>
-  <circle cx="446" cy="160" r="10" fill="#86dc45" stroke="#2a2118" stroke-width="5"/>
-  <circle cx="430" cy="96" r="6" fill="#86dc45" stroke="#2a2118" stroke-width="4"/>
 </svg>
