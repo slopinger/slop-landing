@@ -240,8 +240,8 @@ button.big:active { translate: 5px 5px; }
 }
 .meter { height: 16px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; overflow: hidden; }
 .meter-fill { height: 100%; width: 0; background: repeating-linear-gradient(45deg, var(--accent) 0 10px, #8c95ff 10px 20px); transition: width .3s; }
-.pig-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 14px; }
-.pig-row .stats { margin: 0; }
+.feed-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 14px; }
+.feed-row .stats { margin: 0; }
 
 /* ---------- under construction ---------- */
 .construction {

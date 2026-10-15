@@ -83,7 +83,7 @@
       return info.map((l, i) => (art[i] || '').padEnd(32) + l).join('\n');
     },
     fortune: () => { const f = window.slop.oracle.fortuneOf(window.slop.oracle.newSeed()); emit('fortune'); return f.text + '\n  -- ' + f.luck; },
-    mood: () => { const m = window.slop.oracle.moodOf(); return `Gerald today (${m.date}): ${m.emoji} ${m.mood}. ${m.line}\navoid: ${m.avoid}. lucky number: ${m.lucky}.`; },
+    mood: () => { const m = window.slop.oracle.moodOf(); return `slop today (${m.date}): ${m.emoji} ${m.mood}. ${m.line}\navoid: ${m.avoid}. lucky number: ${m.lucky}.`; },
     pigsay: (a) => pigsay(a.join(' ') || 'oink'),
     cowsay: (a) => 'cowsay: cows are not allowed here. try pigsay.\n' + pigsay(a.join(' ') || 'moo? no. oink.'),
     oink: () => { oink(); return 'OINK'; },
