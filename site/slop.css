@@ -17,7 +17,7 @@
   --shadow: #16152a;
   --link: #2f3ab2;
   --name: #117743;
-  --greentext: #789922;
+  --greentext: #4f6b0c; /* imageboard #789922, darkened for contrast on the blue posts */
   --red: #af0a0f;
   color-scheme: light;
 }
