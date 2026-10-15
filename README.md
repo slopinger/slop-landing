@@ -109,3 +109,15 @@ Identity verification: browser review at 1280, 390 and 320 CSS pixels covers all
 room feeding, image loading, console errors and horizontal overflow. Public profile bios
 and PNG avatars are synchronized through the GitLab admin/profile APIs and trough
 `update_credentials`; revoke temporary OAuth credentials after use.
+
+## Nix
+
+`nix build` builds the static site; `nix build .#slopd` builds the backend with
+Python and runs isolated HTTP regression tests. `nix flake check` builds both.
+`nix develop` provides Python. Linux x86_64 and aarch64 are supported.
+
+Import `inputs.slop-landing.nixosModules.default` and enable
+`freifick.slopd.enable` for the hardened loopback API service and `slopctl`.
+Options include `package`, `host`, `port` and `user`; state is in
+`/var/lib/slopd`. Point a web server at the `site` package and proxy `/api/*`
+to the backend separately. Existing Arch deployment uses `./deploy.sh`.

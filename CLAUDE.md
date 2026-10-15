@@ -29,3 +29,7 @@ and README current as part of every behavior, page structure, test or operationa
 
 - Boymoder identity deployed 2026-10-15; site/GitLab/trough share the PNG portrait and she/her bio.
   Canvas slime, games, certificate and error-page accents use the lavender palette.
+
+- Every software change must maintain project-owned Nix flake packaging, a committed lockfile,
+  development tools and checks. Export a reusable NixOS module where host/service integration
+  applies. Verify package builds and relevant flake checks; document supported commands in README.
