@@ -9,7 +9,7 @@ Pages (plain HTML; the marquee, nav, controls and footer are copied into each pa
 - `site/index.html`: home ("the basement"): doors to every page, dn42 + fediverse links, Gerald's mood, counter, global slop pot
 - `site/room/`: slop's room: bring slop tendies, his daily doomer forecast, the fortune oracle (shareable `#f=<seed>` links)
 - `site/pigpen/`: redirect stub: the old pig page forwards to `/room/` (keeping `#f=` fortune links)
-- `site/arcade/`: whack-a-gerald, flappy gerald, catch the slop, slop memory (one cabinet at a time, `#<game>`)
+- `site/arcade/`: whack-a-ping, flappy slop, catch the tendies, slop memory (one cabinet at a time, `#<game>`)
 - `site/office/`: the slop-o-matic 3000 and the slop certificate generator (client-side canvas PNG)
 - `site/guestbook/`: the real guestbook
 - `site/about/`: who slop is, open source, secrets, colophon/privacy

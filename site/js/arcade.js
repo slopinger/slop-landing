@@ -1,10 +1,10 @@
-// games.js — the slop arcade. four games, zero QA, one pig (several pigs).
+// games.js — the slop arcade. four games, zero QA, zero sunlight.
 // Borrows the toast/sound/splat helpers that slop.js puts on window.slop.
 (() => {
   'use strict';
 
   const { $, rand, pick, clamp, toast, squelch, oink, splat, store, emit } = window.slop;
-  const INK = '#2a2118', SLIME = '#7bd43a', SLIME_DARK = '#3f8f1a', PINK = '#ff5fa2', MUD = '#8a5a2b';
+  const INK = '#16152a', SLIME = '#7bd43a', SLIME_DARK = '#3f8f1a', RED = '#ff5d5d', GRASS = '#5fae3a', TENDIE = '#d9932f';
   const FONT = '"Comic Neue", "Comic Sans MS", cursive';
   const EMOJI = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
 
@@ -61,17 +61,6 @@
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(ch, x, y);
   }
-  function blob(ctx, x, y, r) { // a single drop of slop
-    ctx.beginPath();
-    ctx.moveTo(x, y - r * 1.9);
-    ctx.quadraticCurveTo(x + r * .35, y - r * .9, x + r, y);
-    ctx.arc(x, y, r, 0, Math.PI);
-    ctx.quadraticCurveTo(x - r * .35, y - r * .9, x, y - r * 1.9);
-    ctx.fillStyle = SLIME; ctx.fill();
-    ctx.lineWidth = 2.5; ctx.strokeStyle = INK; ctx.stroke();
-    ctx.fillStyle = 'rgba(255,255,255,.7)';
-    ctx.beginPath(); ctx.arc(x - r * .35, y - r * .25, r * .25, 0, Math.PI * 2); ctx.fill();
-  }
   function keyIs(e, ...keys) { return keys.includes(e.key) || keys.includes(e.code); }
 
   // =====================================================================
@@ -93,7 +82,7 @@
   }
 
   // =====================================================================
-  // WHACK-A-GERALD
+  // WHACK-A-PING
   // =====================================================================
   {
     const ROUND = 20;
@@ -103,7 +92,7 @@
     for (let i = 0; i < 9; i++) {
       const el = document.createElement('button');
       el.type = 'button'; el.className = 'hole';
-      el.setAttribute('aria-label', 'empty mud hole');
+      el.setAttribute('aria-label', 'empty slot');
       const critter = document.createElement('span');
       critter.className = 'critter';
       el.append(critter);
@@ -124,7 +113,7 @@
       clearTimeout(h.timer);
       h.kind = null;
       h.el.classList.remove('up', 'gold');
-      h.el.setAttribute('aria-label', 'empty mud hole');
+      h.el.setAttribute('aria-label', 'empty slot');
     }
     function popUp() {
       if (!playing) return;
@@ -134,28 +123,28 @@
         const h = pick(free);
         clearTimeout(h.timer); // a just-bonked hole may still have its sink-away timer pending
         const r = Math.random();
-        h.kind = r < .2 ? 'soap' : r < .27 ? 'gold' : 'pig';
-        h.critter.textContent = h.kind === 'soap' ? '🧼' : '🐷';
+        h.kind = r < .2 ? 'tendie' : r < .27 ? 'gold' : 'ping';
+        h.critter.textContent = h.kind === 'tendie' ? '🍗' : '🔔';
         h.el.classList.remove('bonked', 'oops');
         h.el.classList.add('up');
         h.el.classList.toggle('gold', h.kind === 'gold');
-        h.el.setAttribute('aria-label', h.kind === 'soap' ? 'soap! do not bonk' : h.kind === 'gold' ? 'golden pig! bonk it' : 'pig! bonk it');
+        h.el.setAttribute('aria-label', h.kind === 'tendie' ? 'tendies! do not bonk' : h.kind === 'gold' ? '@everyone ping! bonk it' : 'ping! bonk it');
         h.timer = setTimeout(() => hide(h), Math.max(480, 1150 - elapsed * 32) * (h.kind === 'gold' ? .7 : 1));
       }
       spawnTimer = setTimeout(popUp, Math.max(260, 760 - elapsed * 26) * rand(.7, 1.2));
     }
     function bonk(h) {
       if (!playing) { toast('press START BONKING first. bonking without a permit is illegal.'); return; }
-      if (!h.kind) { squelch(.6, .15); return; } // whiff: you hit mud
+      if (!h.kind) { squelch(.6, .15); return; } // whiff: you hit the desk
       const r = h.el.getBoundingClientRect();
-      if (h.kind === 'soap') {
+      if (h.kind === 'tendie') {
         score = Math.max(0, score - 3);
         h.el.classList.add('oops');
-        toast(pick(['🧼 you touched soap. −3. disgusting.', '🧼 −3. now the yard is CLEAN. are you happy?', '🧼 −3. Gerald is very disappointed in you.']), 1400);
+        toast(pick(['🍗 you bonked the tendies. −3. unforgivable.', '🍗 −3. those were for later.', '🍗 −3. slop is very disappointed in you.']), 1400);
         squelch(2.2, .3);
       } else {
         score += h.kind === 'gold' ? 5 : 1;
-        if (h.kind === 'gold') toast('✨ GOLDEN COUSIN! +5 ✨', 1200);
+        if (h.kind === 'gold') toast('✨ @everyone! +5 ✨', 1200);
         h.critter.textContent = '💫';
         h.el.classList.add('bonked');
         squelch(rand(.7, 1), .45);
@@ -164,7 +153,7 @@
       }
       clearTimeout(h.timer);
       h.kind = null;
-      h.el.setAttribute('aria-label', 'empty mud hole');
+      h.el.setAttribute('aria-label', 'empty slot');
       h.timer = setTimeout(() => h.el.classList.remove('up', 'gold'), 220);
       sync();
     }
@@ -179,7 +168,7 @@
       if (record) { best = score; store.set('whackBest', best); }
       emit('game', { game: 'whack', score });
       sync();
-      const verdict = score >= 40 ? 'certified pig bonker. frame this.' : score >= 25 ? 'the cousins fear you.' : score >= 12 ? 'respectable bonking.' : score > 0 ? 'the cousins are laughing at you.' : 'zero. did you fall asleep in the mud?';
+      const verdict = score >= 40 ? 'certified ping bonker. frame this.' : score >= 25 ? 'the bots fear you.' : score >= 12 ? 'respectable bonking.' : score > 0 ? 'the bots are laughing at you.' : 'zero. did you fall asleep in the chair?';
       toast(`⏰ time! ${score} bonks. ${record && score ? '🏆 NEW RECORD. ' : ''}${verdict}`, 3200);
     }
     startBtn.addEventListener('click', () => {
@@ -200,7 +189,7 @@
   }
 
   // =====================================================================
-  // FLAPPY GERALD
+  // FLAPPY SLOP
   // =====================================================================
   {
     const H = 340, GROUND = 304, R = 15, PW = 64;
@@ -242,7 +231,7 @@
       sync();
       squelch(.45, .7);
       splat(...toScreen(GX, g.y), 26, .9);
-      toast(record && g.score ? `🏆 NEW RECORD: ${g.score}! Gerald is a legend (a dead one).` : pick(['🪦 Gerald has fallen into the slop.', '🪦 pigs cannot fly. this has now been proven.', '🪦 Gerald has been reunited with the slop.', '🪦 the wings were decorative.']), 2400);
+      toast(record && g.score ? `🏆 NEW RECORD: ${g.score}! slop is a legend (in his own mind).` : pick(["🌱 slop touched grass. it's over.", '🪦 gamers cannot fly. this has now been proven.', '🪦 slop has rage-quit.', '🪦 the wings were decorative.']), 2400);
     }
     function step(dt) {
       g.t += dt;
@@ -263,7 +252,7 @@
           if (!p.passed && p.x + PW < GX - R) {
             p.passed = true; g.score++; sync();
             squelch(1.3, .25);
-            if (g.score % 10 === 0) { oink(); toast(`🐖 ${g.score} pillars! Gerald is soaring (falling slowly)`, 1600); }
+            if (g.score % 10 === 0) { oink(); toast(`🤓 ${g.score} pillars! slop is soaring (falling slowly)`, 1600); }
           }
           const hitX = GX + R > p.x + 4 && GX - R < p.x + PW - 4;
           if (hitX && (g.y - R < p.top || g.y + R > p.top + p.gap)) { die(); break; }
@@ -275,7 +264,7 @@
         g.y = Math.min(GROUND - R, g.y + g.vy * dt);
       }
       draw();
-      if (g.state === 'dead' && g.y >= GROUND - R) return false; // Gerald has landed. stop rendering.
+      if (g.state === 'dead' && g.y >= GROUND - R) return false; // slop has touched grass. stop rendering.
     }
 
     function pillar(x, y0, y1, capAtBottom, t, seed) {
@@ -315,14 +304,14 @@
         pillar(p.x, p.top + p.gap, GROUND, false, t, p.drip);
       }
 
-      // mud floor
-      ctx.fillStyle = MUD; ctx.fillRect(0, GROUND, W, H - GROUND);
-      ctx.fillStyle = '#6b4320';
-      for (let x = -(g.scroll % 46); x < W; x += 46) { ctx.beginPath(); ctx.ellipse(x + 20, GROUND + 18, 14, 5, 0, 0, Math.PI * 2); ctx.fill(); }
+      // the grass. slop's natural enemy
+      ctx.fillStyle = GRASS; ctx.fillRect(0, GROUND, W, H - GROUND);
+      ctx.fillStyle = '#4a8f2c';
+      for (let x = -(g.scroll % 46); x < W; x += 46) { ctx.beginPath(); ctx.moveTo(x + 10, GROUND + 24); ctx.lineTo(x + 16, GROUND + 6); ctx.lineTo(x + 22, GROUND + 24); ctx.fill(); }
       ctx.strokeStyle = INK; ctx.lineWidth = 3;
       ctx.beginPath(); ctx.moveTo(0, GROUND); ctx.lineTo(W, GROUND); ctx.stroke();
 
-      // Gerald, airborne
+      // slop, airborne
       const bob = g.state === 'ready' ? Math.sin(performance.now() / 300) * 6 : 0;
       ctx.save();
       ctx.translate(GX, g.y + bob);
@@ -334,18 +323,17 @@
       ctx.fillStyle = '#fff'; ctx.strokeStyle = INK; ctx.lineWidth = 2.5;
       ctx.beginPath(); ctx.ellipse(0, -10, 8, 15, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.restore();
-      ctx.scale(-1, 1); // the emoji pig faces left; Gerald flies right
-      emoji(ctx, '🐖', 0, 2, 40);
+      emoji(ctx, '🤓', 0, 2, 36);
       ctx.restore();
 
       if (g.state !== 'ready') label(ctx, String(g.score), W / 2, 42, 44);
       if (g.state === 'ready') {
-        label(ctx, 'FLAPPY GERALD', W / 2, 110, W < 600 ? 38 : 46, SLIME);
+        label(ctx, 'FLAPPY SLOP', W / 2, 110, W < 600 ? 38 : 46, SLIME);
         label(ctx, 'click / tap / space to flap', W / 2, 160, 22);
         if (best) label(ctx, `best: ${best}`, W / 2, 194, 18, '#fff58a');
       } else if (g.state === 'dead') {
-        label(ctx, 'GERALD DOWN', W / 2, 120, W < 600 ? 38 : 46, PINK);
-        label(ctx, 'flap to try again (new Gerald)', W / 2, 168, 22);
+        label(ctx, 'TOUCHED GRASS', W / 2, 120, W < 600 ? 34 : 46, RED);
+        label(ctx, 'flap to try again (respawn)', W / 2, 168, 22);
       }
     }
 
@@ -364,7 +352,7 @@
   }
 
   // =====================================================================
-  // CATCH THE SLOP
+  // CATCH THE TENDIES
   // =====================================================================
   {
     const H = 340, BY = 296, BW = 86;
@@ -398,13 +386,13 @@
       c.state = 'over';
       canvas.classList.remove('playing');
       startBtn.disabled = false;
-      startBtn.textContent = '🪣 AGAIN';
+      startBtn.textContent = '🍗 AGAIN';
       const record = c.score > best;
       if (record) { best = c.score; store.set('catcherBest', best); }
       emit('game', { game: 'catcher', score: c.score });
       sync();
       squelch(.4, .6);
-      toast(record && c.score ? `🏆 NEW RECORD: ${c.score} drops of slop! Gerald eats well tonight.` : pick([`🪣 ${c.score} drops. Gerald has been fed (barely).`, '🥗 the salad got you. Gerald is now on a diet. tragic.', '🧼 too much soap. the bucket is clean now. ruined.']), 2800);
+      toast(record && c.score ? `🏆 NEW RECORD: ${c.score} tendies! slop eats well tonight.` : pick([`🍗 ${c.score} tendies. slop has been fed (barely).`, '🌱 too much grass. slop is outdoorsy now. tragic.', '📞 a phone call got through. slop has left the chat.']), 2800);
     }
     function burst(x, y, color, n = 8) {
       for (let i = 0; i < n; i++) c.parts.push({ x, y, vx: rand(-140, 140), vy: rand(-260, -60), r: rand(2.5, 5), life: rand(.4, .8), color });
@@ -422,7 +410,7 @@
           const bad = Math.random() < Math.min(.38, .16 + c.t * .004);
           c.items.push({
             x: rand(22, W - 22), y: -24, vy: rand(95, 140) + c.t * 3.2, bad,
-            ch: bad ? pick(['🧼', '🥗', '🧼', '🥦', '🧴']) : null,
+            ch: bad ? pick(['🌱', '☀️', '🥗', '📞', '🌱']) : pick(['🍗', '🍗', '🍗', '🥤', '🍕']),
             r: rand(9, 13), rot: rand(-1, 1), vr: rand(-3, 3),
           });
           c.spawn = Math.max(.28, .85 - c.t * .011) * rand(.7, 1.3);
@@ -438,23 +426,23 @@
             c.lives--; c.shake = .35;
             burst(it.x, BY - 6, '#ffffff', 10);
             squelch(2.4, .35);
-            toast(pick(['🧼 ew, hygiene! −1 life', '🥗 vegetables?! −1 life', '🤢 that was NOT slop. −1 life']), 1200);
+            toast({ '🌱': '🌱 grass! −1 life', '☀️': '☀️ sunlight! it burns! −1 life', '🥗': '🥗 vegetables?! −1 life', '📞': '📞 a phone call?! −1 life' }[it.ch] || '🤢 that was NOT a tendie. −1 life', 1200);
             if (c.lives <= 0) over();
           } else {
             c.score++; sync();
-            burst(it.x, BY - 8, SLIME, 6);
+            burst(it.x, BY - 8, TENDIE, 6);
             squelch(rand(.9, 1.3), .3);
             if (c.score % 30 === 0) { // bucket full: empty it onto the page
               oink();
               splat(...toScreen(c.x, BY - 10), 20, .8);
-              toast('🪣 bucket full! emptied it onto the page. sorry.', 1600);
+              toast('🍗 tupperware full! emptied it onto the page. sorry.', 1600);
             }
           }
           continue;
         }
         if (it.y > H + 30) {
           c.items.splice(i, 1);
-          if (!it.bad && c.state === 'play') burst(it.x, H - 4, SLIME, 4);
+          if (!it.bad && c.state === 'play') burst(it.x, H - 4, TENDIE, 4);
         }
       }
       for (let i = c.parts.length - 1; i >= 0; i--) {
@@ -480,18 +468,16 @@
       ctx.lineTo(W, 0); ctx.closePath(); ctx.fill(); ctx.stroke();
 
       for (const it of c.items) {
-        if (it.bad) {
-          ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.rot);
-          emoji(ctx, it.ch, 0, 0, 30);
-          ctx.restore();
-        } else blob(ctx, it.x, it.y, it.r);
+        ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.rot);
+        emoji(ctx, it.ch, 0, 0, 30);
+        ctx.restore();
       }
       for (const p of c.parts) {
         ctx.fillStyle = p.color; ctx.strokeStyle = INK; ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       }
 
-      // the bucket (it's pink. it was on sale.)
+      // mom's tupperware (the lid went missing in 2014)
       const bx = c.x + (c.shake ? Math.sin(c.t * 80) * 6 : 0);
       const fill = Math.min(1, (c.score % 30) / 30 + (c.score ? .08 : 0));
       ctx.save(); ctx.translate(bx, BY);
@@ -499,24 +485,24 @@
       ctx.beginPath(); ctx.arc(0, -4, BW / 2 - 6, Math.PI, 0); ctx.stroke(); // handle
       ctx.beginPath();
       ctx.moveTo(-BW / 2, -6); ctx.lineTo(BW / 2, -6); ctx.lineTo(BW / 2 - 12, 40); ctx.lineTo(-BW / 2 + 12, 40); ctx.closePath();
-      ctx.fillStyle = PINK; ctx.fill();
+      ctx.fillStyle = 'rgba(200, 215, 255, .85)'; ctx.fill();
       if (fill > 0) {
         ctx.save(); ctx.clip();
-        ctx.fillStyle = SLIME; ctx.fillRect(-BW / 2, 40 - 46 * fill, BW, 46);
+        ctx.fillStyle = TENDIE; ctx.fillRect(-BW / 2, 40 - 46 * fill, BW, 46);
         ctx.restore();
       }
       ctx.stroke();
       ctx.fillStyle = 'rgba(255,255,255,.4)'; ctx.fillRect(-BW / 2 + 12, 2, 7, 30);
       ctx.restore();
 
-      label(ctx, `slop: ${c.score}`, 14, 36, 22, '#fff', 'left');
+      label(ctx, `tendies: ${c.score}`, 14, 36, 22, '#fff', 'left');
       label(ctx, '💚'.repeat(Math.max(0, c.lives)) + '🖤'.repeat(3 - Math.max(0, c.lives)), W - 14, 36, 20, '#fff', 'right');
       if (c.state === 'ready') {
-        label(ctx, 'CATCH THE SLOP', W / 2, 130, W < 600 ? 36 : 44, SLIME);
+        label(ctx, 'CATCH THE TENDIES', W / 2, 130, W < 600 ? 32 : 44, SLIME);
         label(ctx, 'click / tap / enter to start', W / 2, 176, 22);
       } else if (c.state === 'over') {
-        label(ctx, 'BUCKET COMPROMISED', W / 2, 130, W < 600 ? 30 : 40, PINK);
-        label(ctx, `${c.score} drops caught · click to go again`, W / 2, 176, W < 600 ? 19 : 22);
+        label(ctx, "IT'S OVER", W / 2, 130, W < 600 ? 34 : 44, RED);
+        label(ctx, `${c.score} tendies caught · click to go again`, W / 2, 176, W < 600 ? 19 : 22);
       }
     }
 
@@ -546,7 +532,7 @@
   // SLOP MEMORY
   // =====================================================================
   {
-    const POOL = ['🐖', '🥄', '🧽', '🪣', '🧼', '🌽', '🥔', '🍄', '🦠', '🐸', '🧀', '🍮', '🫠', '🪱', '🥫', '🍝', '🐌', '🧦'];
+    const POOL = ['🤓', '🍗', '🥤', '🎧', '🖥️', '🎮', '🪑', '🧦', '🕸️', '🌚', '💀', '🫠', '📉', '🗿', '🛌', '🍜', '🔔', '🧃'];
     const grid = $('#mem-grid');
     let cards = [], open = [], lock = false, moves = 0, pairs = 0, started = 0;
     let best = store.get('memBest', null);
