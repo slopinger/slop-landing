@@ -74,23 +74,24 @@
       src.start(now);
     } catch { /* silence is also slop */ }
   }
-  function oink() {
+  function sigh() { // a long, tired exhale: breathy noise through a closing low-pass filter
     if (!soundOn) return;
     try {
-      const a = ac(), now = a.currentTime;
-      for (const [t0, f0] of [[0, rand(230, 280)], [.16, rand(190, 230)]]) {
-        const o = a.createOscillator(); o.type = 'sawtooth';
-        o.frequency.setValueAtTime(f0, now + t0);
-        o.frequency.exponentialRampToValueAtTime(f0 * .55, now + t0 + .13);
-        const lp = a.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; lp.Q.value = 6;
-        const g = a.createGain();
-        g.gain.setValueAtTime(.0001, now + t0);
-        g.gain.exponentialRampToValueAtTime(.35, now + t0 + .02);
-        g.gain.exponentialRampToValueAtTime(.0001, now + t0 + .14);
-        o.connect(lp).connect(g).connect(a.destination);
-        o.start(now + t0); o.stop(now + t0 + .16);
-      }
-    } catch { /* the pig is mute */ }
+      const a = ac(), now = a.currentTime, dur = rand(.5, .7);
+      const buf = a.createBuffer(1, Math.ceil(a.sampleRate * dur), a.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      const src = a.createBufferSource(); src.buffer = buf;
+      const lp = a.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 2;
+      lp.frequency.setValueAtTime(rand(1300, 1600), now);
+      lp.frequency.exponentialRampToValueAtTime(rand(250, 320), now + dur);
+      const g = a.createGain();
+      g.gain.setValueAtTime(.0001, now);
+      g.gain.exponentialRampToValueAtTime(.3, now + .08);
+      g.gain.exponentialRampToValueAtTime(.0001, now + dur);
+      src.connect(lp).connect(g).connect(a.destination);
+      src.start(now);
+    } catch { /* too tired to sigh */ }
   }
 
   // =====================================================================
@@ -235,7 +236,7 @@
       pool.level += (pool.target - pool.level) * Math.min(1, dt * 2);
       if (pool.level >= pool.max) {
         pool.draining = true;
-        toast(pick(['*SLUUUURP*', '*glorp*', '🐖 *slurping intensifies*', '*schlorp*']), 1400);
+        toast(pick(['*SLUUUURP*', '*glorp*', '🤓 *slurping intensifies*', '*schlorp*']), 1400);
         squelch(.5, .6);
       }
     }
@@ -367,7 +368,7 @@
 
   // shared bits for the page modules in js/
   window.slop = {
-    $, rand, pick, clamp, toast, squelch, oink, store, reduceMotion, api, on, emit,
+    $, rand, pick, clamp, toast, squelch, sigh, store, reduceMotion, api, on, emit,
     splat(x, y, n, power) { if (!reduceMotion) splat(x, y, n, power); },
     blob(x, y, vx, vy, r) { if (!reduceMotion && blobs.length < 500) blobs.push({ x, y, vx, vy, r }); },
     setMaxSlop, get maxSlop() { return maxSlop; },

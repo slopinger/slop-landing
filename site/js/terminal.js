@@ -1,7 +1,7 @@
 // slopsh: a fake terminal. open it with the key left of 1 (` / ^ / ²) or the 💻 button. type `help`.
 (() => {
   'use strict';
-  const { $, pick, toast, squelch, oink, splat, store, api, emit, setMaxSlop } = window.slop;
+  const { $, pick, toast, squelch, sigh, splat, store, api, emit, setMaxSlop } = window.slop;
 
   const PAGES = { '~': '/', basement: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
   const FILES = {
@@ -90,7 +90,7 @@
     copesay: (a) => copesay(a.join(' ') || "it's over"),
     pigsay: (a) => 'pigsay: the pig retired to a farm upstate. try copesay.\n' + copesay(a.join(' ') || 'i miss the pig'),
     cowsay: (a) => 'cowsay: no cows down here. try copesay.\n' + copesay(a.join(' ') || 'moo? no. cope.'),
-    cope: () => { oink(); return pick(['cope.', 'coping...', "it's fine. everything is fine.", "we're so back. (we are not)"]); },
+    cope: () => { sigh(); return pick(['cope.', 'coping...', "it's fine. everything is fine.", "we're so back. (we are not)"]); },
     oink: () => "oink? the pig is gone. it's just slop now. try `cope`.",
     visitors: async () => { try { return `${(await api('/api/visits')).total} visitors so far. all of them real. probably.`; } catch { return 'the counter fell in the slop.'; } },
     pot: async () => { try { const p = await api('/api/pot'); return `the global slop pot contains ${p.splats} splats and ${p.ladles} ladles from everyone.`; } catch { return 'the pot lid is stuck.'; } },

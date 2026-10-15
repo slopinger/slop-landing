@@ -3,7 +3,7 @@
 (() => {
   'use strict';
 
-  const { $, rand, pick, clamp, toast, squelch, oink, splat, store, emit } = window.slop;
+  const { $, rand, pick, clamp, toast, squelch, sigh, splat, store, emit } = window.slop;
   const INK = '#16152a', SLIME = '#7bd43a', SLIME_DARK = '#3f8f1a', RED = '#ff5d5d', GRASS = '#5fae3a', TENDIE = '#d9932f';
   const FONT = '"Comic Neue", "Comic Sans MS", cursive';
   const EMOJI = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
@@ -148,7 +148,7 @@
         h.critter.textContent = '💫';
         h.el.classList.add('bonked');
         squelch(rand(.7, 1), .45);
-        if (Math.random() < .4) setTimeout(oink, 90);
+        if (Math.random() < .4) setTimeout(sigh, 90);
         splat(r.left + r.width / 2, r.top + r.height * .6, h.kind === 'gold' ? 16 : 6, .55);
       }
       clearTimeout(h.timer);
@@ -252,7 +252,7 @@
           if (!p.passed && p.x + PW < GX - R) {
             p.passed = true; g.score++; sync();
             squelch(1.3, .25);
-            if (g.score % 10 === 0) { oink(); toast(`🤓 ${g.score} pillars! slop is soaring (falling slowly)`, 1600); }
+            if (g.score % 10 === 0) { sigh(); toast(`🤓 ${g.score} pillars! slop is soaring (falling slowly)`, 1600); }
           }
           const hitX = GX + R > p.x + 4 && GX - R < p.x + PW - 4;
           if (hitX && (g.y - R < p.top || g.y + R > p.top + p.gap)) { die(); break; }
@@ -433,7 +433,7 @@
             burst(it.x, BY - 8, TENDIE, 6);
             squelch(rand(.9, 1.3), .3);
             if (c.score % 30 === 0) { // bucket full: empty it onto the page
-              oink();
+              sigh();
               splat(...toScreen(c.x, BY - 10), 20, .8);
               toast('🍗 tupperware full! emptied it onto the page. sorry.', 1600);
             }
@@ -599,7 +599,7 @@
       const record = best == null || moves < best;
       if (record) { best = moves; store.set('memBest', best); }
       emit('game', { game: 'memory', score: moves });
-      oink();
+      sigh();
       toast(`🧠 all pairs in ${moves} moves (${secs}s)! ${record ? '🏆 NEW RECORD. ' : ''}${moves <= 12 ? 'suspiciously good.' : moves <= 18 ? 'big brain slop.' : 'you got there. eventually.'}`, 3200);
       sync();
     }

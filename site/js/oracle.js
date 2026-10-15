@@ -2,7 +2,7 @@
 // fortunes you can share as links (#f=<seed>). also used by the terminal (slop.oracle).
 (() => {
   'use strict';
-  const { $, toast, squelch, oink, emit, reduceMotion } = window.slop;
+  const { $, toast, squelch, sigh, emit, reduceMotion } = window.slop;
 
   // tiny seeded PRNG (mulberry32) so a seed always gives the same slop
   function rng(seed) {
@@ -99,7 +99,7 @@
   }
   cookie.addEventListener('click', () => {
     if (!reduceMotion) { cookie.classList.remove('crack'); void cookie.offsetWidth; cookie.classList.add('crack'); }
-    squelch(2, .3); setTimeout(oink, 120);
+    squelch(2, .3); setTimeout(sigh, 120);
     show(fortuneOf(newSeed()));
     emit('fortune');
   });

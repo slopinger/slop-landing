@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   if (!document.querySelector('#tendies')) return;
-  const { $, rand, pick, reduceMotion, squelch, oink, splat, blob, store, toast, emit } = window.slop;
+  const { $, rand, pick, reduceMotion, squelch, sigh, splat, blob, store, toast, emit } = window.slop;
 
   // =====================================================================
   // TENDIES FOR SLOP
@@ -36,7 +36,7 @@
     bubble.textContent = pick(slopSays[full < 5 ? 0 : full < 9 ? 1 : 2]);
     restart(guy, 'chomp');
     squelch(rand(.9, 1.2), .4);
-    setTimeout(oink, 180);
+    setTimeout(sigh, 180);
     const r = $('.desk').getBoundingClientRect();
     for (let i = 0; i < 3; i++) blob(r.left + rand(10, r.width - 10), r.top + 6, rand(-60, 60), rand(-220, -80), rand(4, 8));
     emit('ladle');
