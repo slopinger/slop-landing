@@ -98,7 +98,7 @@
   // THE SLIME ENGINE
   // Metaballs: every blob is a soft radial sprite added into a low-res
   // alpha field; a lookup table then thresholds the field into cartoon
-  // slime (dark outline + shaded green) and the browser upscales it.
+  // slime (dark outline + shaded lavender) and the browser upscales it.
   // =====================================================================
   const cv = $('#slime');
   const ctx = cv.getContext('2d');
@@ -124,13 +124,13 @@
     let r, g, b, a;
     if (v < 104) { r = g = b = a = 0; }
     else if (v < 126) { // ink outline, anti-aliased on the outer edge
-      r = 42; g = 33; b = 24;
+      r = 35; g = 35; b = 50;
       a = Math.round(clamp((v - 104) / 10, 0, 1) * 255);
     } else {
       // darker rim, brighter belly, plus a glossy band just inside the rim
       const t = clamp((v - 126) / 70, 0, 1);
-      r = Math.round(62 + t * 66); g = Math.round(150 + t * 62); b = Math.round(22 + t * 36);
-      if (v > 150 && v < 162) { r = 175; g = 245; b = 120; }
+      r = Math.round(117 + t * 66); g = Math.round(97 + t * 67); b = Math.round(142 + t * 64);
+      if (v > 150 && v < 162) { r = 220; g = 210; b = 237; }
       a = 255;
     }
     LUT[v] = ((a << 24) | (b << 16) | (g << 8) | r) >>> 0;
@@ -376,5 +376,5 @@
   // modules load after this script, so re-apply a persisted MAXIMUM SLOP once they've subscribed
   if (store.get('maxslop', false)) addEventListener('DOMContentLoaded', () => setMaxSlop(true, true));
 
-  console.log('%cFREIFICK', 'font: 64px "Rubik Wet Paint", cursive; color: #7bd43a; text-shadow: 3px 3px 0 #5865f2', '\nhi. you found the console. you are now the second person in this basement. (there is always more slop.)');
+  console.log('%cFREIFICK', 'font: 64px "Rubik Wet Paint", cursive; color: #b7a4ce; text-shadow: 3px 3px 0 #5865f2', '\nhi. you found the console. you are now the second person in this room. (there is always more slop.)');
 })();

@@ -1,4 +1,4 @@
-// slop's room: bring him tendies, watch him grow, watch him pass out. needs #tendies on the page.
+// slop's room: bring her tendies, watch her snack, watch her nap. needs #tendies on the page.
 (() => {
   'use strict';
   if (!document.querySelector('#tendies')) return;

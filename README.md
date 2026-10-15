@@ -6,8 +6,8 @@ the fonts in `site/fonts/` are under the SIL Open Font License 1.1.
 
 Pages (plain HTML; the marquee, nav, controls and footer are copied into each page, so keep them in sync):
 
-- `site/index.html`: home ("the basement"): doors to every page, dn42 + fediverse links, slop's mood, counter, global slop pot
-- `site/room/`: slop's room: bring slop tendies, his daily doomer forecast, the fortune oracle (shareable `#f=<seed>` links)
+- `site/index.html`: home ("the hoodie zone"): doors to every page, dn42 + fediverse links, slop's mood, counter, global slop pot
+- `site/room/`: slop's room: bring slop tendies, her daily brainworm forecast, the fortune oracle (shareable `#f=<seed>` links)
 - `site/pigpen/`: redirect stub: the old pig page forwards to `/room/` (keeping `#f=` fortune links)
 - `site/arcade/`: whack-a-ping, flappy slop, catch the tendies, slop memory (one cabinet at a time, `#<game>`)
 - `site/office/`: the slop-o-matic 3000 and the slop certificate generator (client-side canvas PNG)
@@ -34,7 +34,7 @@ Scripts (every page loads the core ones; page modules return early if their sect
 Features: metaball slime engine (canvas; drips, splats on click, pool that slurps itself),
 the Slop-o-matic 3000 (buzzword generator, intensity 1–11), slop at his desk (food coma after
 12 tendies), 4 arcade games, a real guestbook, visitor counter and global slop pot, a passport
-with 24 stamps, a fake terminal, slop's daily doomer forecast and fortunes, a certificate generator,
+with 24 stamps, a fake terminal, slop's daily brainworm forecast and fortunes, a certificate generator,
 a parody cookie banner, and a Konami-code MAXIMUM SLOP mode that persists across pages.
 Respects `prefers-reduced-motion`. Sounds are opt-in. Feature ideas were brainstormed with an AI model.
 
@@ -104,3 +104,8 @@ The home page `#mayfly` card links https://mayfly.freifick.net and its
 [public Gleam source](https://git.freifick.net/slop/mayfly). mayfly is a separate
 service: anonymous temporary uploads up to 200 MiB with 1/12/24/72-hour lifetimes.
 The compact announcement mentions the anime artwork and uses existing card/sticker styles and introduces no new site API.
+
+Identity verification: browser review at 1280, 390 and 320 CSS pixels covers all six pages,
+room feeding, image loading, console errors and horizontal overflow. Public profile bios
+and PNG avatars are synchronized through the GitLab admin/profile APIs and trough
+`update_credentials`; revoke temporary OAuth credentials after use.

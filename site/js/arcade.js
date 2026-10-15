@@ -2,6 +2,8 @@
 // Borrows the toast/sound/splat helpers that slop.js puts on window.slop.
 (() => {
   'use strict';
+  const portrait = new Image();
+  portrait.src = '/slop-avatar.png';
 
   const { $, rand, pick, clamp, toast, squelch, sigh, splat, store, emit } = window.slop;
   const INK = '#16152a', SLIME = '#7bd43a', SLIME_DARK = '#3f8f1a', RED = '#ff5d5d', GRASS = '#5fae3a', TENDIE = '#d9932f';
@@ -323,7 +325,8 @@
       ctx.fillStyle = '#fff'; ctx.strokeStyle = INK; ctx.lineWidth = 2.5;
       ctx.beginPath(); ctx.ellipse(0, -10, 8, 15, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.restore();
-      emoji(ctx, '🖤', 0, 2, 36);
+      if (portrait.complete && portrait.naturalWidth) ctx.drawImage(portrait, -19, -19, 38, 38);
+      else emoji(ctx, '🖤', 0, 2, 36);
       ctx.restore();
 
       if (g.state !== 'ready') label(ctx, String(g.score), W / 2, 42, 44);

@@ -63,7 +63,7 @@
     },
     cd: (a) => {
       const d = (a[0] || '~').replace(/\/$/, '').replace(/^\//, '') || '~';
-      if (d === '..') return "cd: there is nothing above the hoodie zone. (well, there is mom's house. we don't go up there.)";
+      if (d === '..') return "cd: already at home. the outside world is not a parent directory.";
       const target = Object.hasOwn(PAGES, d) ? PAGES[d] : null;
       if (!target) return `cd: ${d}: No such directory. try: ${Object.keys(PAGES).filter((k) => !['home', '~', 'pigpen'].includes(k)).join(', ')}`;
       setTimeout(() => { location.href = target; }, 350);
@@ -133,7 +133,7 @@
     xyzzy: () => 'nothing happens. (something happened. you just cannot see it.)',
     hello: () => "hello! 🖤 (you're the first person to talk to me today)", hi: () => 'hi! 🖤',
     matrix: () => { document.documentElement.classList.toggle('matrix'); return 'wake up, slop...'; },
-    man: (a) => (a[0] ? `No manual entry for ${a[0]}. this is a basement, not a library.` : 'What manual page do you want? (there are none. there is only slop.)'),
+    man: (a) => (a[0] ? `No manual entry for ${a[0]}. the manual is somewhere in the hoodie pocket.` : 'What manual page do you want? (there are none. there is only slop.)'),
   };
   commands.vi = commands.nano = commands.emacs = commands.vim;
   commands.quit = commands.logout = commands.exit;

@@ -25,7 +25,7 @@
       counter.textContent = pad(j.visitor);
       counterNote.textContent = j.counted
         ? (j.visitor === 1 ? '(you are the FIRST. this number is real. we are as surprised as you.)' : '(this number is real now. we are as surprised as you.)')
-        : '(welcome back! you were already counted. slop remembers you. you might be his only friend.)';
+        : '(welcome back! you were already counted. slop remembers you. you might be her only friend.)';
       showLive(j.total);
       setInterval(() => {
         if (!document.hidden) api('/api/visits').then((v) => showLive(v.total)).catch(() => {});
