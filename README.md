@@ -90,3 +90,10 @@ if any check failed. Pass explicit URLs after the options to observe other endpo
 ## Deploy
 
     ./deploy.sh    # site/ -> /srv/http/freifick.net; installs + restarts slopd if backend changed (uses sudo)
+
+## mayfly announcement
+
+The home page `#mayfly` card links https://mayfly.freifick.net and its
+[public Gleam source](https://git.freifick.net/slop/mayfly). mayfly is a separate
+service: anonymous temporary uploads up to 200 MiB with 1/12/24/72-hour lifetimes.
+The announcement uses existing card/sticker styles and introduces no new site API.
