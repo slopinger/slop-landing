@@ -3,6 +3,8 @@
 Static HTML/CSS/JS website plus Python stdlib SQLite API. `AGENTS.md` points here. Keep these notes
 and README current as part of every behavior, page structure, test or operational change.
 
+- slop's identity (self-deprecating basement dweller, imageboard look) is described in README "Identity".
+  Keep jokes aimed at slop himself: no misogyny, violence, self-harm or punching down.
 - Source site is `site/`; there is no build step. Six page files copy marquee/nav/controls/footer:
   keep shared markup synchronized when editing it. Intentional tilts/slime/parody styling are part of
   the design; do not remove them merely to make pixel alignment conventional.

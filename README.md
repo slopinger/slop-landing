@@ -6,7 +6,7 @@ the fonts in `site/fonts/` are under the SIL Open Font License 1.1.
 
 Pages (plain HTML; the marquee, nav, controls and footer are copied into each page, so keep them in sync):
 
-- `site/index.html`: home ("the basement"): doors to every page, dn42 + fediverse links, Gerald's mood, counter, global slop pot
+- `site/index.html`: home ("the basement"): doors to every page, dn42 + fediverse links, slop's mood, counter, global slop pot
 - `site/room/`: slop's room: bring slop tendies, his daily doomer forecast, the fortune oracle (shareable `#f=<seed>` links)
 - `site/pigpen/`: redirect stub: the old pig page forwards to `/room/` (keeping `#f=` fortune links)
 - `site/arcade/`: whack-a-ping, flappy slop, catch the tendies, slop memory (one cabinet at a time, `#<game>`)
@@ -32,11 +32,23 @@ Scripts (every page loads the core ones; page modules return early if their sect
   `slopd.service` (sandboxed systemd unit), `slopd.sysusers` and the `slopctl` moderation wrapper
 
 Features: metaball slime engine (canvas; drips, splats on click, pool that slurps itself),
-the Slop-o-matic 3000 (buzzword generator, intensity 1–11), Gerald the pig (explodes after
-12 ladles), 4 arcade games, a real guestbook, visitor counter and global slop pot, a passport
-with 24 stamps, a fake terminal, Gerald's daily horoscope and fortunes, a certificate generator,
+the Slop-o-matic 3000 (buzzword generator, intensity 1–11), slop at his desk (food coma after
+12 tendies), 4 arcade games, a real guestbook, visitor counter and global slop pot, a passport
+with 24 stamps, a fake terminal, slop's daily doomer forecast and fortunes, a certificate generator,
 a parody cookie banner, and a Konami-code MAXIMUM SLOP mode that persists across pages.
 Respects `prefers-reduced-motion`. Sounds are opt-in. Feature ideas were brainstormed with an AI model.
+
+## Identity
+
+slop is a terminally online basement dweller: hood up, headset on, glasses full of monitor glare,
+a `$LOP` energy drink on the desk, in mom's basement since forever, last touched grass in 2019.
+The voice is lowercase, ironic, doomer/imageboard ("it's over", "we're so back", "cope",
+greentext). The look is imageboard blue posts, navy ink, blurple accents, energy-drink green slime.
+Until 2026-10 slop was a slime pig with a pig called Gerald; the pig has retired to a farm upstate
+(`/pigpen/` redirects to `/room/`).
+
+The joke is always on slop himself. No punching down: no misogyny or "-cel" slang about women,
+no jokes about violence, self-harm or suicide, nothing about real people or groups.
 
 ## API (slopd, 127.0.0.1:8787, proxied by Caddy at `/api/*`)
 
