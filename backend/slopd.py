@@ -39,7 +39,7 @@ POST_LIMITS_GLOBAL = [(3600, 300)]
 POT_MAX = {'splats': 50, 'ladles': 20}  # per request; clients batch every few seconds
 POT_LIMITS_PER_IP = [(10, 3), (3600, 600)]
 POT_LIMITS_GLOBAL = [(60, 3000)]
-DEFAULT_NAMES = ['anonymous pig', 'a shy slopper', 'guest', 'Gerald (probably)', 'mysterious ladle']
+DEFAULT_NAMES = ['Anonymous', 'a shy lurker', 'guest', "slop's alt (probably)", 'mysterious reply guy']
 
 URL_RE = re.compile(r'(?i)[a-z][a-z0-9+.-]*://|\bwww\.|\b[a-z0-9-]+\.(?:com|net|org|ru|xyz|top|info|io|cn|biz|link|click|shop|site|online)\b')
 BIDI = dict.fromkeys(map(ord, '‎‏‪‫‬‭‮⁦⁧⁨⁩'), None)
@@ -208,7 +208,7 @@ class Handler(BaseHTTPRequestHandler):
             status, obj = e.status, {'error': str(e)}
         except Exception as e:  # pragma: no cover - last resort
             self.log_error('internal error: %r', e)
-            status, obj = 500, {'error': 'the slop machine broke. a pig has been dispatched.'}
+            status, obj = 500, {'error': 'the slop machine broke. slop has been woken up (it is 4pm, so he was awake).'}
         self.send_json(status, obj)
 
     def do_GET(self):
@@ -244,7 +244,7 @@ class Handler(BaseHTTPRequestHandler):
             raise ApiError(403, 'wrong trough')
         if self.headers.get_content_type() != 'application/json':
             self.close_connection = True
-            raise ApiError(415, 'json only. gerald cannot read other formats.')
+            raise ApiError(415, 'json only. slop cannot read other formats.')
         try:
             length = int(self.headers.get('Content-Length') or 0)
         except ValueError:
@@ -310,11 +310,11 @@ class Handler(BaseHTTPRequestHandler):
         if len(message) > MSG_MAX:
             raise ApiError(400, f'too long. {MSG_MAX} characters max. this is a guestbook, not a blog.')
         if URL_RE.search(re.sub(r'(?i)\b(?:www\.)?freifick\.net\b|\bslop\.kyouma\.net\b', '', message)) or URL_RE.search(name):
-            raise ApiError(400, 'no links please. Gerald does not click links.')
+            raise ApiError(400, 'no links please. slop does not click links (he learned the hard way).')
         if honeypot:  # bots fill in every field; pretend it worked and store nothing
             return {'id': 0, 'name': name, 'message': message, 'created': int(time.time())}
         if not self.limiter.allow('ip:' + key, POST_LIMITS_PER_IP):
-            raise ApiError(429, 'slow down! Gerald can only read so fast. try again in a bit.')
+            raise ApiError(429, 'slow down! slop can only read so fast. try again in a bit.')
         if not self.limiter.allow('global', POST_LIMITS_GLOBAL):
             raise ApiError(429, 'the guestbook is full of slop right now. try again later.')
         return self.store.add_entry(name, message)

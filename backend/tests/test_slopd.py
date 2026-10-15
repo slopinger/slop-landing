@@ -51,10 +51,10 @@ class ApiTests(unittest.TestCase):
             return response.status, result
 
     def test_guestbook_pagination_and_moderation(self):
-        status, body = self.request('POST', '/api/guestbook', {'name': '  pig  ', 'message': 'hello trough'})
+        status, body = self.request('POST', '/api/guestbook', {'name': '  slop  ', 'message': 'hello basement'})
         self.assertEqual(status, 201)
         entry = body['entry']
-        self.assertEqual(entry['name'], 'pig')
+        self.assertEqual(entry['name'], 'slop')
         status, body = self.request('GET', '/api/guestbook')
         self.assertEqual(status, 200)
         self.assertEqual([e['id'] for e in body['entries']], [entry['id']])
