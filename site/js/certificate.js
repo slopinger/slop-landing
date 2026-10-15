@@ -9,7 +9,7 @@
   const ctx = canvas.getContext('2d');
   const W = 1200, H = 850;
   canvas.width = W; canvas.height = H;
-  const INK = '#16152a', SLIME = '#7bd43a', ACCENT = '#5865f2', GOLD = '#f5c400';
+  const INK = '#16152a', SLIME = '#b7a4ce', ACCENT = '#5865f2', GOLD = '#f5c400';
   const RANKS = [
     [0, 'Casual Lurker'], [4, 'Certified Reply Guy'], [9, 'Senior Discord Moderator'],
     [15, 'Principal Basement Dweller'], [21, 'Grand Copelord'], [24, 'Terminally Online (final form)'],

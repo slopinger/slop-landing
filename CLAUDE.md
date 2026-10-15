@@ -26,3 +26,6 @@ and README current as part of every behavior, page structure, test or operationa
 - Check git status, sign commits and push only your changes; preserve concurrent sessions' work.
 - Use small commits: one logical change per commit (with its tests/docs), each passing the checks above.
   Don't bundle unrelated changes or a whole session's work into one commit.
+
+- Boymoder identity deployed 2026-10-15; site/GitLab/trough share the PNG portrait and she/her bio.
+  Canvas slime, games, certificate and error-page accents use the lavender palette.

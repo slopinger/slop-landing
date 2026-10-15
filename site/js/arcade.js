@@ -6,7 +6,7 @@
   portrait.src = '/slop-avatar.png';
 
   const { $, rand, pick, clamp, toast, squelch, sigh, splat, store, emit } = window.slop;
-  const INK = '#16152a', SLIME = '#7bd43a', SLIME_DARK = '#3f8f1a', RED = '#ff5d5d', GRASS = '#5fae3a', TENDIE = '#d9932f';
+  const INK = '#16152a', SLIME = '#b7a4ce', SLIME_DARK = '#75618e', RED = '#ff5d5d', GRASS = '#5fae3a', TENDIE = '#d9932f';
   const FONT = '"Comic Neue", "Comic Sans MS", cursive';
   const EMOJI = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
 
