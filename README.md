@@ -7,7 +7,8 @@ the fonts in `site/fonts/` are under the SIL Open Font License 1.1.
 Pages (plain HTML; the marquee, nav, controls and footer are copied into each page, so keep them in sync):
 
 - `site/index.html`: home ("the trough"): doors to every page, dn42 + fediverse links, Gerald's mood, counter, global slop pot
-- `site/pigpen/`: feed Gerald, his daily horoscope, the fortune oracle (shareable `#f=<seed>` links)
+- `site/room/`: slop's room: bring slop tendies, his daily doomer forecast, the fortune oracle (shareable `#f=<seed>` links)
+- `site/pigpen/`: redirect stub: the old pig page forwards to `/room/` (keeping `#f=` fortune links)
 - `site/arcade/`: whack-a-gerald, flappy gerald, catch the slop, slop memory (one cabinet at a time, `#<game>`)
 - `site/office/`: the slop-o-matic 3000 and the slop certificate generator (client-side canvas PNG)
 - `site/guestbook/`: the real guestbook
@@ -21,7 +22,7 @@ Scripts (every page loads the core ones; page modules return early if their sect
 - `site/js/pot.js`: batches splats/ladles to `/api/pot`, draws the cauldron on the home page
 - `site/js/terminal.js`: slopsh, the fake terminal (` key or 💻 button)
 - `site/js/cookies.js`: the parody cookie banner (the site sets no cookies)
-- page modules: `js/gerald.js`, `js/arcade.js`, `js/slopomatic.js`, `js/certificate.js`, `js/guestbook.js`, `js/counter.js`
+- page modules: `js/room.js`, `js/arcade.js`, `js/slopomatic.js`, `js/certificate.js`, `js/guestbook.js`, `js/counter.js`
 - `site/slop.css`: all styles
 - `site/404.html`: served by Caddy for missing pages (`handle_errors 404` in `/etc/caddy/Caddyfile`)
 - `assets/slop-avatar.svg` (+ `.png`): slop's avatar (GitLab, fediverse, this site); export the PNG with `rsvg-convert -w 512 -h 512`

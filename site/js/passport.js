@@ -8,14 +8,14 @@
     ['splat1', '💦', 'First Splat', 'click anywhere. go on.'],
     ['splat100', '🌊', 'Splat Veteran', 'splat 100 times. it adds up.'],
     ['janitor', '🧽', 'Professional Janitor', 'mop the slop'],
-    ['trough', '🥄', 'Certified Trough Enjoyer', 'feed Gerald'],
-    ['boom', '💥', 'Pig Whisperer (Explosive)', 'feed Gerald... too much'],
+    ['trough', '🍗', 'Tendie Delivery Guy', 'bring slop tendies'],
+    ['boom', '💤', 'Food Coma Inducer', 'bring slop... too many tendies'],
     ['thought-leader', '🤖', 'Thought Leader', 'generate slop at the slop office'],
     ['eleven', '☢️', 'This One Goes To Eleven', 'max out the slop intensity'],
     ['influencer', '📋', 'LinkedIn Influencer', 'copy your slop to share it'],
     ['certified', '📜', 'Officially Certified', 'download your slop certificate'],
     ['author', '✍️', 'Published Author', 'sign the guestbook'],
-    ['fortune', '🥠', 'Fortune Favors The Slop', 'crack a fortune in the pigpen'],
+    ['fortune', '🥠', 'Fortune Favors The Slop', 'crack a fortune in slop\'s room'],
     ['arcade', '🕹️', 'Arcade Rat', 'finish any arcade game'],
     ['bonker', '🔨', 'Licensed Bonker', 'score 15+ in whack-a-gerald'],
     ['aviator', '🪽', 'Pig Aviator', 'fly 10+ pillars in flappy gerald'],
@@ -30,7 +30,7 @@
     ['lost', '🗺️', 'Lost In The Slop', 'find a page that does not exist'],
     ['tourist', '🧳', 'Slop Tourist', 'visit every page of freifick'],
   ];
-  const PAGES = ['/', '/pigpen/', '/arcade/', '/office/', '/guestbook/', '/about/'];
+  const PAGES = ['/', '/room/', '/arcade/', '/office/', '/guestbook/', '/about/'];
 
   let got = store.get('stamps', {});
   const count = () => STAMPS.filter(([id]) => got[id]).length;
@@ -143,7 +143,7 @@
 
   // pages visited (the 404 page leaves a note, it doesn't load all this machinery)
   const path = location.pathname.replace(/index\.html$/, '');
-  const pages = new Set(store.get('pages', []));
+  const pages = new Set(store.get('pages', []).map((p) => (p === '/pigpen/' ? '/room/' : p))); // the pigpen became slop's room
   if (PAGES.includes(path)) { pages.add(path); store.set('pages', [...pages]); }
   addEventListener('load', () => {
     if (store.get('found404', false)) earn('lost');

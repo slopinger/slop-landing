@@ -3,7 +3,7 @@
   'use strict';
   const { $, pick, toast, squelch, oink, splat, store, api, emit, setMaxSlop } = window.slop;
 
-  const PAGES = { '~': '/', trough: '/', home: '/', pigpen: '/pigpen/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
+  const PAGES = { '~': '/', trough: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
   const FILES = {
     'gerald.txt': 'Gerald. pig. 3 years old. likes: slop, mud, you. dislikes: salad, soap, mondays.\nhas exploded 1,000+ times. always comes back. nobody knows how.',
     'todo.md': '- [x] buy domain\n- [x] get A+ on SSL Labs\n- [x] add a terminal nobody asked for\n- [ ] make website good\n- [ ] stop adding slop (never)',
@@ -51,7 +51,7 @@
     help: () => 'commands: help ls cat cd pwd whoami neofetch fortune mood pigsay oink visitors pot passport\n' +
       '          echo date uptime history clear exit sudo rm vim git ping make maxslop ...and some secret ones',
     ls: (a) => (a.includes('-a') ? '.  ..  .slop_history  .gerald_diary (locked)\n' : '') +
-      'arcade/  pigpen/  office/  guestbook/  about/  ' + Object.keys(FILES).join('  '),
+      'arcade/  room/  office/  guestbook/  about/  ' + Object.keys(FILES).join('  '),
     cat: (a) => {
       const f = a[0];
       if (!f) return 'cat: needs a file. try `cat gerald.txt`';
