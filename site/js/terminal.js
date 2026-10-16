@@ -121,7 +121,7 @@
     },
     vim: () => 'you are now trapped in vim. this is your life now.\n(just kidding. press Esc. then cry. then type :q!)',
     ':q!': () => 'you escaped vim. a rare achievement. (no stamp though, it is too rare.)',
-    git: (a) => (a[0] === 'log' ? 'commit 7497742 (HEAD -> main, origin/main)\nAuthor: slop <slop@freifick.net>\n\n    Point the open-source links at the slop account\n\n(the real log: https://git.freifick.net/slop/slop-landing/-/commits/main)'
+    git: (a) => (a[0] === 'log' ? 'commit 7497742 (HEAD -> main, origin/main)\nAuthor: slop <slopmoder@tutamail.com>\n\n    Point the open-source links at the slop account\n\n(the real log: https://git.freifick.net/slop/slop-landing/-/commits/main)'
       : a[0] === 'push' ? 'Everything up-to-date (the slop is always up to date)' : 'git: try `git log` or `git push`. or visit https://git.freifick.net/slop'),
     ping: (a) => `PING ${a[0] || 'mom'}: 64 bytes: seen time=0.69 ms\n64 bytes: left on read time=4.20 ms\n--- 2 messages sent, 0 replies received, 100% reply loss`,
     make: (a) => (a.join(' ') === 'me a sandwich' ? 'what? make it yourself.' : "make: *** No rule to make target 'slop'. Stop. (just kidding, slop is made automatically)"),
