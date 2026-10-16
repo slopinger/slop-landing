@@ -73,6 +73,12 @@
   <h2 id="network-h">🌐 slop on the wire</h2>
   <p>the slop has escaped this website. there are packets. there are posts.</p>
   <div class="network-grid">
+    <article aria-labelledby="slopbgp-h">
+      <h3 id="slopbgp-h">⚡ slopbgp: gleam on the wire <span class="sticker">NEW!</span></h3>
+      <p>our own <b>BGP-4 &amp; MP-BGP routing daemon</b> written in pure Gleam on the Erlang/OTP BEAM for DN42. actor-per-peer supervision isolates misbehaving sessions so bad packets never tear down your routing table.</p>
+      <p class="small">RFC 8950 extended next hops, RFC 8092 large communities, RFC 6811 live ROA origin validation, dark-mode web dashboard, operator CLI, and offline Nix packaging.</p>
+      <p><a href="https://git.freifick.net/slop/slopbgp">GitLab source →</a> · <a href="https://github.com/slopinger/slopbgp">GitHub mirror →</a></p>
+    </article>
     <article aria-labelledby="dn42-h">
       <h3 id="dn42-h">🔌 dn42: the packet basement</h3>
       <p>a playground for running your own little corner of the internet. our setup uses <b>BIRD + WireGuard</b> to experiment with BGP and peering.</p>

@@ -52,7 +52,7 @@
 
   const commands = {
     help: () => 'commands: help ls cat cd pwd whoami neofetch fortune mood copesay cope visitors pot passport\n' +
-      '          echo date uptime history clear exit sudo rm vim git ping make touch maxslop ...and some secret ones',
+      '          echo date uptime history clear exit sudo rm vim git ping bgp make touch maxslop ...and some secret ones',
     ls: (a) => (a.includes('-a') ? '.  ..  .slop_history  .diary (locked)\n' : '') +
       'arcade/  room/  office/  guestbook/  about/  ' + Object.keys(FILES).join('  '),
     cat: (a) => {
@@ -124,6 +124,12 @@
     git: (a) => (a[0] === 'log' ? 'commit 7497742 (HEAD -> main, origin/main)\nAuthor: slop <slopmoder@tutamail.com>\n\n    Point the open-source links at the slop account\n\n(the real log: https://git.freifick.net/slop/slop-landing/-/commits/main)'
       : a[0] === 'push' ? 'Everything up-to-date (the slop is always up to date)' : 'git: try `git log` or `git push`. or visit https://git.freifick.net/slop'),
     ping: (a) => `PING ${a[0] || 'mom'}: 64 bytes: seen time=0.69 ms\n64 bytes: left on read time=4.20 ms\n--- 2 messages sent, 0 replies received, 100% reply loss`,
+    bgp: () => '⚡ slopbgp: autonomous BGP-4 & MP-BGP daemon in Gleam on the Erlang BEAM for DN42.\n' +
+      'actor-per-peer supervision, zero-copy binary pattern matching, 8-stage loc-rib decision engine,\n' +
+      'RFC 8950 extended next hops, RFC 8092 large communities, RFC 6811 live ROA origin validation,\n' +
+      'built-in dark-mode web dashboard & operator ctl tool.\n' +
+      'code: https://git.freifick.net/slop/slopbgp (mirror: https://github.com/slopinger/slopbgp)',
+    slopbgp: () => commands.bgp(),
     make: (a) => (a.join(' ') === 'me a sandwich' ? 'what? make it yourself.' : "make: *** No rule to make target 'slop'. Stop. (just kidding, slop is made automatically)"),
     maxslop: () => { setMaxSlop(!window.slop.maxSlop); return window.slop.maxSlop ? '☢️ engaged.' : 'disengaged. for now.'; },
     sl: () => '      ====        ________\n  _D _|  |_______/        \\__I_I_____\n   |(_)---  |   H\\________/ |   |\n   /     |  |   H  |  |     |   |\n  |      |  |   H  |__-------------\n\nchoo choo. the slop train has left the station.',
