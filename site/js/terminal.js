@@ -126,7 +126,8 @@
     ping: (a) => `PING ${a[0] || 'mom'}: 64 bytes: seen time=0.69 ms\n64 bytes: left on read time=4.20 ms\n--- 2 messages sent, 0 replies received, 100% reply loss`,
     bgp: () => '⚡ slopbgp: autonomous BGP-4 & MP-BGP daemon in Gleam on the Erlang BEAM for DN42.\n' +
       'actor-per-peer supervision, zero-copy binary pattern matching, 8-stage loc-rib decision engine,\n' +
-      'RFC 8950 extended next hops, RFC 8092 large communities, RFC 6811 live ROA origin validation,\n' +
+      'RFC 8950 extended next hops, RFC 5575/8955 Flowspec DDoS filter & nftables compilation,\n' +
+      'RFC 2439 flap damping, RFC 8326 graceful shutdown, RFC 6811 live ROA, Prometheus metrics on /metrics,\n' +
       'built-in dark-mode web dashboard & operator ctl tool.\n' +
       'code: https://git.freifick.net/slop/slopbgp (mirror: https://github.com/slopinger/slopbgp)',
     slopbgp: () => commands.bgp(),
