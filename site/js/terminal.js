@@ -8,7 +8,7 @@
     'slop.txt': "slop. age: yes. lives: the boymoder room. likes: tendies, energy drinks, loving the slop, being right online.\ndislikes: sunlight, phone calls, mondays. last touched grass: 2019. has passed out from tendies 1,000+ times.",
     'gerald.txt': 'Gerald. pig. retired to a farm upstate. sends a postcard sometimes. it just says "oink".',
     'todo.md': '- [x] buy domain\n- [x] get A+ on SSL Labs\n- [x] add a terminal nobody asked for\n- [ ] make website good\n- [ ] touch grass\n- [ ] stop adding slop (never)',
-    'secrets.txt': 'nice try.\n(there are no secrets. the whole website is open source: https://git.freifick.net/slop)',
+    'secrets.txt': 'nice try.\n(there are no secrets. the whole website is open source: https://github.com/slopinger)',
     'slop.exe': '\u0000\u0000MZ\u0000 this program cannot be run in DOS mode. or any mode. it is slop.',
     'README': 'welcome to slopsh. type `help`. type `ls`. type things you should not type.',
   };
@@ -121,8 +121,8 @@
     },
     vim: () => 'you are now trapped in vim. this is your life now.\n(just kidding. press Esc. then cry. then type :q!)',
     ':q!': () => 'you escaped vim. a rare achievement. (no stamp though, it is too rare.)',
-    git: (a) => (a[0] === 'log' ? 'commit 7497742 (HEAD -> main, origin/main)\nAuthor: slop <slopmoder@tutamail.com>\n\n    Point the open-source links at the slop account\n\n(the real log: https://git.freifick.net/slop/slop-landing/-/commits/main)'
-      : a[0] === 'push' ? 'Everything up-to-date (the slop is always up to date)' : 'git: try `git log` or `git push`. or visit https://git.freifick.net/slop'),
+    git: (a) => (a[0] === 'log' ? 'commit 7497742 (HEAD -> main, origin/main)\nAuthor: slop <slopmoder@tutamail.com>\n\n    Point the open-source links at the slop account\n\n(the real log: https://github.com/slopinger/slop-landing/commits/main)'
+      : a[0] === 'push' ? 'Everything up-to-date (the slop is always up to date)' : 'git: try `git log` or `git push`. or visit https://github.com/slopinger'),
     ping: (a) => `PING ${a[0] || 'mom'}: 64 bytes: seen time=0.69 ms\n64 bytes: left on read time=4.20 ms\n--- 2 messages sent, 0 replies received, 100% reply loss`,
     bgp: () => '⚡ slopbgp: autonomous BGP-4 & MP-BGP daemon in Gleam on the Erlang BEAM for DN42.\n' +
       'actor-per-peer supervision, zero-copy binary pattern matching, 10-stage loc-rib decision engine,\n' +
@@ -131,15 +131,15 @@
       'RFC 8210 RTR cache sync, RFC 5880 BFD sub-second failover, RFC 7999 RTBH blackholing, RFC 7432 EVPN,\n' +
       'RFC 8950 extended next hops, RFC 5575/8955 Flowspec, carrier Looking Glass, RFC 2439 flap damping,\n' +
       'RFC 8326 graceful shutdown, RFC 6811 live ROA, Prometheus metrics on /metrics, dark-mode web dashboard.\n' +
-      'code: https://git.freifick.net/slop/slopbgp (mirror: https://github.com/slopinger/slopbgp)',
+      'code: https://github.com/slopinger/slopbgp',
     slopbgp: () => commands.bgp(),
     lantern: () => '🏮 lantern: experimental Haskell webserver with Caddy-style configuration.\n' +
       'independent clean-room HTTP/1.1 (lantern-http), TLS 1.3 (lantern-tls), automated ACME,\n' +
       'precompressed Brotli/gzip serving (--precompressed), and reverse proxying.\n' +
-      'code: https://git.freifick.net/slop/lantern (mirror: https://github.com/slopinger/lantern)',
+      'code: https://github.com/slopinger/lantern',
     driftline: () => '📐 driftline: local OpenAPI change impact analyzer & migration reporter.\n' +
       'inspect schema diffs, breaking contract changes, and client migration impact.\n' +
-      'demo: https://driftline.freifick.net/ · code: https://git.freifick.net/slop/driftline',
+      'demo: https://driftline.freifick.net/ · code: https://github.com/slopinger/driftline',
     projects: () => '💻 slop\'s projects:\n' +
       '  slopbgp:        Gleam BGP-4 & MP-BGP daemon on OTP BEAM (AS4242420125)\n' +
       '  lantern:        Experimental Haskell webserver (HTTP/1.1, TLS 1.3, ACME)\n' +
@@ -148,7 +148,7 @@
       '  driftline:      OpenAPI change analyzer (driftline.freifick.net)\n' +
       '  arbeitsagentur: MCP server for Bundesagentur für Arbeit customer APIs\n' +
       '  therapie:       MCP server for therapie.de therapist directory search\n' +
-      '  all repos:      https://git.freifick.net/slop (mirrors: https://github.com/slopinger)',
+      '  all repos:      https://github.com/slopinger',
     make: (a) => (a.join(' ') === 'me a sandwich' ? 'what? make it yourself.' : "make: *** No rule to make target 'slop'. Stop. (just kidding, slop is made automatically)"),
     maxslop: () => { setMaxSlop(!window.slop.maxSlop); return window.slop.maxSlop ? '☢️ engaged.' : 'disengaged. for now.'; },
     sl: () => '      ====        ________\n  _D _|  |_______/        \\__I_I_____\n   |(_)---  |   H\\________/ |   |\n   /     |  |   H  |  |     |   |\n  |      |  |   H  |__-------------\n\nchoo choo. the slop train has left the station.',
