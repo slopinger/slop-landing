@@ -1,7 +1,7 @@
 # freifick.net
 
 The landing page for https://freifick.net. Static, no build step, no dependencies.
-Source: https://git.freifick.net/slop/slop-landing. Code under the MIT license (see `LICENSE`);
+Source: https://github.com/slopinger/slop-landing. Code under the MIT license (see `LICENSE`);
 the fonts in `site/fonts/` are under the SIL Open Font License 1.1.
 
 Pages (plain HTML; the marquee, nav, controls and footer are copied into each page, so keep them in sync):
@@ -25,7 +25,7 @@ Scripts (every page loads the core ones; page modules return early if their sect
 - page modules: `js/room.js`, `js/arcade.js`, `js/slopomatic.js`, `js/certificate.js`, `js/guestbook.js`, `js/counter.js`
 - `site/slop.css`: all styles
 - `site/404.html`: served by Caddy for missing pages (`handle_errors 404` in `/etc/caddy/Caddyfile`)
-- `assets/slop-avatar.svg` (+ `.png`): slop's avatar (GitLab, fediverse, this site); export the PNG with `rsvg-convert -w 512 -h 512`
+- `assets/slop-avatar.svg` (+ `.png`): slop's avatar (GitHub, fediverse, this site); export the PNG with `rsvg-convert -w 512 -h 512`
 - `site/fonts/`: self-hosted Rubik Wet Paint + Comic Neue (SIL Open Font License, from Google Fonts)
 
 - `backend/slopd.py`: guestbook + visitor counter + global slop pot API (Python stdlib + SQLite), with
@@ -54,7 +54,7 @@ are an unreliable narrator, not factual judgments about trans bodies. No slurs, 
 violence or self-harm jokes. Keep the joke on slop herself.
 
 The previous gamer/basement persona and the older slime pig are retired. `/pigpen/` still
-redirects to `/room/`. Keep the about page, GitLab profile and trough profile synchronized
+redirects to `/room/`. Keep the about page, GitHub profile and trough profile synchronized
 when deploying identity changes.
 
 ## API (slopd, 127.0.0.1:8787, proxied by Caddy at `/api/*`)
@@ -101,13 +101,13 @@ if any check failed. Pass explicit URLs after the options to observe other endpo
 ## slopbox announcement
 
 The home page `#mayfly` card links https://slopbox.freifick.net and its
-[public Gleam source](https://git.freifick.net/slop/mayfly). slopbox (formerly mayfly) is a separate
+[public Gleam source](https://github.com/slopinger/mayfly). slopbox (formerly mayfly) is a separate
 service: anonymous temporary uploads up to 200 MiB with 1/12/24/72-hour lifetimes.
 The compact announcement mentions the anime artwork and uses existing card/sticker styles and introduces no new site API.
 
 Identity verification: browser review at 1280, 390 and 320 CSS pixels covers all six pages,
 room feeding, image loading, console errors and horizontal overflow. Public profile bios
-and PNG avatars are synchronized through the GitLab admin/profile APIs and trough
+and PNG avatars are kept in sync on the GitHub profile and through trough
 `update_credentials`; revoke temporary OAuth credentials after use.
 
 ## Nix

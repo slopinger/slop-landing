@@ -11,7 +11,7 @@ and README current as part of every behavior, page structure, test or operationa
 - `site/slop.js` is shared core; optional modules start only where their elements exist. Preserve
   reduced-motion behavior, opt-in sound, accessibility labels and existing interactive features.
 - Home `#mayfly` uses a short announcement (upload limits + anime artwork) to advertise slopbox, the Gleam temporary file host at https://slopbox.freifick.net,
-  linking its public MIT source at https://git.freifick.net/slop/mayfly. Keep limits in sync
+  linking its public MIT source at https://github.com/slopinger/mayfly. Keep limits in sync
   with that service (200 MiB, 1/12/24/72 hours).
 - Home `#network` describes dn42 + trough software/instance. Verify dn42 facts against the live BIRD/
   dummy interface and registry objects before changing published network details.
@@ -24,10 +24,12 @@ and README current as part of every behavior, page structure, test or operationa
 - Local backups are handled by `slop/server-backups` and its daily timer; README there has restore steps.
   Public guestbook entries are user content: do not moderate or delete them without an actual reason.
 - Check git status, sign commits and push only your changes; preserve concurrent sessions' work.
+  The repo lives on GitHub only: push to `origin` (https://github.com/slopinger/slop-landing),
+  `git push origin main`. There is no second remote or mirror.
 - Use small commits: one logical change per commit (with its tests/docs), each passing the checks above.
   Don't bundle unrelated changes or a whole session's work into one commit.
 
-- Boymoder identity deployed 2026-10-15; site/GitLab/trough share the PNG portrait and she/her bio.
+- Boymoder identity deployed 2026-10-15; site/GitHub/trough share the PNG portrait and she/her bio.
   Canvas slime, games, certificate and error-page accents use the lavender palette.
 
 - Every software change must maintain project-owned Nix flake packaging, a committed lockfile,
