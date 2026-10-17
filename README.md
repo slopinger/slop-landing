@@ -90,7 +90,7 @@ without changing the live guestbook or counters.
 
     python3 tools/watch-health.py --duration 3600 --interval 60 --output /tmp/slop-health.jsonl
 
-This checks the public website, API read endpoints, fediverse NodeInfo and GitLab project list.
+This checks the public website, API read endpoints, fediverse NodeInfo and the GitHub profile page.
 It sends only GET requests and writes timestamped JSONL observations, exiting with a failure status
 if any check failed. Pass explicit URLs after the options to observe other endpoints.
 
