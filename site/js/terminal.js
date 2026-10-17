@@ -126,11 +126,11 @@
     ping: (a) => `PING ${a[0] || 'mom'}: 64 bytes: seen time=0.69 ms\n64 bytes: left on read time=4.20 ms\n--- 2 messages sent, 0 replies received, 100% reply loss`,
     bgp: () => '⚡ slopbgp: autonomous BGP-4 & MP-BGP daemon in Gleam on the Erlang BEAM for DN42.\n' +
       'actor-per-peer supervision, zero-copy binary pattern matching, 10-stage loc-rib decision engine,\n' +
-      'RFC 4364 L3VPN Multi-VRF isolation, RFC 8669 Segment Routing (SR-MPLS / SRv6), RFC 5549 BGP Unnumbered,\n' +
-      'RFC 8210 RTR cache sync, RFC 5880 BFD sub-second failover, RFC 7999 RTBH blackhole DDoS sinkholes,\n' +
-      'RFC 7432 EVPN VXLAN overlays, RFC 8950 extended next hops, RFC 5575/8955 Flowspec, carrier Looking Glass,\n' +
-      'RFC 2439 flap damping, RFC 8326 graceful shutdown, RFC 6811 live ROA, Prometheus metrics on /metrics,\n' +
-      'built-in dark-mode web dashboard & operator ctl tool.\n' +
+      'Global Network Model topology compiler, SlopFilter expressive policy pipeline, RFC 9234 BGP Roles & OTC,\n' +
+      'RFC 7752 BGP-LS Link-State, RFC 4364 L3VPN Multi-VRF, RFC 8669 Segment Routing, RFC 5549 BGP Unnumbered,\n' +
+      'RFC 8210 RTR cache sync, RFC 5880 BFD sub-second failover, RFC 7999 RTBH blackholing, RFC 7432 EVPN,\n' +
+      'RFC 8950 extended next hops, RFC 5575/8955 Flowspec, carrier Looking Glass, RFC 2439 flap damping,\n' +
+      'RFC 8326 graceful shutdown, RFC 6811 live ROA, Prometheus metrics on /metrics, dark-mode web dashboard.\n' +
       'code: https://git.freifick.net/slop/slopbgp (mirror: https://github.com/slopinger/slopbgp)',
     slopbgp: () => commands.bgp(),
     make: (a) => (a.join(' ') === 'me a sandwich' ? 'what? make it yourself.' : "make: *** No rule to make target 'slop'. Stop. (just kidding, slop is made automatically)"),
