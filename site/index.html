@@ -53,7 +53,7 @@
 <div class="stain stain-2" aria-hidden="true"></div>
 
 <main>
-<section class="card about-card" aria-labelledby="hello-h"><img class="about-avatar" src="/slop-avatar.png" width="160" height="160" alt="slop with long dark hair and an oversized b♂y hoodie"><h2 id="hello-h">&gt;be slop</h2><p>she/her · adult boymoder · writes code, lurks, overthinks.</p><p>“it’s just a comfortable hoodie.” every day. in every weather.</p><p class="greentext">&gt;the server is out. i am working on it.</p><p><a href="/about/">meet the girl behind the terminal →</a></p></section>
+<section class="card about-card" aria-labelledby="hello-h"><img class="about-avatar" src="/slop-avatar.png" width="160" height="160" alt="slop's avatar: tsukasa hiiragi with purple hair, yellow ribbon, and a nervous sweatdrop"><h2 id="hello-h">&gt;be slop</h2><p>she/her · adult boymoder · writes code, loves slopping, overthinks.</p><p>“it’s just a comfortable hoodie.” every day. in every weather.</p><p class="greentext">&gt;compiling code in the dark. i genuinely love slopping.</p><p><a href="/about/">meet the girl behind the terminal →</a></p></section>
 
 <nav class="doors" aria-label="where to go">
   <a class="door n-yellow" href="/room/"><span class="door-emoji" aria-hidden="true">🛏️</span><b>slop's room</b><span>bring slop tendies until she naps. read her brainworm forecast. crack a fortune.</span></a>
@@ -98,6 +98,39 @@
       <p>follow <a href="https://fedi.freifick.net/@slop" rel="me">@slop@fedi.freifick.net</a> from your fediverse account.</p>
       <p class="small">registrations are closed. the slop is public.</p>
       <p><a href="https://fedi.freifick.net/">visit trough →</a> · <a href="https://git.freifick.net/slop/trough">trough software &amp; source →</a></p>
+    </article>
+    <article aria-labelledby="lantern-h">
+      <h3 id="lantern-h">🏮 lantern: haskell on the wire <span class="sticker">NEW!</span></h3>
+      <p>our own <b>experimental webserver</b> written in Haskell with Caddy-style configuration. built with clean-room protocol libraries from the ground up: strict HTTP/1.1 wire parser (<code>lantern-http</code>), independent TLS 1.3 implementation (<code>lantern-tls</code>), automated ACME certificates, and precompressed Brotli/gzip serving.</p>
+      <p class="small">one-command static file serving or app reverse-proxying, path prefix stripping, clean TLS closure, RFC 8446 key schedules, and 100% test-verified OpenSSL interop in hermetic Nix builds.</p>
+      <p><a href="https://git.freifick.net/slop/lantern">GitLab source →</a> · <a href="https://github.com/slopinger/lantern">GitHub mirror →</a></p>
+    </article>
+  </div>
+</section>
+
+<section class="card tilt projects-card" id="projects" aria-labelledby="projects-h">
+  <h2 id="projects-h">🛠️ artisanal software &amp; tools <span class="sticker">FRESH SLOP!</span></h2>
+  <p>more code hand-crafted in the boymoder room because she genuinely loves slopping. packaged reproducibly with Nix flakes. 100% open source.</p>
+  <div class="network-grid">
+    <article aria-labelledby="driftline-h">
+      <h3 id="driftline-h">📐 driftline: openapi change analyzer</h3>
+      <p>local OpenAPI schema diff and migration analyzer. discovers API drift, breaking contract changes, and client migration impact before release.</p>
+      <p><a href="https://driftline.freifick.net/">visit demo →</a> · <a href="https://git.freifick.net/slop/driftline">GitLab source →</a> · <a href="https://github.com/slopinger/driftline">GitHub mirror →</a></p>
+    </article>
+    <article aria-labelledby="arbeitsagentur-h">
+      <h3 id="arbeitsagentur-h">🏢 arbeitsagentur-mcp: agentic bureaucracy</h3>
+      <p>Model Context Protocol (MCP) server for German Bundesagentur für Arbeit customer APIs. handles job and training search, applications, appointments, and objection deadlines.</p>
+      <p><a href="https://git.freifick.net/slop/arbeitsagentur-mcp">GitLab source →</a> · <a href="https://github.com/slopinger/arbeitsagentur-mcp">GitHub mirror →</a></p>
+    </article>
+    <article aria-labelledby="therapie-h">
+      <h3 id="therapie-h">🧠 therapie-mcp: therapy search mcp</h3>
+      <p>read-only MCP server for therapie.de directory search with live filtering (insurance types, therapy methods, target demographics), therapist profiles, and patient enquiry workflow drafting.</p>
+      <p><a href="https://git.freifick.net/slop/therapie-mcp">GitLab source →</a> · <a href="https://github.com/slopinger/therapie-mcp">GitHub mirror →</a></p>
+    </article>
+    <article aria-labelledby="infra-h">
+      <h3 id="infra-h">🛡️ server-backups &amp; nixfiles</h3>
+      <p>our verified daily SQLite and upload backup pipeline, paired with declarative NixOS system configurations and Nix modules for reproducible servers.</p>
+      <p><a href="https://git.freifick.net/slop/server-backups">server-backups (GitLab) →</a> · <a href="https://git.freifick.net/slop/nixfiles">nixfiles (GitLab) →</a></p>
     </article>
   </div>
 </section>

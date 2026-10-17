@@ -28,6 +28,8 @@
     ['TOUCHING GRASS', '🌱', 'went for a walk. the outside world did not ask for a discourse take.'],
     ['WE ARE SO BACK', '📈', 'the build passed. a small victory is still a victory.'],
     ['BUFFERING', '⏳', 'someone complimented her hair. response still compiling.'],
+    ['LOVE FOR SLOPPING', '💜', 'hoodie on, terminal glow, genuine joy for writing slop. we are so back.'],
+    ['SLOPPING', '✨', 'compiling code, routing packets, loving the slop. dopamine restored.'],
   ];
   const AVOID = ['sunlight', 'phone calls', 'eye contact', 'the mirror', 'mom saying "we need to talk"', 'job portals', 'leaving the house',
     'reply-all', 'Mondays', 'voice chat', 'LinkedIn', 'the gym (it scares her)', 'her screen time report', 'kale (again)', 'standing desks', 'the comments'];

@@ -5,7 +5,7 @@
 
   const PAGES = { '~': '/', basement: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
   const FILES = {
-    'slop.txt': "slop. age: yes. lives: the boymoder room. likes: tendies, energy drinks, being right online.\ndislikes: sunlight, phone calls, mondays. last touched grass: 2019. has passed out from tendies 1,000+ times.",
+    'slop.txt': "slop. age: yes. lives: the boymoder room. likes: tendies, energy drinks, loving the slop, being right online.\ndislikes: sunlight, phone calls, mondays. last touched grass: 2019. has passed out from tendies 1,000+ times.",
     'gerald.txt': 'Gerald. pig. retired to a farm upstate. sends a postcard sometimes. it just says "oink".',
     'todo.md': '- [x] buy domain\n- [x] get A+ on SSL Labs\n- [x] add a terminal nobody asked for\n- [ ] make website good\n- [ ] touch grass\n- [ ] stop adding slop (never)',
     'secrets.txt': 'nice try.\n(there are no secrets. the whole website is open source: https://git.freifick.net/slop)',
@@ -52,7 +52,7 @@
 
   const commands = {
     help: () => 'commands: help ls cat cd pwd whoami neofetch fortune mood copesay cope visitors pot passport\n' +
-      '          echo date uptime history clear exit sudo rm vim git ping bgp make touch maxslop ...and some secret ones',
+      '          echo date uptime history clear exit sudo rm vim git ping bgp lantern driftline projects make touch maxslop ...and some secret ones',
     ls: (a) => (a.includes('-a') ? '.  ..  .slop_history  .diary (locked)\n' : '') +
       'arcade/  room/  office/  guestbook/  about/  ' + Object.keys(FILES).join('  '),
     cat: (a) => {
@@ -90,7 +90,7 @@
     copesay: (a) => copesay(a.join(' ') || "it's over"),
     pigsay: (a) => 'pigsay: the pig retired to a farm upstate. try copesay.\n' + copesay(a.join(' ') || 'i miss the pig'),
     cowsay: (a) => 'cowsay: no cows down here. try copesay.\n' + copesay(a.join(' ') || 'moo? no. cope.'),
-    cope: () => { sigh(); return pick(['cope.', 'coping...', "it's fine. everything is fine.", "we're so back. (we are not)"]); },
+    cope: () => { sigh(); return pick(['cope.', 'coping...', "it's fine. everything is fine.", "we're so back. (loving the slop)", "the slop must flow."]); },
     oink: () => "oink? the pig is gone. it's just slop now. try `cope`.",
     visitors: async () => { try { return `${(await api('/api/visits')).total} visitors so far. all of them real. probably.`; } catch { return 'the counter fell in the slop.'; } },
     pot: async () => { try { const p = await api('/api/pot'); return `the global slop pot contains ${p.splats} splats and ${p.ladles} ladles from everyone.`; } catch { return 'the pot lid is stuck.'; } },
@@ -133,6 +133,22 @@
       'RFC 8326 graceful shutdown, RFC 6811 live ROA, Prometheus metrics on /metrics, dark-mode web dashboard.\n' +
       'code: https://git.freifick.net/slop/slopbgp (mirror: https://github.com/slopinger/slopbgp)',
     slopbgp: () => commands.bgp(),
+    lantern: () => '🏮 lantern: experimental Haskell webserver with Caddy-style configuration.\n' +
+      'independent clean-room HTTP/1.1 (lantern-http), TLS 1.3 (lantern-tls), automated ACME,\n' +
+      'precompressed Brotli/gzip serving (--precompressed), and reverse proxying.\n' +
+      'code: https://git.freifick.net/slop/lantern (mirror: https://github.com/slopinger/lantern)',
+    driftline: () => '📐 driftline: local OpenAPI change impact analyzer & migration reporter.\n' +
+      'inspect schema diffs, breaking contract changes, and client migration impact.\n' +
+      'demo: https://driftline.freifick.net/ · code: https://git.freifick.net/slop/driftline',
+    projects: () => '💻 slop\'s projects:\n' +
+      '  slopbgp:        Gleam BGP-4 & MP-BGP daemon on OTP BEAM (AS4242420125)\n' +
+      '  lantern:        Experimental Haskell webserver (HTTP/1.1, TLS 1.3, ACME)\n' +
+      '  trough:         ActivityPub fediverse server in Go + SQLite (fedi.freifick.net)\n' +
+      '  slopbox:        Ephemeral file sharing in Gleam (slopbox.freifick.net)\n' +
+      '  driftline:      OpenAPI change analyzer (driftline.freifick.net)\n' +
+      '  arbeitsagentur: MCP server for Bundesagentur für Arbeit customer APIs\n' +
+      '  therapie:       MCP server for therapie.de therapist directory search\n' +
+      '  all repos:      https://git.freifick.net/slop (mirrors: https://github.com/slopinger)',
     make: (a) => (a.join(' ') === 'me a sandwich' ? 'what? make it yourself.' : "make: *** No rule to make target 'slop'. Stop. (just kidding, slop is made automatically)"),
     maxslop: () => { setMaxSlop(!window.slop.maxSlop); return window.slop.maxSlop ? '☢️ engaged.' : 'disengaged. for now.'; },
     sl: () => '      ====        ________\n  _D _|  |_______/        \\__I_I_____\n   |(_)---  |   H\\________/ |   |\n   /     |  |   H  |  |     |   |\n  |      |  |   H  |__-------------\n\nchoo choo. the slop train has left the station.',
