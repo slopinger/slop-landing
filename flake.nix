@@ -10,9 +10,15 @@
       site = pkgs.stdenvNoCC.mkDerivation {
         pname = "slop-landing";
         version = "0.1.0";
-        src = ./site;
-        dontBuild = true;
-        installPhase = "mkdir -p $out; cp -r . $out/";
+        src = ./.;
+        nativeBuildInputs = [ pkgs.wabt pkgs.nodejs ];
+        buildPhase = "bash tools/build-bloons.sh";
+        doCheck = true;
+        checkPhase = ''
+          node --check site/arcade/bloons/game.js
+          node tools/test-bloons.mjs
+        '';
+        installPhase = "mkdir -p $out; cp -r site/. $out/";
         meta.license = pkgs.lib.licenses.mit;
       };
       slopd = pkgs.stdenvNoCC.mkDerivation {
@@ -37,9 +43,12 @@
     });
     devShells = eachSystem (system: {
       default = nixpkgs.legacyPackages.${system}.mkShell {
-        packages = [ nixpkgs.legacyPackages.${system}.python3 ];
+        packages = with nixpkgs.legacyPackages.${system}; [ python3 wabt nodejs ];
       };
     });
+    hydraJobs = nixpkgs.lib.foldlAttrs (acc: system: jobs:
+      nixpkgs.lib.recursiveUpdate acc (nixpkgs.lib.mapAttrs (_: p: { ${system} = p; }) jobs)
+    ) {} self.checks;
     nixosModules.default = import ./nix/module.nix { inherit self; };
   };
 }

@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+/result*
+/site/arcade/bloons/engine.wasm
+/site/arcade/bloons/engine.wat

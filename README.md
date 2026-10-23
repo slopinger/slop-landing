@@ -1,6 +1,7 @@
 # freifick.net
 
-The landing page for https://freifick.net. Static, no build step, no dependencies.
+The landing page for https://freifick.net. Static HTML/CSS/JS with a handwritten assembly game
+compiled to WebAssembly by the Nix build; no browser runtime dependencies.
 Source: https://github.com/slopinger/slop-landing. Code under the MIT license (see `LICENSE`);
 the fonts in `site/fonts/` are under the SIL Open Font License 1.1.
 
@@ -10,6 +11,8 @@ Pages (plain HTML; the marquee, nav, controls and footer are copied into each pa
 - `site/room/`: slop's room: bring slop tendies, her daily brainworm forecast, the fortune oracle (shareable `#f=<seed>` links)
 - `site/pigpen/`: redirect stub: the old pig page forwards to `/room/` (keeping `#f=` fortune links)
 - `site/arcade/`: whack-a-ping, flappy slop, catch the tendies, slop memory (one cabinet at a time, `#<game>`)
+- `site/arcade/bloons/`: Bloon Assembly, an assembly/Wasm tower-defense development build;
+  BTD6 feature parity is the target, not yet achieved. See [engine notes and remaining scope](assembly/README.md).
 - `site/office/`: the slop-o-matic 3000 and the slop certificate generator (client-side canvas PNG)
 - `site/guestbook/`: the real guestbook
 - `site/about/`: who slop is, open source, secrets, colophon/privacy
@@ -33,7 +36,7 @@ Scripts (every page loads the core ones; page modules return early if their sect
 
 Features: metaball slime engine (canvas; drips, splats on click, pool that slurps itself),
 the Slop-o-matic 3000 (buzzword generator, intensity 1–11), slop at his desk (food coma after
-12 tendies), 4 arcade games, a real guestbook, visitor counter and global slop pot, a passport
+12 tendies), 5 arcade games, a real guestbook, visitor counter and global slop pot, a passport
 with 24 stamps, a fake terminal, slop's daily brainworm forecast and fortunes, a certificate generator,
 a parody cookie banner, and a Konami-code MAXIMUM SLOP mode that persists across pages.
 Respects `prefers-reduced-motion`. Sounds are opt-in. Feature ideas were brainstormed with an AI model.
@@ -96,7 +99,21 @@ if any check failed. Pass explicit URLs after the options to observe other endpo
 
 ## Deploy
 
-    ./deploy.sh    # site/ -> /srv/http/freifick.net; installs + restarts slopd if backend changed (uses sudo)
+Push signed commits to GitHub, then deploy through the host configuration:
+
+```sh
+cd ~/src/nixfiles
+nix flake update slop-landing
+nix flake check --no-build
+sudo nixos-rebuild switch --flake .#slopbox
+git add flake.lock
+git commit -m "Deploy slop-landing"
+git push origin main
+```
+
+Wait for the relevant Hydra checks, inspect the lock diff before rebuilding, and verify the live
+page and Wasm after the switch. Caddy serves the immutable Nix package. Never copy files directly
+into the old web root. `deploy.sh` is retained only as an obsolete Arch artifact.
 
 ## slopbox announcement
 
@@ -112,12 +129,19 @@ and PNG avatars are kept in sync on the GitHub profile and through trough
 
 ## Nix
 
-`nix build` builds the static site; `nix build .#slopd` builds the backend with
-Python and runs isolated HTTP regression tests. `nix flake check` builds both.
-`nix develop` provides Python. Linux x86_64 and aarch64 are supported.
+`nix build` assembles and validates the balloon engine from `assembly/bloons.wat`, tests its rules
+and full 30-round test campaign, and builds the static site. `nix build .#slopd` builds the backend
+with Python and runs isolated HTTP regression tests. `nix flake check` builds both.
+`nix develop` provides Python, Node and WABT. Linux x86_64 and aarch64 are supported.
+`hydraJobs` exposes site and backend checks for both architectures; CI is
+https://hydra.kyouma.net/jobset/slop-landing/main.
+
+For a source-tree preview, first run `nix develop -c bash tools/build-bloons.sh`, then
+`python3 -m http.server 8768 --bind 127.0.0.1 --directory site`. The generated Wasm and its
+public WAT source are ignored locally and reproduced by Nix.
 
 Import `inputs.slop-landing.nixosModules.default` and enable
 `freifick.slopd.enable` for the hardened loopback API service and `slopctl`.
 Options include `package`, `host`, `port` and `user`; state is in
 `/var/lib/slopd`. Point a web server at the `site` package and proxy `/api/*`
-to the backend separately. Existing Arch deployment uses `./deploy.sh`.
+to the backend separately. NixOS deployment is described above.
