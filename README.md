@@ -12,6 +12,7 @@ Pages (plain HTML; the marquee, nav, controls and footer are copied into each pa
 - `site/pigpen/`: redirect stub: the old pig page forwards to `/room/` (keeping `#f=` fortune links)
 - `site/arcade/`: whack-a-ping, flappy slop, catch the tendies, slop memory (one cabinet at a time, `#<game>`)
 - `site/arcade/bloons/`: Bloon Assembly, an assembly/Wasm tower-defense development build;
+  six partial towers, standard rounds 1–40, a 17-type balloon sandbox and selectable targeting.
   BTD6 feature parity is the target, not yet achieved. See [engine notes and remaining scope](assembly/README.md).
 - `site/office/`: the slop-o-matic 3000 and the slop certificate generator (client-side canvas PNG)
 - `site/guestbook/`: the real guestbook
@@ -129,8 +130,9 @@ and PNG avatars are kept in sync on the GitHub profile and through trough
 
 ## Nix
 
-`nix build` assembles and validates the balloon engine from `assembly/bloons.wat`, tests its rules
-and full 30-round test campaign, and builds the static site. `nix build .#slopd` builds the backend
+`nix build` encodes checked-in round data, assembles and validates the balloon engine from
+`assembly/bloons.wat`, tests its rules
+and full 40-round campaign (the standard opening rounds), and builds the static site. `nix build .#slopd` builds the backend
 with Python and runs isolated HTTP regression tests. `nix flake check` builds both.
 `nix develop` provides Python, Node and WABT. Linux x86_64 and aarch64 are supported.
 `hydraJobs` exposes site and backend checks for both architectures; CI is

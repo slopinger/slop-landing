@@ -1,19 +1,22 @@
 // Presentation only. The handwritten WAT module owns all simulation and rules.
 const $ = (id) => document.getElementById(id);
 const canvas = $('field'), ctx = canvas.getContext('2d');
-const names = ['Dart monkey', 'Tack shooter', 'Bomb shooter', 'Ice monkey', 'Super monkey'];
-const colors = ['#dcb37d', '#ed929e', '#a3afbe', '#a6e3ef', '#a6a2ef'];
-const descriptions = ['Targets the furthest balloon in range. Upgrades improve range, damage and attack speed.',
+const names = ['Dart monkey', 'Tack shooter', 'Bomb shooter', 'Ice monkey', 'Super monkey', 'Ninja monkey'];
+const bloonNames=['Red','Blue','Green','Yellow','Pink','Black','White','Purple','Lead','Zebra','Rainbow','Ceramic','MOAB','BFB','ZOMG','DDT','BAD'];
+const descriptions = ['Sharp single-target shots. Upgrades currently improve range, damage and attack speed.',
   'Hits all balloons in its radius. Place near a bend to cover both sides.',
-  'Explodes on contact, damaging a group. The only tower that can break lead shells.',
-  'Damages and slows groups to 45% speed. Pair with a bomb shooter for lead waves.',
-  'Rapidly fires darts at the furthest balloon. Its range covers several lanes.'];
+  'Explosions damage a group and pop lead. Black and zebra balloons resist explosions.',
+  'Freezes ordinary balloons. White, zebra, lead and blimps resist cold; frozen balloons resist sharp shots.',
+  'Rapidly fires darts. Sharp darts cannot damage lead or frozen balloons.',
+  'Sees camo balloons. Its sharp shots still need bomb support against lead.'];
+const targets=['First','Last','Close','Strong'];
 const path = [[-24,110],[140,110],[140,280],[330,280],[330,100],[520,100],[520,370],[710,370],[710,215],[984,215]];
 let engine, ints, floats, placing = -1, selected = -1, cursor = {x:225,y:185}, hovering = false;
 let paused = false, speed = 1, previous = 0, accumulator = 0, oldPhase = 0, oldPops = 0;
+let lastUi = 0;
 let sound = false, audio, restartArmed = false, restartTimer;
 let best = 0;
-try { best = Number(localStorage.getItem('bloon-assembly-best-v1')) || 0; } catch {}
+try { best = Number(localStorage.getItem('bloon-assembly-best-v2')) || 0; } catch {}
 $('best').textContent = 'Best: round ' + best;
 const money = (n) => '$' + n.toLocaleString('en-US');
 const readI = (address) => ints[address / 4];
@@ -56,6 +59,12 @@ function activate() {
 }
 function send() {
   if (!engine) return;
+  if (readI(32)) {
+    const type=Number($('spawn-type').value),count=Number($('spawn-count').value);
+    const flags=($('spawn-camo').checked?1:0)|($('spawn-regrow').checked?2:0)|($('spawn-fortified').checked?4:0);
+    if(Number.isInteger(count)&&count>=1&&count<=100&&engine.send_bloon(type,flags,count)){paused=false;announce('Sent '+count+' '+bloonNames[type]+' balloons.');}else announce('Could not send balloons. Use a count from 1 to 100 and leave room on the field.');
+    update();return;
+  }
   if (engine.start()) { paused=false; announce('Round ' + readI(8) + ' incoming. You can keep building during a wave.'); update(); }
 }
 function togglePause() {
@@ -63,18 +72,19 @@ function togglePause() {
   paused=!paused; accumulator=0; announce(paused?'Paused. Your defense can wait.':'Back to popping.'); update();
 }
 function reset() {
-  engine.reset(); selected=-1; placing=-1; paused=false; oldPhase=0; oldPops=0; accumulator=0;
+  engine.reset(Number($('mode').value)); selected=-1; placing=-1; paused=false; oldPhase=0; oldPops=0; accumulator=0;
   restartArmed=false; clearTimeout(restartTimer); $('restart').textContent='Restart';
-  announce('Start with a dart monkey near a bend. Send round 1 when ready.'); update();
+  announce(readI(32)?'Sandbox ready. Build a defense and choose balloons to send.':'Cover bends with dart monkeys. Add a ninja before camo round 24 and bombs before lead round 28.'); update();
 }
 function update() {
   if (!engine) return;
   const phase=readI(12), wave=readI(8);
   $('cash').textContent=money(readI(0)); $('lives').textContent=readI(4);
-  $('round').innerHTML=wave+' <small>/ 30</small>'; $('pops').textContent=readI(16).toLocaleString();
+  $('round').innerHTML=readI(32)?'LAB':wave+' <small>/ 40</small>'; $('pops').textContent=readI(16).toLocaleString();
   $('phase').textContent=paused?'BATTLEFIELD PAUSED':phase===1?'WAVE IN PROGRESS':phase===0?'PREPARE YOUR DEFENSE':phase===3?'CAMPAIGN COMPLETE':'DEFENSE BREACHED';
   $('remaining').textContent=phase===1?readI(20)+' on field · '+readI(24)+' incoming':'No balloons on the field';
-  $('start').disabled=phase!==0; $('start').textContent='▶ Send round '+(wave+1);
+  $('sandbox-controls').hidden=!readI(32);
+  $('start').disabled=readI(32)?phase>=2:phase!==0; $('start').textContent=readI(32)?'▶ Send balloons':'▶ Send round '+(wave+1);
   $('pause').disabled=phase!==1; $('pause').textContent=paused?'▶ Resume':'Ⅱ Pause';
   for (const b of document.querySelectorAll('[data-type]')) {
     b.setAttribute('aria-pressed',String(Number(b.dataset.type)===placing));
@@ -82,34 +92,37 @@ function update() {
     b.classList.toggle('unaffordable',readI(0)<engine.cost(Number(b.dataset.type)));
   }
   $('tower-actions').hidden=selected<0;
+  $('targeting-wrap').hidden=selected<0;
   $('cancel').hidden=placing<0&&selected<0;
   if (placing>=0) {
     $('inspect-name').textContent=names[placing]+' · '+money(engine.cost(placing));
     $('inspect-detail').textContent=descriptions[placing];
   } else if (selected>=0&&readI(tower(selected))) {
     const t=tower(selected), type=readI(t+12), level=readI(t+16), price=engine.upgrade_cost(selected);
+    $('targeting').value=String(readI(t+40)); $('targeting').disabled=phase>=2;
     $('inspect-name').textContent=names[type]+' · level '+(level+1);
-    $('inspect-detail').textContent=readI(t+32)+' layers popped. '+descriptions[type];
+    $('inspect-detail').textContent=readI(t+32)+' damage · targeting '+targets[readI(t+40)]+'. '+descriptions[type];
     $('upgrade').textContent=price?'↑ Upgrade · '+money(price):'Fully upgraded';
     $('upgrade').disabled=!price||price>readI(0)||phase>=2;
     $('sell').textContent='Sell · '+money(Math.floor(readI(t+36)*.75)); $('sell').disabled=phase>=2;
   } else {
     $('inspect-name').textContent='Every corner counts.';
-    $('inspect-detail').textContent='Cover several stretches of the track with one tower. Bombs become essential when lead balloons arrive on round 10.';
+    $('inspect-detail').textContent='Camo round 24 needs a ninja. Lead round 28 needs bombs. The MOAB on round 40 releases four ceramics.';
   }
   $('overlay').hidden=phase<2;
   if (phase>=2) {
-    $('outcome-kicker').textContent=phase===3?'TEST CAMPAIGN COMPLETE':'THE BALLOONS GOT THROUGH';
+    $('outcome-kicker').textContent=phase===3?'40 ROUNDS CLEAR':'THE BALLOONS GOT THROUGH';
     $('outcome').textContent=phase===3?'Clear skies.':'A hole in the defense.';
     $('outcome-detail').textContent='Round '+wave+' · '+readI(16).toLocaleString()+' layers popped'+(phase===3?' · '+readI(4)+' lives saved':'');
   }
-  if (oldPhase===1&&phase===0) announce('Round '+wave+' cleared. Bonus collected. Upgrade your defense or send the next wave.');
-  if (oldPhase===1&&phase!==1) {
+  if (oldPhase===1&&phase===0&&!readI(32)) announce('Round '+wave+' cleared. Bonus collected. Upgrade your defense or send the next wave.');
+  if (oldPhase===1&&phase!==1&&!readI(32)) {
     const completed=phase===2?wave-1:wave;
-    if (completed>best) { best=completed; try { localStorage.setItem('bloon-assembly-best-v1',String(best)); } catch {} }
+    if (completed>best) { best=completed; try { localStorage.setItem('bloon-assembly-best-v2',String(best)); } catch {} }
     $('best').textContent='Best: round '+best;
     if (phase===3) window.slop?.emit?.('game',{game:'bloons',score:readI(16)});
   }
+  if(readI(36))announce('The field is full. New balloons wait for space; clear the sandbox to reset.');
   oldPhase=phase;
 }
 function circle(x,y,r,fill,stroke) {
@@ -139,7 +152,7 @@ function drawTower(x,y,type,level,tx=x+1,ty=y,alpha=1) {
   ctx.save();ctx.globalAlpha=alpha;
   circle(x+2,y+5,21,'#172b3350');circle(x,y,20,'#293a3d','#233431');
   ctx.translate(x,y);
-  if(type===0||type===4){
+  if(type===0||type===4||type===5){
     const superMonkey=type===4;
     if(superMonkey){ctx.fillStyle='#c77694';ctx.beginPath();ctx.moveTo(-13,-10);ctx.lineTo(-24,22);ctx.lineTo(15,18);ctx.closePath();ctx.fill();}
     circle(0,0,16,superMonkey?'#6674c2':'#9e6c47','#65472f');
@@ -147,7 +160,8 @@ function drawTower(x,y,type,level,tx=x+1,ty=y,alpha=1) {
     ctx.save();ctx.rotate(Math.atan2(ty-y,tx-x));
     ctx.fillStyle=superMonkey?'#ece2a3':'#c89761';ctx.fillRect(3,-5,24,10);
     ctx.fillStyle='#373f42';ctx.fillRect(19,-2,12,4);ctx.restore();
-    circle(0,2,10,'#e1b480');circle(-4,-2,2,'#242b30');circle(4,-2,2,'#242b30');
+    circle(0,2,10,'#e1b480');
+    if(type===5){ctx.fillStyle='#493f5d';ctx.fillRect(-14,-12,28,13);ctx.fillRect(-14,3,28,10);ctx.fillStyle='#bc7d99';ctx.fillRect(-14,-3,28,5);}circle(-4,-2,2,'#242b30');circle(4,-2,2,'#242b30');
     if(superMonkey){ctx.fillStyle='#b4d6ef';ctx.fillRect(-10,-5,20,5);}
   }else if(type===1){
     circle(0,0,16,'#b86478','#663d4f');circle(0,0,9,'#ef9caa');
@@ -174,34 +188,47 @@ function draw() {
   for(let id=0;id<48;id++){
     const t=tower(id);if(readI(t))drawTower(readF(t+4),readF(t+8),readI(t+12),readI(t+16),readF(t+24)||readF(t+4)+1,readF(t+28)||readF(t+8));
   }
-  for(let b=1024;b<9216;b+=32){
+  for(let b=65536;b<engine.pool_end();b+=64){
     if(!readI(b))continue;
-    const x=readF(b+8),y=readF(b+12),hp=readI(b+16),type=readI(b+20);
+    const x=readF(b+8),y=readF(b+12),hp=readI(b+16),type=readI(b+20),flags=readI(b+32);
+    const palette=['#e47e89','#6eaaca','#83bd79','#ebcf75','#de9ccb','#2b303a','#eceee5','#a782cf','#87939f','#e7e7d7','#f6af8e','#b97447'];
     ctx.save();ctx.translate(x,y);
-    if(type===8){
-      ctx.fillStyle='#192c3444';ctx.beginPath();ctx.ellipse(3,8,36,22,0,0,7);ctx.fill();
-      ctx.fillStyle='#789eae';ctx.strokeStyle='#c2d7dc';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,34,19,0,0,7);ctx.fill();ctx.stroke();
-      ctx.fillStyle='#c8e0df';ctx.fillRect(-18,-17,5,34);ctx.fillRect(12,-17,5,34);
-      ctx.fillStyle='#385167';ctx.fillRect(-8,-7,16,14);ctx.fillStyle='#f0f4d4';ctx.font='bold 9px monospace';ctx.textAlign='center';ctx.fillText(hp,0,3);
-      ctx.fillStyle='#7597a4';ctx.beginPath();ctx.moveTo(-29,0);ctx.lineTo(-42,-17);ctx.lineTo(-42,17);ctx.closePath();ctx.fill();
+    if(type>=12){
+      const radius=[28,36,42,28,52][type-12],color=['#789eae','#bf697b','#6e9366','#53616d','#a16db6'][type-12];
+      ctx.fillStyle='#192c3444';ctx.beginPath();ctx.ellipse(3,8,radius*1.3,radius*.75,0,0,7);ctx.fill();
+      ctx.fillStyle=color;ctx.strokeStyle='#c2d7dc';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,radius*1.25,radius*.68,0,0,7);ctx.fill();ctx.stroke();
+      ctx.fillStyle=type===14?'#293a35':'#c8e0df';ctx.fillRect(-radius*.65,-radius*.58,5,radius*1.16);ctx.fillRect(radius*.4,-radius*.58,5,radius*1.16);
+      ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(-radius,0);ctx.lineTo(-radius*1.65,-radius*.75);ctx.lineTo(-radius*1.65,radius*.75);ctx.closePath();ctx.fill();
+      if(flags&1){ctx.strokeStyle='#1d3027';ctx.lineWidth=5;for(let n=-1;n<2;n++){ctx.beginPath();ctx.moveTo(n*15-8,-12);ctx.lineTo(n*15+8,12);ctx.stroke();}}
+      if(flags&4){ctx.strokeStyle='#b78c58';ctx.lineWidth=5;for(const dx of [-.8,.8]){ctx.beginPath();ctx.moveTo(radius*dx,-radius*.5);ctx.lineTo(radius*dx,radius*.5);ctx.stroke();}}
+      if(hp<engine.health(type,flags)*.6){ctx.strokeStyle='#253343';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-8,-15);ctx.lineTo(0,-6);ctx.lineTo(-5,0);ctx.lineTo(8,8);ctx.stroke();}
+      ctx.fillStyle='#162c3c';ctx.fillRect(-19,-7,38,15);ctx.fillStyle='#f0f4d4';ctx.font='bold 9px monospace';ctx.textAlign='center';ctx.fillText(bloonNames[type],0,4);
+      ctx.fillStyle='#20323c';ctx.fillRect(-24,radius*.82,48,4);ctx.fillStyle='#e2ef89';ctx.fillRect(-24,radius*.82,48*hp/engine.health(type,flags),4);
     }else{
-      const fill=type===6?'#87939f':type===7?'#b97447':['','#e47e89','#6eaaca','#83bd79','#ebcf75','#de9ccb'][Math.min(hp,5)];
-      ctx.fillStyle='#18352b40';ctx.beginPath();ctx.ellipse(3,8,12,14,0,0,7);ctx.fill();
-      ctx.fillStyle=fill;ctx.strokeStyle=type===6?'#c3cdd2':type===7?'#714735':'#293d3b66';ctx.lineWidth=2;
-      ctx.beginPath();ctx.ellipse(0,0,12,15,0,0,7);ctx.fill();ctx.stroke();
+      const fill=palette[type],r=type===11?15:(type===5||type===6)?10:12;
+      ctx.fillStyle='#18352b40';ctx.beginPath();ctx.ellipse(3,8,r,r+2,0,0,7);ctx.fill();
+      ctx.beginPath();
+      if(flags&2){ctx.moveTo(0,16);ctx.bezierCurveTo(-29,-3,-10,-23,0,-10);ctx.bezierCurveTo(10,-23,29,-3,0,16);}
+      else ctx.ellipse(0,0,r,r+3,0,0,7);
+      ctx.fillStyle=fill;ctx.fill();ctx.save();ctx.clip();
+      if(type===9){ctx.strokeStyle='#323c42';ctx.lineWidth=5;for(let n=-2;n<=2;n++){ctx.beginPath();ctx.moveTo(-18,n*10-10);ctx.lineTo(18,n*10+10);ctx.stroke();}}
+      if(type===10){for(let n=0;n<5;n++){ctx.fillStyle=['#e47e89','#ebcf75','#83bd79','#6eaaca','#a782cf'][n];ctx.fillRect(-15,-16+n*7,30,7);}}
+      if(flags&1){ctx.fillStyle='#264d39aa';for(let n=0;n<4;n++){ctx.beginPath();ctx.ellipse(-10+n*7,-9+n%2*14,8,4,.7,0,7);ctx.fill();}}
+      ctx.restore();ctx.strokeStyle=type===8?'#c3cdd2':type===11?'#714735':'#293d3b88';ctx.lineWidth=2;ctx.stroke();
+      if(flags&4){ctx.strokeStyle='#d3a06a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-r,-5);ctx.lineTo(r,-5);ctx.moveTo(-r,5);ctx.lineTo(r,5);ctx.stroke();}
       ctx.fillStyle='#ffffff66';ctx.beginPath();ctx.ellipse(-4,-5,3,5,.3,0,7);ctx.fill();
       ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(0,14);ctx.lineTo(-3,18);ctx.lineTo(3,18);ctx.fill();
-      if(type===7){ctx.strokeStyle='#e2b585';ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-14);ctx.lineTo(0,0);ctx.stroke();}
+      if(type===11){ctx.strokeStyle='#e2b585';ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-14);ctx.lineTo(0,0);ctx.stroke();}
     }
-    if(readI(b+24)>0)circle(0,0,type===8?38:18,null,'#ade9f3bb');
-    if(readI(b+28)>0){ctx.strokeStyle='#fff4d6';ctx.lineWidth=2;for(let i=0;i<5;i++){ctx.save();ctx.rotate(i*1.257);ctx.beginPath();ctx.moveTo(17,0);ctx.lineTo(22,0);ctx.stroke();ctx.restore();}}
+    if(readI(b+24)>0)circle(0,0,18,null,'#ade9f3bb');
+    if(readI(b+28)>0){ctx.strokeStyle='#fff4d6';ctx.lineWidth=2;for(let n=0;n<5;n++){ctx.save();ctx.rotate(n*1.257);ctx.beginPath();ctx.moveTo(17,0);ctx.lineTo(22,0);ctx.stroke();ctx.restore();}}
     ctx.restore();
   }
   for(let e=24576;e<30720;e+=24){
     const ttl=readI(e+16);if(ttl<=0)continue;
     const type=readI(e+20),x=readF(e),y=readF(e+4),tx=readF(e+8),ty=readF(e+12),p=1-ttl/12;
     ctx.save();ctx.globalAlpha=ttl/12;
-    if(type===0||type===4){ctx.strokeStyle='#f4e6be';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+(tx-x)*p,y+(ty-y)*p);ctx.lineTo(x+(tx-x)*Math.min(1,p+.35),y+(ty-y)*Math.min(1,p+.35));ctx.stroke();}
+    if(type===0||type===4||type===5){ctx.strokeStyle='#f4e6be';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+(tx-x)*p,y+(ty-y)*p);ctx.lineTo(x+(tx-x)*Math.min(1,p+.35),y+(ty-y)*Math.min(1,p+.35));ctx.stroke();}
     else if(type===2){circle(tx,ty,12+p*45,'#f2c37d22','#f4c682');}
     else {circle(x,y,15+p*(type===3?78:65),null,type===3?'#bce9ef':'#efc1ba');if(type===1)for(let i=0;i<8;i++)circle(x+Math.cos(i*Math.PI/4)*p*85,y+Math.sin(i*Math.PI/4)*p*85,2,'#f9d9c9');}
     ctx.restore();
@@ -221,12 +248,15 @@ function frame(time){
     let steps=0;
     while(accumulator>=1000/60&&steps<24){engine.step();accumulator-=1000/60;steps++;}
     if(readI(16)>oldPops){chirp();oldPops=readI(16);}
-    update();
+    if(time-lastUi>=100){update();lastUi=time;}
   }
   draw();requestAnimationFrame(frame);
 }
 document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.type))));
 $('cancel').addEventListener('click',cancel);
+$('targeting').addEventListener('change',()=>{if(selected>=0&&engine.targeting(selected,Number($('targeting').value)))announce('Targeting '+targets[Number($('targeting').value)].toLowerCase()+'.');update();});
+$('clear-field').addEventListener('click',()=>{if(engine?.clear_bloons()){paused=false;announce('Sandbox balloons cleared. Your towers remain.');update();}});
+$('mode').addEventListener('change',()=>announce('Press Restart to start the selected mode. Your current defense stays until you confirm.'));
 $('start').addEventListener('click',send);
 $('pause').addEventListener('click',togglePause);
 $('speed').addEventListener('click',()=>{speed=speed===1?2:speed===2?3:1;$('speed').textContent=speed+'× speed';});
@@ -246,7 +276,7 @@ canvas.addEventListener('pointerleave',()=>{hovering=false;});
 canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;pointer(e);canvas.focus({preventScroll:true});activate();});
 window.addEventListener('keydown',e=>{
   if(e.target.matches('input,textarea,select')||e.ctrlKey||e.metaKey||e.altKey)return;
-  if(e.key>='1'&&e.key<='5'&&engine){choose(Number(e.key)-1);return;}
+  if(e.key>='1'&&e.key<='6'&&engine){choose(Number(e.key)-1);return;}
   if(e.key==='Escape'){cancel();return;}
   if(e.code==='Space'&&!e.repeat&&!e.target.matches('button,a')){e.preventDefault();if(engine){readI(12)===0?send():togglePause();}return;}
   if(e.target===canvas){

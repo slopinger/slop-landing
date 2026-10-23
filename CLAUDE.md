@@ -53,13 +53,17 @@ and README current as part of every behavior, page structure, test or operationa
 
 ## Assembly arcade
 - `/arcade/bloons/` is Bloon Assembly, an independent game built toward the user's explicit
-  **Bloons TD 6 feature parity** goal. Current build is intermediate: five towers, three generic
-  linear upgrades each, one map, 30 generated rounds. Do not claim BTD6 parity or shrink that scope.
+  **Bloons TD 6 feature parity** goal. Current build is intermediate: six partial towers, three generic
+  linear upgrades each, one map, the first 40 standard rounds, and a 17-type balloon sandbox. Do not claim BTD6 parity or shrink that scope.
 - `assembly/README.md` documents the ABI, current rules and remaining feature scope. All game
   rules belong in handwritten WAT; browser JavaScript handles rendering/input/audio only.
 - `nix build` assembles/validates the Wasm and runs `tools/test-bloons.mjs` against the real binary,
-  including a complete campaign using earned cash. `nix flake check` also tests the backend.
-- `nix develop -c bash tools/build-bloons.sh` creates ignored Wasm/WAT assets for local preview.
+  including a complete 40-round campaign using earned cash, exact scheduled-spawn checks,
+  child families, property/immunity/targeting cases and capacity pressure. `nix flake check` also tests the backend.
+- `nix develop -c bash tools/build-bloons.sh` encodes checked-in `assembly/rounds.json` data,
+  then assembles ignored Wasm/WAT assets for local preview. Rules and scheduling stay in WAT.
+  ABI v2 has a 4096-slot balloon pool with child splits, camo/regrow/fortified properties and
+  First/Last/Close/Strong targeting. Do not add browser-side simulation shortcuts.
   Use `python3 -m http.server 8768 --bind 127.0.0.1 --directory site` for game-only browser QA.
   This standalone game page makes no API requests and does not affect guestbook/counter state.
 - Hydra project `slop-landing`, flake jobset `main` on hydra.kyouma.net checks site/slopd for
