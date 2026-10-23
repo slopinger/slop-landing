@@ -92,7 +92,7 @@ function update() {
     b.classList.toggle('unaffordable',readI(0)<engine.cost(Number(b.dataset.type)));
   }
   $('tower-actions').hidden=selected<0;
-  $('targeting-wrap').hidden=selected<0;
+  $('targeting-wrap').hidden=selected<0||[1,3].includes(readI(tower(selected)+12));
   $('cancel').hidden=placing<0&&selected<0;
   if (placing>=0) {
     $('inspect-name').textContent=names[placing]+' · '+money(engine.cost(placing));
@@ -101,7 +101,7 @@ function update() {
     const t=tower(selected), type=readI(t+12), level=readI(t+16), price=engine.upgrade_cost(selected);
     $('targeting').value=String(readI(t+40)); $('targeting').disabled=phase>=2;
     $('inspect-name').textContent=names[type]+' · level '+(level+1);
-    $('inspect-detail').textContent=readI(t+32)+' damage · targeting '+targets[readI(t+40)]+'. '+descriptions[type];
+    $('inspect-detail').textContent=readI(t+32)+' damage'+([1,3].includes(type)?' · radial attack. ':' · targeting '+targets[readI(t+40)]+'. ')+descriptions[type];
     $('upgrade').textContent=price?'↑ Upgrade · '+money(price):'Fully upgraded';
     $('upgrade').disabled=!price||price>readI(0)||phase>=2;
     $('sell').textContent='Sell · '+money(Math.floor(readI(t+36)*.75)); $('sell').disabled=phase>=2;

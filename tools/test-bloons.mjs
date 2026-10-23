@@ -69,6 +69,7 @@ for(const [priority,expected] of [[0,500],[1,380],[2,460],[3,420]]){
   const tx=f[(tp(id)+24)/4];
   assert.ok(Math.abs(tx-e.position(expected+1.05*(expected===420?2.5:1),0))<.01,'priority '+priority);
 }
+for(const type of [1,3]){e.reset(1);const id=e.place(type,225,200);assert.equal(e.targeting(id,3),0,'radial attacks have no targeting selector');}
 // Camo is ignored by a dart, but visible to a ninja; ice freezes rather than slowing blimps.
 e.reset(1);e.place(0,225,200);e.send_bloon(0,1,1);position(0,420);e.step();assert.equal(at(16),0);
 e.reset(1);e.place(5,225,200);e.send_bloon(0,1,1);position(0,420);e.step();assert.equal(at(16),1);

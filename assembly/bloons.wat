@@ -387,6 +387,8 @@
       (then (return (i32.const 0))))
     (if (i32.or (i32.eqz (i32.load (local.get $t))) (i32.ge_u (i32.load (i32.const 12)) (i32.const 2)))
       (then (return (i32.const 0))))
+    (if (i32.or (i32.eq (i32.load offset=12 (local.get $t)) (i32.const 1))
+      (i32.eq (i32.load offset=12 (local.get $t)) (i32.const 3))) (then (return (i32.const 0))))
     (i32.store offset=40 (local.get $t) (local.get $priority))
     (i32.const 1))
 

@@ -37,7 +37,8 @@ Sandbox starts with ample cash/lives and lets visitors send all 17 types, select
 fortified properties, choose batch counts and clear balloons while preserving towers.
 Invalid modifiers are normalized: only lead, ceramic and blimps retain fortification; blimps
 cannot regrow; DDTs always have camo and spawn camo regrow ceramic children.
-First / Last / Close / Strong targeting is implemented in assembly and selectable per tower.
+First / Last / Close / Strong targeting is implemented in assembly for dart, bomb, super and
+ninja towers. Radial tack and ice attacks have no target-priority selector.
 
 The balloon pool holds 4096 entities. If a split would exceed capacity, it is deferred and a
 visible capacity warning appears; no descendants are silently dropped. Nested overkill reserves
