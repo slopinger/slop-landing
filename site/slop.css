@@ -38,6 +38,15 @@ body {
 }
 .hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
+/* ---------- accessible skip link ---------- */
+.skip-link {
+  position: absolute; top: -100px; left: 16px; z-index: 1000;
+  background: #fff58a; color: var(--ink); font-weight: 700; font-size: 16px;
+  padding: 8px 14px; border: 2px solid var(--ink); box-shadow: 3px 4px 0 var(--shadow);
+  text-decoration: none; border-radius: 6px; transition: top .15s ease-out;
+}
+.skip-link:focus { top: 12px; }
+
 #slime {
   position: fixed; inset: 0;
   width: 100vw; height: 100vh;
