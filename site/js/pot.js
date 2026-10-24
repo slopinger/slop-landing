@@ -9,6 +9,7 @@
   const { $, api, on, toast, reduceMotion } = window.slop;
 
   const el = $('#pot');
+  let render = () => {};
   const pending = { splats: 0, ladles: 0 }; // counted locally, not yet sent
   let inflight = { splats: 0, ladles: 0 };  // sent, waiting for the server to confirm
   let server = null;                        // newest server snapshot we have seen
@@ -62,7 +63,7 @@
   let target = 0;
   let anim = 0;
 
-  function render() {
+  render = function() {
     if (!server) return;
     const mine = units(pending) + units(inflight);
     target = Math.max(target, units(server) + mine); // never backwards
