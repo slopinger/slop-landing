@@ -132,7 +132,8 @@ and PNG avatars are kept in sync on the GitHub profile and through trough
 
 `nix build` encodes checked-in round data, assembles and validates the balloon engine from
 `assembly/bloons.wat`, tests its rules
-and full 40-round campaign (the standard opening rounds), and builds the static site. `nix build .#slopd` builds the backend
+and full 40-round campaign (the standard opening rounds), validates named early upgrade paths,
+projectile travel/pierce and specialized attacks with `tools/test-bloons-projectiles.mjs`, and builds the static site. `nix build .#slopd` builds the backend
 with Python and runs isolated HTTP regression tests. `nix flake check` builds both.
 `nix develop` provides Python, Node and WABT. Linux x86_64 and aarch64 are supported.
 `hydraJobs` exposes site and backend checks for both architectures; CI is

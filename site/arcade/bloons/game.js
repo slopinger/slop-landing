@@ -3,12 +3,13 @@ const $ = (id) => document.getElementById(id);
 const canvas = $('field'), ctx = canvas.getContext('2d');
 const names = ['Dart monkey', 'Tack shooter', 'Bomb shooter', 'Ice monkey', 'Super monkey', 'Ninja monkey'];
 const bloonNames=['Red','Blue','Green','Yellow','Pink','Black','White','Purple','Lead','Zebra','Rainbow','Ceramic','MOAB','BFB','ZOMG','DDT','BAD'];
-const descriptions = ['Sharp single-target shots. Upgrades currently improve range, damage and attack speed.',
-  'Hits all balloons in its radius. Place near a bend to cover both sides.',
-  'Explosions damage a group and pop lead. Black and zebra balloons resist explosions.',
-  'Freezes ordinary balloons. White, zebra, lead and blimps resist cold; frozen balloons resist sharp shots.',
-  'Rapidly fires darts. Sharp darts cannot damage lead or frozen balloons.',
-  'Sees camo balloons. Its sharp shots still need bomb support against lead.'];
+const descriptions = ['Darts travel through balloons until their pierce runs out.',
+  'Fires eight tacks outward. Range and pierce upgrades help cover bends.',
+  'Bombs explode on impact. Black and zebra resist basic explosions.',
+  'Freezes nearby ordinary balloons. Cold Snap adds lead and camo coverage.',
+  'Rapid darts, with laser and plasma paths for different damage types.',
+  'Detects camo. Upgrade for seeking shurikens, caltrops or camo removal.'];
+let catalog;
 const targets=['First','Last','Close','Strong'];
 const path = [[-24,110],[140,110],[140,280],[330,280],[330,100],[520,100],[520,370],[710,370],[710,215],[984,215]];
 let engine, ints, floats, placing = -1, selected = -1, cursor = {x:225,y:185}, hovering = false;
@@ -88,6 +89,7 @@ function update() {
   $('pause').disabled=phase!==1; $('pause').textContent=paused?'▶ Resume':'Ⅱ Pause';
   for (const b of document.querySelectorAll('[data-type]')) {
     b.setAttribute('aria-pressed',String(Number(b.dataset.type)===placing));
+    b.querySelector('strong').textContent=money(engine.cost(Number(b.dataset.type)));
     b.disabled=phase>=2;
     b.classList.toggle('unaffordable',readI(0)<engine.cost(Number(b.dataset.type)));
   }
@@ -98,13 +100,17 @@ function update() {
     $('inspect-name').textContent=names[placing]+' · '+money(engine.cost(placing));
     $('inspect-detail').textContent=descriptions[placing];
   } else if (selected>=0&&readI(tower(selected))) {
-    const t=tower(selected), type=readI(t+12), level=readI(t+16), price=engine.upgrade_cost(selected);
+    const t=tower(selected), type=readI(t+12), tiers=[0,1,2].map(p=>engine.tier(selected,p));
     $('targeting').value=String(readI(t+40)); $('targeting').disabled=phase>=2;
-    $('inspect-name').textContent=names[type]+' · level '+(level+1);
+    $('inspect-name').textContent=names[type]+' · '+tiers.join('–');
     $('inspect-detail').textContent=readI(t+32)+' damage'+([1,3].includes(type)?' · radial attack. ':' · targeting '+targets[readI(t+40)]+'. ')+descriptions[type];
-    $('upgrade').textContent=price?'↑ Upgrade · '+money(price):'Fully upgraded';
-    $('upgrade').disabled=!price||price>readI(0)||phase>=2;
-    $('sell').textContent='Sell · '+money(Math.floor(readI(t+36)*.75)); $('sell').disabled=phase>=2;
+    for(const button of document.querySelectorAll('[data-path]')){
+      const p=Number(button.dataset.path), next=catalog.towers[type].paths[p][tiers[p]], price=engine.upgrade_cost(selected,p);
+      button.querySelector('b').textContent=next?next.name:'Available tiers purchased';
+      button.querySelector('span').textContent=!next?'Higher tiers are in development':price?money(price)+' · '+next.description:'Locked by crosspath choice';
+      button.disabled=!price||price>readI(0)||phase>=2;
+    }
+    $('sell').textContent='Sell · '+money(Math.floor(readI(t+36)*7/10)); $('sell').disabled=phase>=2;
   } else {
     $('inspect-name').textContent='Every corner counts.';
     $('inspect-detail').textContent='Camo round 24 needs a ninja. Lead round 28 needs bombs. The MOAB on round 40 releases four ceramics.';
@@ -122,6 +128,7 @@ function update() {
     $('best').textContent='Best: round '+best;
     if (phase===3) window.slop?.emit?.('game',{game:'bloons',score:readI(16)});
   }
+  if(readI(48))announce('Projectile capacity reached. Towers wait until shots expire; clear the sandbox to reset.');
   if(readI(36))announce('The field is full. New balloons wait for space; clear the sandbox to reset.');
   oldPhase=phase;
 }
@@ -182,7 +189,7 @@ function draw() {
   if(!engine)return;
   if(selected>=0&&readI(tower(selected))){
     const t=tower(selected);
-    circle(readF(t+4),readF(t+8),engine.range(readI(t+12),readI(t+16)),'#dbe5ff12','#dbe5ff60');
+    circle(readF(t+4),readF(t+8),engine.tower_range(selected),'#dbe5ff12','#dbe5ff60');
     circle(readF(t+4),readF(t+8),25,null,'#e2ef89');
   }
   for(let id=0;id<48;id++){
@@ -228,9 +235,17 @@ function draw() {
     const ttl=readI(e+16);if(ttl<=0)continue;
     const type=readI(e+20),x=readF(e),y=readF(e+4),tx=readF(e+8),ty=readF(e+12),p=1-ttl/12;
     ctx.save();ctx.globalAlpha=ttl/12;
-    if(type===0||type===4||type===5){ctx.strokeStyle='#f4e6be';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+(tx-x)*p,y+(ty-y)*p);ctx.lineTo(x+(tx-x)*Math.min(1,p+.35),y+(ty-y)*Math.min(1,p+.35));ctx.stroke();}
-    else if(type===2){circle(tx,ty,12+p*45,'#f2c37d22','#f4c682');}
-    else {circle(x,y,15+p*(type===3?78:65),null,type===3?'#bce9ef':'#efc1ba');if(type===1)for(let i=0;i<8;i++)circle(x+Math.cos(i*Math.PI/4)*p*85,y+Math.sin(i*Math.PI/4)*p*85,2,'#f9d9c9');}
+    circle(x,y,Math.max(2,tx)*(0.5+p*0.5),type===2?'#f2c37d22':null,type===3?'#bce9ef':'#f4c682');
+    ctx.restore();
+  }
+  for(let p=917504;p<engine.projectile_end();p+=96){
+    if(readI(p)!==1)continue;
+    const x=readF(p+4),y=readF(p+8),kind=readI(p+92),vx=readF(p+12),vy=readF(p+16);
+    ctx.save();ctx.translate(x,y);ctx.rotate(Math.atan2(vy,vx));
+    if(kind===6||kind===10){circle(0,0,kind===6?8:5,'#77818d','#d4dce1');for(let n=0;n<4;n++){ctx.rotate(Math.PI/2);ctx.fillStyle='#d4dce1';ctx.fillRect(0,-1,kind===6?11:7,2);}}
+    else if(kind===2)circle(0,0,5,'#29343e','#f6c783');
+    else if(kind===5){ctx.rotate(readI(28)*.3);ctx.strokeStyle='#d6dfed';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-5,0);ctx.lineTo(5,0);ctx.moveTo(0,-5);ctx.lineTo(0,5);ctx.stroke();}
+    else {ctx.strokeStyle=kind===8?'#f48286':kind===9?'#b7a4ff':'#f4e6be';ctx.lineWidth=kind===9?4:2;ctx.beginPath();ctx.moveTo(-7,0);ctx.lineTo(4,0);ctx.stroke();}
     ctx.restore();
   }
   if(placing>=0&&hovering){
@@ -268,7 +283,7 @@ $('restart').addEventListener('click',()=>{
   clearTimeout(restartTimer);restartTimer=setTimeout(()=>{restartArmed=false;$('restart').textContent='Restart';},5000);
 });
 $('play-again').addEventListener('click',()=>reset());
-$('upgrade').addEventListener('click',()=>{if(selected>=0&&engine.upgrade(selected))announce('Tower upgraded. More range, more damage, faster shots.');update();});
+document.querySelectorAll('[data-path]').forEach(button=>button.addEventListener('click',()=>{if(selected<0)return;const p=Number(button.dataset.path),type=readI(tower(selected)+12),next=catalog.towers[type].paths[p][engine.tier(selected,p)];if(engine.upgrade(selected,p))announce(next.name+' purchased. '+next.description);update();}));
 $('sell').addEventListener('click',()=>{if(selected>=0){const value=engine.sell(selected);if(value){announce('Tower sold for '+money(value)+'.');selected=-1;}}update();});
 function pointer(event){const r=canvas.getBoundingClientRect();cursor={x:(event.clientX-r.left)*960/r.width,y:(event.clientY-r.top)*480/r.height};hovering=true;}
 canvas.addEventListener('pointermove',pointer);
@@ -287,7 +302,10 @@ window.addEventListener('keydown',e=>{
 });
 document.addEventListener('visibilitychange',()=>{accumulator=0;previous=0;if(document.hidden&&engine&&readI(12)===1&&!paused){paused=true;announce('Paused while the tab is hidden. Resume when ready.');update();}});
 try {
-  const response=await fetch(new URL('./engine.wasm',import.meta.url));
+  const catalogResponse=await fetch(new URL('./upgrades.json?v=3',import.meta.url));
+  if(!catalogResponse.ok)throw new Error('Upgrade catalog HTTP '+catalogResponse.status);
+  catalog=await catalogResponse.json();
+  const response=await fetch(new URL('./engine.wasm?v=3',import.meta.url));
   if(!response.ok)throw new Error('Engine HTTP '+response.status);
   const {instance}=await WebAssembly.instantiate(await response.arrayBuffer(),{});
   engine=instance.exports;ints=new Int32Array(engine.memory.buffer);floats=new Float32Array(engine.memory.buffer);

@@ -9,10 +9,23 @@ intermediate milestone passes.
 
 ## Current build
 
-Six towers: dart (sharp single target), tack (radial), bomb (explosive splash), ice (freeze), super
-(rapid sharp shots), ninja (camo detection). All six currently use three generic linear upgrades.
-BTD6's named three-path upgrade trees, projectile/pierce mechanics and exact tower stats remain
-pending; the ninja is a partial implementation, not its completed BTD6 tower.
+Six partial towers: dart, tack, bomb, ice, super and ninja. Each has three named upgrade paths:
+dart implements tiers 1–3 (including Spike-o-pult, Triple Shot and Crossbow); the other five
+implement tiers 1–2. Only two paths may be used, and only one can advance beyond tier two.
+Higher tiers, abilities and exact BTD6 balance remain unfinished. The campaign starts with
+650 cash and 150 lives; sales refund 70% of the integer investment. Prices use the pinned
+numeric snapshot recorded in `upgrades.json`; these are development rules, not a complete difficulty mode.
+
+Directed attacks launch persistent projectiles, with swept circle collision, a spatial grid,
+limited pierce, expiry, and child-inherited hit histories. Towers aim ahead along the track;
+shots still have to intersect balloons. Tacks fire in 8/10/12 directions, bombs explode on impact
+and Frag Bombs release eight sharp fragments. Ice uses a limited-pierce radial freeze.
+Implemented early upgrades also include camo detection, cold lead damage, Permafrost,
+Deep Freeze, Re-Freeze, energy/plasma damage, Knockback, Ultravision's camo damage bonus,
+Distraction, Counter-Espionage, Seeking Shuriken and persistent Caltrops.
+Distraction and Knockback resistances are applied in WAT; the BAD ignores Knockback.
+Camo stripping works on DDT shells even when the sharp shuriken cannot damage them.
+Projectile ownership uses tower generation IDs so sold towers' shots cannot credit a replacement.
 
 One original map supports a 40-round campaign using the first 40 standard BTD6 round groups,
 counts and spawn timings, ending with the first MOAB. The build encodes the numeric data from
@@ -28,10 +41,13 @@ rainbow, ceramic and all five standard blimp classes. Shells spawn their actual 
 ordinary overkill penetrates children, while blimp shells absorb excess damage. Camo detection,
 explosive/cold/sharp/energy/fire/plasma immunities, frozen sharp resistance, regrow ancestry,
 regrown-layer cash/pop suppression, fortified shell HP and inheritance are implemented.
+Outstanding pop/cash budgets are partitioned between child trees, preventing branching regrow
+ancestors from multiplying credits for still-unpopped descendants.
 Leak damage includes the remaining descendants and partially damaged outer shell.
 The type statistics are pre-freeplay values; rounds 81+ scaling and super ceramics are pending.
-The current tower roster cannot counter every sandbox balloon (notably DDT lead/camo/black
-properties); their required tower upgrade counters remain part of the unfinished work.
+Damage-type upgrades supply additional sandbox counters: Plasma Blasts plus Ultravision can
+hit DDT lead/camo/black properties; purples still resist plasma and need sharp support.
+The full set of tower counters and high-tier interactions remains unfinished.
 
 Sandbox starts with ample cash/lives and lets visitors send all 17 types, select camo/regrow/
 fortified properties, choose batch counts and clear balloons while preserving towers.
@@ -56,11 +72,14 @@ nix build
 nix flake check
 nix develop -c bash tools/build-bloons.sh
 nix develop -c node tools/test-bloons.mjs
+nix develop -c node tools/test-bloons-projectiles.mjs
 nix develop -c python3 -m http.server 8768 --bind 127.0.0.1 --directory site
 ```
 
 Generated `site/arcade/bloons/engine.wasm` and `engine.wat` are ignored.
-`tools/encode-rounds.mjs` only encodes checked-in numeric data; it does not implement game rules.
+`tools/encode-rounds.mjs` includes the handwritten WAT modules and encodes checked-in round/price data;
+it does not implement game rules. Generated `upgrades.json` supplies presentation labels/descriptions;
+WAT validates every purchase and calculates its price.
 The package encodes, assembles, validates, tests and installs assets in a network-free Nix sandbox.
 The browser never fetches a compiler or runtime dependency. The engine has no imports.
 
@@ -69,27 +88,38 @@ immunity combinations, DDT descendants, overkill boundaries, regrow ancestry and
 accounting, real attack targeting, freeze behavior, 4096-slot pressure including nested splits,
 sandbox isolation and clearing, invalid placement, economy and terminal lifecycle.
 It checks every spawn in all 40 rounds against the source table, including tick timestamps and
-overlapping groups. A full campaign uses only earned cash, survives without lost lives, and
+overlapping groups. A full campaign uses only earned cash, loses no lives, and
 matches the source table's complete 12,289 RBE and cumulative income. Controlled fixture tests
 edit memory only to isolate cases; the campaign grants no extra cash, lives or damage.
 
 CI: https://hydra.kyouma.net/jobset/slop-landing/main, site and backend checks on x86_64-linux and
 aarch64-linux. Deployment follows the root README through the slop-landing input in nixfiles.
 
-## Engine ABI v2
+`tools/test-bloons-projectiles.mjs` also checks named paths, crosspath restrictions, sale/slot reuse,
+shot travel, swept collision, pierce, child hit histories, specialized attacks, freeze/slow,
+homing, camo stripping, caltrops, projectile ownership and capacity pressure against the real binary.
 
-One fixed 512 KiB exported memory. Little-endian 32-bit integer/float fields.
+## Engine ABI v3
+
+One fixed 2560 KiB exported memory. Little-endian 32-bit integer/float fields.
 
 | Region | Layout |
 | --- | --- |
-| Header 0..43 | i32 cash, lives, round, phase, pops, active balloons, pending round spawns, total ticks, sandbox flag, pool-pressure warning, round ticks |
+| Header 0..51 | i32 cash, lives, round, phase, pops, active balloons, pending round spawns, total ticks, sandbox flag, pool-pressure warning, round ticks, active projectiles, projectile-pressure warning |
 | Type stats 512..1055 | 17 immutable 32-byte records: i32 shell HP; f32 relative speed; i32 first child type/count, second child type/count, strength rank, visual radius |
 | Group counters 2048..2559 | i32 spawned counts for current round's groups |
-| Towers 12288..14591 | 48 slots, 48 bytes: i32 active; f32 x,y; i32 type,upgrade level,cooldown; f32 target x,y; i32 pops,investment,target priority; 4 reserved bytes |
-| Effects 24576..30719 | 256 slots, 24 bytes: f32 x,y,target x,target y; i32 lifetime,type |
+| Towers 12288..14591 | 48 slots, 48 bytes: i32 active; f32 x,y; i32 type,total purchased tiers; f32 cooldown; f32 target x,y; i32 pops,investment,target priority,tower generation ID |
+| Effects 24576..30719 | 256 slots, 24 bytes: f32 x,y,radius,reserved; i32 lifetime,type |
 | Balloons 65536..327679 | 4096 slots, 64 bytes, fields below |
 | Round index 327680..328191 | immutable round-number-indexed pairs of i32 group pointer/count |
 | Round groups from 328192 | immutable 24-byte records: i32 type,flags,count,start tick,end tick,reserved |
+| Price table 393216..393599 | six 64-byte records: i32 base price, then 3 × 5 tier prices (zero means unavailable) |
+| Unit vectors 394240..394479 | f32 x,y for 8/10/12-way volleys |
+| Balloon metadata 524288..655359 | 4096 × 32 bytes: i32 generation,permafrost,freeze soak,distraction,blimp slow,cash budget,freeze powers,pop budget |
+| Spatial grid from 655360 | 128 cell heads and up to 16384 generation-checked 12-byte nodes from 659456 |
+| Tower metadata 860160..866303 | 48 × 128 bytes; tiers and configured attack stats; layout in `upgrades.wat` |
+| Projectiles 917504..1114111 | 2048 × 96 bytes; layout below |
+| Hit histories 1310720..2359295 | 4096 × 256-byte balloon bitmaps, one bit per projectile slot |
 
 Balloon offsets: 0 active; 4/8/12 f32 progress/x/y; 16 HP; 20 type; 24 freeze ticks; 28 hit flash;
 32 property flags; 36 regrow ancestry bitset; 40 growth timer; 44 damage-credit history bitset;
@@ -99,14 +129,22 @@ Type IDs: red 0, blue 1, green 2, yellow 3, pink 4, black 5, white 6, purple 7, 
 rainbow 10, ceramic 11, MOAB 12, BFB 13, ZOMG 14, DDT 15, BAD 16.
 
 Phases: 0 ready, 1 running, 2 defeat, 3 victory. Target priorities: first 0, last 1, close 2,
-strong 3. Fixed frequency: 60 ticks/second. Effects are visual records; attacks currently resolve
-without projectile travel. `pool_end()` bounds iteration over allocated balloon records.
+strong 3. Fixed frequency: 60 ticks/second. Effects are visual blast/freeze records: f32 x,y,radius,reserved; i32 lifetime,type.
+`pool_end()` and `projectile_end()` bound iteration over allocated records.
 
-Exports: `reset(sandbox=0)`, `start`, `step`, `cost(type)`, `range(type,level)`,
+Projectile offsets: 0 active (2 waits for fragment capacity); 4/8 f32 x,y; 12/16 f32 vx,vy;
+20 TTL; 24 pierce; 28 damage; 32 kind; 36 detection; 40 owner tower pointer; 44 owner generation;
+48 f32 collision radius; 52 powers; 56 reserved; 60/64 target pointer/generation; 68 f32 speed;
+72 ceramic bonus; 76 MOAB bonus; 80 f32 splash radius; 84 freeze duration; 88 reserved; 92 visual kind.
+Other fields are i32. Slot reuse clears that projectile's bit across live balloons.
+Eight projectile slots are reserved for fragment expansion; full volleys wait under pressure,
+and a visible warning reports it. Clearing the sandbox also clears all shots/hit histories.
+
+Exports: `reset(sandbox=0)`, `start`, `step`, `cost(type)`, `range(type)`, `tower_range(id)`, `tier(id,path)`,
 `position(distance,axis)`, `can_place(x,y)`, `place(type,x,y)`,
-`upgrade_cost(id)`, `upgrade(id)`, `sell(id)`, `targeting(id,priority)`,
+`upgrade_cost(id,path)`, `upgrade(id,path)`, `sell(id)`, `targeting(id,priority)`,
 `health(type,flags)`, `rbe(type,flags)`, `pool_end()`,
-`can_damage(type,flags,frozenTicks,kind,camoDetection)`,
+`can_damage(type,flags,frozenTicks,kind,camoDetection,powers=0)`, `projectile_end()`,
 `send_bloon(type,flags,count)`, `clear_bloons()`.
 `sandbox_strike(slot,damage,kind,camoDetection)` exercises the same hit routine for sandbox
 verification and rejects campaign use; it is not a campaign damage shortcut.
@@ -118,9 +156,9 @@ Damage kinds: sharp 0, explosive 1, cold 2, energy 3, fire 4, plasma 5, normal 6
 Baseline feature inventory: [Ninja Kiwi's BTD6 product description](https://store.steampowered.com/app/960090/Bloons_TD_6/).
 The accepted scope remains full feature parity with **6**, not the first Flash game. Pending:
 
-- Every tower with its distinct projectile/attack/pierce behavior, all three named upgrade paths,
+- Complete every tower's distinct projectile/attack/pierce behavior and all three named upgrade paths,
   crosspath restrictions, tier-five uniqueness, activated abilities, transformations, sacrifices
-  and applicable paragons. Current generic upgrades must be replaced, not relabeled.
+  and applicable paragons. The implemented early upgrades are only a subset of the six current towers.
 - Heroes, placement restrictions, XP levels, abilities, upgrades and hero-specific mechanics.
 - Rounds 41 onward, alternate round sets, freeplay and health/speed scaling, super ceramics,
   specialized enemies and full interactions with every unimplemented tower/ability.

@@ -17,6 +17,7 @@
         checkPhase = ''
           node --check site/arcade/bloons/game.js
           node tools/test-bloons.mjs
+          node tools/test-bloons-projectiles.mjs
         '';
         installPhase = "mkdir -p $out; cp -r site/. $out/";
         meta.license = pkgs.lib.licenses.mit;

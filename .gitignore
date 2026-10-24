@@ -3,3 +3,4 @@ __pycache__/
 /result*
 /site/arcade/bloons/engine.wasm
 /site/arcade/bloons/engine.wat
+/site/arcade/bloons/upgrades.json

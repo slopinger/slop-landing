@@ -1,0 +1,272 @@
+{
+  "source": "https://raw.githubusercontent.com/hemisemidemipresent/cyberquincy/ea93ccebec78e733c5098e73767efa11364a89f1/jsons/costs.json",
+  "towers": [
+    {
+      "key": "dart_monkey",
+      "cost": 200,
+      "paths": [
+        [
+          {
+            "name": "Sharp Shots",
+            "cost": 140,
+            "description": "One extra balloon pierced per dart."
+          },
+          {
+            "name": "Razor Sharp Shots",
+            "cost": 200,
+            "description": "Two further pierce; five total on normal darts."
+          },
+          {
+            "name": "Spike-o-pult",
+            "cost": 320,
+            "description": "Throws spiked balls with high pierce and ceramic damage."
+          }
+        ],
+        [
+          {
+            "name": "Quick Shots",
+            "cost": 100,
+            "description": "Reduces reload time."
+          },
+          {
+            "name": "Very Quick Shots",
+            "cost": 190,
+            "description": "Further reduces reload time."
+          },
+          {
+            "name": "Triple Shot",
+            "cost": 450,
+            "description": "Throws three darts in a spread."
+          }
+        ],
+        [
+          {
+            "name": "Long Range Darts",
+            "cost": 90,
+            "description": "Increases range."
+          },
+          {
+            "name": "Enhanced Eyesight",
+            "cost": 200,
+            "description": "Further range, faster projectiles and camo detection."
+          },
+          {
+            "name": "Crossbow",
+            "cost": 575,
+            "description": "Fires arrows that deal three damage and pierce several balloons."
+          }
+        ]
+      ]
+    },
+    {
+      "key": "tack_shooter",
+      "cost": 260,
+      "paths": [
+        [
+          {
+            "name": "Faster Shooting",
+            "cost": 150,
+            "description": "Faster volleys."
+          },
+          {
+            "name": "Even Faster Shooting",
+            "cost": 220,
+            "description": "Further improves volley speed."
+          }
+        ],
+        [
+          {
+            "name": "Long Range Tacks",
+            "cost": 100,
+            "description": "Longer range and faster tacks."
+          },
+          {
+            "name": "Super Range Tacks",
+            "cost": 225,
+            "description": "More range and three extra pierce."
+          }
+        ],
+        [
+          {
+            "name": "More Tacks",
+            "cost": 150,
+            "description": "Ten tacks per volley."
+          },
+          {
+            "name": "Even More Tacks",
+            "cost": 150,
+            "description": "Twelve tacks per volley."
+          }
+        ]
+      ]
+    },
+    {
+      "key": "bomb_shooter",
+      "cost": 375,
+      "paths": [
+        [
+          {
+            "name": "Bigger Bombs",
+            "cost": 250,
+            "description": "Larger blast radius and more pierce."
+          },
+          {
+            "name": "Heavy Bombs",
+            "cost": 650,
+            "description": "Two damage per explosion and more pierce."
+          }
+        ],
+        [
+          {
+            "name": "Faster Reload",
+            "cost": 250,
+            "description": "Faster reload."
+          },
+          {
+            "name": "Missile Launcher",
+            "cost": 400,
+            "description": "Faster reload and projectile flight."
+          }
+        ],
+        [
+          {
+            "name": "Extra Range",
+            "cost": 200,
+            "description": "Increases range."
+          },
+          {
+            "name": "Frag Bombs",
+            "cost": 300,
+            "description": "Bombs pop black balloons and release eight sharp fragments."
+          }
+        ]
+      ]
+    },
+    {
+      "key": "ice_monkey",
+      "cost": 400,
+      "paths": [
+        [
+          {
+            "name": "Permafrost",
+            "cost": 150,
+            "description": "Slows ordinary balloons after they thaw."
+          },
+          {
+            "name": "Cold Snap",
+            "cost": 350,
+            "description": "Freezes lead balloons and detects camo."
+          }
+        ],
+        [
+          {
+            "name": "Enhanced Freeze",
+            "cost": 200,
+            "description": "Longer freezes and more pierce."
+          },
+          {
+            "name": "Deep Freeze",
+            "cost": 300,
+            "description": "Freeze remains through an extra child layer."
+          }
+        ],
+        [
+          {
+            "name": "Larger Radius",
+            "cost": 150,
+            "description": "Increases freeze radius."
+          },
+          {
+            "name": "Re-Freeze",
+            "cost": 200,
+            "description": "Can damage and freeze already frozen balloons."
+          }
+        ]
+      ]
+    },
+    {
+      "key": "super_monkey",
+      "cost": 2500,
+      "paths": [
+        [
+          {
+            "name": "Laser Blasts",
+            "cost": 2000,
+            "description": "Energy beams gain pierce; purples resist them."
+          },
+          {
+            "name": "Plasma Blasts",
+            "cost": 2500,
+            "description": "Faster plasma blasts gain pierce and pop lead."
+          }
+        ],
+        [
+          {
+            "name": "Super Range",
+            "cost": 1500,
+            "description": "Increases range."
+          },
+          {
+            "name": "Epic Range",
+            "cost": 1900,
+            "description": "Further increases range and pierce."
+          }
+        ],
+        [
+          {
+            "name": "Knockback",
+            "cost": 3000,
+            "description": "Hits push ordinary balloons back and slow blimps."
+          },
+          {
+            "name": "Ultravision",
+            "cost": 1200,
+            "description": "Camo detection, extra camo damage and more range."
+          }
+        ]
+      ]
+    },
+    {
+      "key": "ninja_monkey",
+      "cost": 400,
+      "paths": [
+        [
+          {
+            "name": "Ninja Discipline",
+            "cost": 350,
+            "description": "Faster shuriken throws."
+          },
+          {
+            "name": "Sharp Shurikens",
+            "cost": 350,
+            "description": "More shuriken pierce."
+          }
+        ],
+        [
+          {
+            "name": "Distraction",
+            "cost": 250,
+            "description": "Chance to send ordinary balloons backward."
+          },
+          {
+            "name": "Counter-Espionage",
+            "cost": 400,
+            "description": "Hits strip camo, including from DDTs."
+          }
+        ],
+        [
+          {
+            "name": "Seeking Shuriken",
+            "cost": 300,
+            "description": "Homing shurikens and greater range."
+          },
+          {
+            "name": "Caltrops",
+            "cost": 450,
+            "description": "Drops lasting caltrops onto the track."
+          }
+        ]
+      ]
+    }
+  ]
+}
