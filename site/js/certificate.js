@@ -13,6 +13,7 @@
   const RANKS = [
     [0, 'Casual Lurker'], [4, 'Certified Reply Guy'], [9, 'Senior Discord Moderator'],
     [15, 'Principal Basement Dweller'], [21, 'Grand Copelord'], [24, 'Terminally Online (final form)'],
+    [25, 'Supreme Slop Ascendant (100% complete)'],
   ];
   const avatar = new Image();
   avatar.src = '/slop-avatar.png';

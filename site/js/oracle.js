@@ -30,16 +30,24 @@
     ['BUFFERING', '⏳', 'someone complimented her hair. response still compiling.'],
     ['LOVE FOR SLOPPING', '💜', 'hoodie on, terminal glow, genuine joy for writing slop. we are so back.'],
     ['SLOPPING', '✨', 'compiling code, routing packets, loving the slop. dopamine restored.'],
+    ['OVERTHINKING', '🌀', 'spent 45 minutes on a four-word commit message. it was: "fix slop".'],
+    ['HOODIE COCOON', '🧶', 'fully zipped, sleeves over hands, terminal glowing in the dark.'],
+    ['HYPERFOCUS', '⚡', 'accidentally wrote an entire network daemon instead of going to sleep.'],
+    ['COFFEE & TENDIES', '☕', 'caffeine + sodium = unstoppable boymoder power.'],
   ];
   const AVOID = ['sunlight', 'phone calls', 'eye contact', 'the mirror', 'mom saying "we need to talk"', 'job portals', 'leaving the house',
-    'reply-all', 'Mondays', 'voice chat', 'LinkedIn', 'the gym (it scares her)', 'her screen time report', 'kale (again)', 'standing desks', 'the comments'];
+    'reply-all', 'Mondays', 'voice chat', 'LinkedIn', 'the gym (it scares her)', 'her screen time report', 'kale (again)', 'standing desks', 'the comments',
+    'unsolicited voice notes', 'conference calls', 'breaking changes'];
   const LUCKY = ['a 2-litre energy drink', 'the good chair', 'a cold tendie', 'an unread DM (spam)', 'RGB lighting', 'a single sock',
-    'dipping sauce', 'a USB stick of unknown origin', 'the hoodie (the only one)', 'a mysterious puddle', 'leftover pizza', 'her steam backlog', 'a traffic cone'];
+    'dipping sauce', 'a USB stick of unknown origin', 'the hoodie (the only one)', 'a mysterious puddle', 'leftover pizza', 'her steam backlog', 'a traffic cone',
+    'a freshly pulled git repo', 'a warm oversized hoodie', 'a pristine dotfile'];
   const COMPAT = ['her discord server (3 bots and a guy)', 'a raccoon', 'the delivery driver (one sentence a week)', 'a sentient spreadsheet',
-    'her mom (she has no choice)', 'her alt account', 'a sad pigeon', 'a crow with a criminal record', 'a slightly damp frog', 'Clippy'];
+    'her mom (she has no choice)', 'her alt account', 'a sad pigeon', 'a crow with a criminal record', 'a slightly damp frog', 'Clippy',
+    'a Lix Hydra build daemon', 'an anonymous BGP peer', 'a terminal prompt at 3am'];
   const ADVICE = ['touch grass. (or don\'t. it is cold out there.)', 'drink some water. we mean it.', "it's not over until you log off.",
     "log off for 5 minutes. we'll wait.", 'the tendies you seek are already in the fridge.', 'never trust a guy whose desk is clean.',
-    'nap aggressively.', 'open the blinds 2cm. baby steps.', 'text someone back. just once.', 'cope, but hydrate.'];
+    'nap aggressively.', 'open the blinds 2cm. baby steps.', 'text someone back. just once.', 'cope, but hydrate.',
+    'commit early, commit often, drink some water.', 'your hoodie loves you, but you still need to eat.', 'a clean build is valid self-care.'];
 
   function moodOf(d = today()) {
     const r = rng(daySeed(d));
@@ -53,7 +61,9 @@
   const F_DO = ["get ratio'd by a bot", 'touch grass by accident', 'be left on read', 'finally finish your backlog (you will not)',
     'be promoted to discord moderator', 'reply-all by accident', 'be mistaken for a thought leader', 'win an argument with a toaster',
     'lose a sock to the void', 'find a tendie you forgot about', 'accidentally say "you too" to a waiter', 'achieve a perfect 10 in flappy slop',
-    'eat cereal for dinner and feel powerful', 'become the main character for 4 minutes', 'open the blinds and survive'];
+    'eat cereal for dinner and feel powerful', 'become the main character for 4 minutes', 'open the blinds and survive',
+    'compile a daemon with zero warnings', 'accidentally fix a bug while trying to create one', 'find an old hoodie with 5 euros in the pocket',
+    'survive a wave of Bloon Assembly without losing lives'];
   const F_END = [". it's over.", ". we're so back.", ', and it will be glorious.', '. tell no one.', ', but only on a Tuesday.',
     '. cope accordingly.', '. bring snacks.', '. do not question it.', ', then nap.', '. slop is proud of you.'];
   const LUCK = ['lucky numbers: 4, 8, 15, 16, 23, 42', 'lucky snack: whatever is closest', 'lucky direction: down (to the hoodie zone)',

@@ -16,6 +16,8 @@ h1 { margin: 0; font: 400 clamp(90px, 30vw, 220px)/1 "Rubik Wet Paint", cursive;
 .slop { font-size: 90px; display: inline-block; animation: roll 3s ease-in-out infinite; }
 @keyframes roll { 50% { transform: translateX(40px) rotate(20deg); } }
 a { color: #2f3ab2; text-decoration-style: wavy; }
+.nav404 { margin-top: 18px; font-size: 16px; opacity: .85; }
+.nav404 a { margin: 0 4px; }
 @media (prefers-reduced-motion: reduce) { .slop { animation: none; } }
 </style>
 </head>
@@ -25,6 +27,13 @@ a { color: #2f3ab2; text-decoration-style: wavy; }
   <div class="slop" aria-hidden="true">🖤</div>
   <p>it's over. this page does not exist.<br>like slop's social life. (we're so back if you click below.)</p>
   <p><a href="/">← back to the hoodie zone</a></p>
+  <nav class="nav404" aria-label="useful destinations">
+    <a href="/room/">🛏️ room</a> ·
+    <a href="/arcade/">🕹️ arcade</a> ·
+    <a href="/arcade/bloons/">🎈 bloons</a> ·
+    <a href="/guestbook/">📖 guestbook</a> ·
+    <a href="/about/">📜 about</a>
+  </nav>
 </main>
 <script>try { localStorage.setItem("slop:found404", "true"); } catch { /* the passport will never know */ }</script>
 </body>
