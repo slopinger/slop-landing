@@ -7,7 +7,7 @@ and README current as part of every behavior, page structure, test or operationa
   Keep the joke on slop herself: no misogyny or "-cel" slang about women, no violence, self-harm or
   suicide jokes, nothing aimed at real people or groups. The previous gamer persona is retired.
 - Source site is `site/`; Nix assembles `assembly/bloons.wat` for the balloon-defense game.
-  The six main page files copy marquee/nav/controls/footer:
+  The seven main page files (`index.html`, `room/`, `arcade/`, `arcade/bloons/`, `office/`, `guestbook/`, `about/`) copy marquee/nav/controls/footer:
   keep shared markup synchronized when editing it. Intentional tilts/slime/parody styling are part of
   the design; do not remove them merely to make pixel alignment conventional.
 - `site/slop.js` is shared core; optional modules start only where their elements exist. Preserve
@@ -79,5 +79,4 @@ and README current as part of every behavior, page structure, test or operationa
 - Bios stay plain and understated ("i write code, run servers, and love slopping. she/her") with
   website links; don't explain the persona or list meme vocabulary. The avatar everywhere is
   `assets/slop-avatar.png` (Tsukasa Hiiragi with yellow ribbon and sweatdrop), same as GitHub.
-- Last full sync 2026-10-17; browser QA covered all six pages at 1280/390/320px with API writes
-  intercepted. `/pigpen/` still redirects to `/room/`.
+- Last full sync 2026-10-24; browser QA covered all pages at 1280/390/320px with zero horizontal overflow, skip-links added, pot.js TDZ fixed, projects showcased. `/pigpen/` still redirects to `/room/`.
