@@ -21,6 +21,7 @@
     ['aviator', '🪽', 'Gaming Chair Aviator', 'fly 10+ pillars in flappy slop'],
     ['catcher', '🍗', 'Tendie Legend', 'catch 30+ in catch the tendies'],
     ['brain', '🧠', 'Big Brain Slop', 'win slop memory'],
+    ['popper', '🎈', 'Certified Bloon Popper', 'clear round 40 in Bloon Assembly'],
     ['konami', '🎮', 'Cheat Code Enjoyer', '↑ ↑ ↓ ↓ ...you know the rest'],
     ['hacker', '💻', 'Hacker Voice: "I\'m In"', 'open the terminal (hint: the key left of 1)'],
     ['not-root', '🔐', 'I Am Root (I Am Not)', 'try sudo in the terminal'],
@@ -139,12 +140,14 @@
     if (game === 'flappy' && score >= 10) earn('aviator');
     if (game === 'catcher' && score >= 30) earn('catcher');
     if (game === 'memory') earn('brain');
+    if (game === 'bloons') earn('popper');
   });
 
   // pages visited (the 404 page leaves a note, it doesn't load all this machinery)
   const path = location.pathname.replace(/index\.html$/, '');
   const pages = new Set(store.get('pages', []).map((p) => (p === '/pigpen/' ? '/room/' : p))); // the pigpen became slop's room
   if (PAGES.includes(path)) { pages.add(path); store.set('pages', [...pages]); }
+  else if (path.startsWith('/arcade/')) { pages.add('/arcade/'); store.set('pages', [...pages]); }
   addEventListener('load', () => {
     if (store.get('found404', false)) earn('lost');
     if (PAGES.every((p) => pages.has(p))) earn('tourist');

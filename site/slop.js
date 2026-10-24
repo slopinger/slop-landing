@@ -299,7 +299,7 @@
   }
 
   // ---------- pointer: splat anywhere, slime follows the mouse ----------
-  const interactive = 'button, a, input, textarea, label, select, .controls, .som-out, .arena';
+  const interactive = 'button, a, input, textarea, label, select, .controls, .som-out, .arena, .game, #field';
   document.addEventListener('pointerdown', (e) => {
     if (reduceMotion || e.button > 0 || e.target.closest(interactive)) return;
     splat(e.clientX, e.clientY);
@@ -363,7 +363,8 @@
   // ---------- nav: mark the current page ----------
   const here = location.pathname.replace(/index\.html$/, '');
   document.querySelectorAll('.nav a').forEach((a) => {
-    if (new URL(a.href).pathname === here) a.setAttribute('aria-current', 'page');
+    const p = new URL(a.href).pathname;
+    if (p === here || (p !== '/' && here.startsWith(p))) a.setAttribute('aria-current', 'page');
   });
 
   // shared bits for the page modules in js/

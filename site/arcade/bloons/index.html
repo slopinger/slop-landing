@@ -2,39 +2,197 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#151b28">
-<meta name="description" content="An assembly-powered balloon defense game, being built toward Bloons TD 6 feature parity.">
-<title>Bloon Assembly · freifick arcade</title>
-<link rel="icon" href="/favicon.svg">
-<link rel="stylesheet" href="./game.css?v=3">
-<script type="module" src="./game.js?v=3"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloon Assembly — the slop arcade — FREIFICK</title>
+<meta name="description" content="An assembly-powered balloon defense game built in handwritten WebAssembly, being built toward Bloons TD 6 feature parity.">
+<meta name="theme-color" content="#16152a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Bloon Assembly — the slop arcade — FREIFICK">
+<meta property="og:description" content="An assembly-powered balloon defense game built in handwritten WebAssembly, being built toward Bloons TD 6 feature parity.">
+<meta property="og:image" content="https://freifick.net/slop-avatar.png">
+<link rel="stylesheet" href="/slop.css">
+<link rel="stylesheet" href="./game.css">
 </head>
 <body>
-<header class="masthead"><a href="/arcade/">← freifick arcade</a><span class="chip">ASSEMBLY → WASM</span><a href="https://github.com/slopinger/slop-landing/tree/main/assembly">source ↗</a></header>
-<main>
-<div class="heading"><div><p class="eyebrow">THE GRASS IS UNDER ATTACK</p><h1>Bloon <span>Assembly</span><i aria-hidden="true">✳</i></h1></div><p class="intro">A tiny battlefield.<br>A very serious balloon problem.</p></div>
-<p class="development">Development build · BTD6 is the target. This build has six towers with named early upgrades, projectile travel and pierce, the first 40 standard rounds, and a balloon sandbox; full BTD6 features are still in progress.</p>
-<section class="game" aria-label="Balloon defense game">
-<div class="hud"><div><span class="label">CASH</span><strong id="cash">$650</strong></div><div><span class="label">LIVES</span><strong id="lives">150</strong></div><div><span class="label">ROUND</span><strong id="round">0 <small>/ 40</small></strong></div><div><span class="label">POPS</span><strong id="pops">0</strong></div><span id="phase" class="phase">PREPARE YOUR DEFENSE</span></div>
-<div class="play-layout">
-<div class="field-wrap"><canvas id="field" width="960" height="480" tabindex="0" aria-label="Battlefield. Select a tower, then click the grass to build. Arrow keys move the placement cursor; Enter places or selects, Escape cancels."></canvas><div id="overlay" class="overlay" hidden><div><p id="outcome-kicker" class="eyebrow"></p><h2 id="outcome"></h2><p id="outcome-detail"></p><button type="button" id="play-again">Play again ↗</button></div></div><div class="field-caption"><span><b class="live-dot"></b> ALL GAME RULES RUN IN WEBASSEMBLY</span><span id="remaining">No balloons on the field</span></div></div>
-<aside class="shop" aria-label="Tower shop"><div class="shop-title"><h2>Build a defense</h2><span>01—06</span></div><p class="shop-hint">Pick a tower. Find a patch of grass.</p><div id="tower-shop">
-<button class="tower-card" type="button" data-type="0" aria-pressed="false"><span class="tower-icon dart">↗</span><span><b>Dart monkey</b><small>Quick, precise shots</small></span><strong>$200</strong><kbd>1</kbd></button>
-<button class="tower-card" type="button" data-type="1" aria-pressed="false"><span class="tower-icon tack">✳</span><span><b>Tack shooter</b><small>Close-range crowd control</small></span><strong>$260</strong><kbd>2</kbd></button>
-<button class="tower-card" type="button" data-type="2" aria-pressed="false"><span class="tower-icon bomb">●</span><span><b>Bomb shooter</b><small>Splash damage · breaks lead</small></span><strong>$375</strong><kbd>3</kbd></button>
-<button class="tower-card" type="button" data-type="3" aria-pressed="false"><span class="tower-icon ice">❄</span><span><b>Ice monkey</b><small>Freezes ordinary balloons</small></span><strong>$400</strong><kbd>4</kbd></button>
-<button class="tower-card" type="button" data-type="4" aria-pressed="false"><span class="tower-icon super">★</span><span><b>Super monkey</b><small>A relentless stream of darts</small></span><strong>$2,500</strong><kbd>5</kbd></button>
-<button class="tower-card" type="button" data-type="5" aria-pressed="false"><span class="tower-icon ninja">✦</span><span><b>Ninja monkey</b><small>Sees camo · sharp shots</small></span><strong>$400</strong><kbd>6</kbd></button>
-</div><div class="inspect" id="inspect"><p class="eyebrow">FIELD NOTES</p><h3 id="inspect-name">Every corner counts.</h3><p id="inspect-detail">Cover several stretches of the track with one tower. Camo arrives on round 24, lead on 28, and the MOAB on 40.</p><label id="targeting-wrap" hidden>Target priority <select id="targeting"><option value="0">First</option><option value="1">Last</option><option value="2">Close</option><option value="3">Strong</option></select></label><div id="tower-actions" hidden><div id="upgrade-paths" aria-label="Upgrade paths"><button data-path="0" type="button"><small>TOP PATH</small><b></b><span></span></button><button data-path="1" type="button"><small>MIDDLE PATH</small><b></b><span></span></button><button data-path="2" type="button"><small>BOTTOM PATH</small><b></b><span></span></button></div><button id="sell" type="button"></button></div><button id="cancel" class="quiet" type="button" hidden>Cancel placement <kbd>ESC</kbd></button></div></aside>
-</div>
-<div id="sandbox-controls" class="sandbox-controls" hidden><label>Balloon <select id="spawn-type"><option value="0">Red</option><option value="1">Blue</option><option value="2">Green</option><option value="3">Yellow</option><option value="4">Pink</option><option value="5">Black</option><option value="6">White</option><option value="7">Purple</option><option value="8">Lead</option><option value="9">Zebra</option><option value="10">Rainbow</option><option value="11">Ceramic</option><option value="12">MOAB</option><option value="13">BFB</option><option value="14">ZOMG</option><option value="15">DDT</option><option value="16">BAD</option></select></label><label>Count <input id="spawn-count" type="number" min="1" max="100" value="1"></label><label><input type="checkbox" id="spawn-camo"> Camo</label><label><input type="checkbox" id="spawn-regrow"> Regrow</label><label><input type="checkbox" id="spawn-fortified"> Fortified</label><button type="button" id="clear-field">Clear balloons</button></div>
-<div class="toolbar"><label class="mode-label">Mode <select id="mode"><option value="0">40-round campaign</option><option value="1">Sandbox</option></select></label><button type="button" id="start" class="primary" disabled>Loading engine…</button><button type="button" id="pause" disabled>Ⅱ Pause</button><button type="button" id="speed" aria-label="Change speed">1× speed</button><button type="button" id="sound" aria-pressed="false">Sound off</button><button type="button" id="restart" class="quiet">Restart</button><span id="best">Best: —</span></div>
-<p id="message" class="message" role="status" aria-live="polite">Loading the WebAssembly engine…</p>
+<!-- TODO: clean this up before launch (launched anyway). the header, nav, controls and footer are copied into every page: keep them in sync -->
+<svg class="hidden" aria-hidden="true"><filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+
+<canvas id="slime" aria-hidden="true"></canvas>
+
+<div class="marquee" aria-label="announcements"><div class="marquee-inner">
+  <span>★ WELCOME 2 FREIFICK ★ NOW BROADCASTING LIVE FROM THE BOYMODER ROOM ★ NEW: SLOP'S ROOM, THE DAILY BRAINWORM FORECAST, TENDIES ★ PRESS THE KEY LEFT OF 1 (` OR ^) FOR THE TERMINAL ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 WITH THE BLINDS CLOSED ★ CLICK ANYWHERE TO SPLAT ★ IT'S OVER ★ WE'RE SO BACK ★ HOODIE WEATHER: ALWAYS ★ SSL LABS GRADE: A+ (THE ONLY THING HERE THAT HAS EVER BEEN RATED) ★ </span>
+  <span aria-hidden="true">★ WELCOME 2 FREIFICK ★ NOW BROADCASTING LIVE FROM THE BOYMODER ROOM ★ NEW: SLOP'S ROOM, THE DAILY BRAINWORM FORECAST, TENDIES ★ PRESS THE KEY LEFT OF 1 (` OR ^) FOR THE TERMINAL ★ BEST VIEWED IN NETSCAPE NAVIGATOR 3.0 AT 800×600 WITH THE BLINDS CLOSED ★ CLICK ANYWHERE TO SPLAT ★ IT'S OVER ★ WE'RE SO BACK ★ HOODIE WEATHER: ALWAYS ★ SSL LABS GRADE: A+ (THE ONLY THING HERE THAT HAS EVER BEEN RATED) ★ </span>
+</div></div>
+
+<nav class="nav" aria-label="pages">
+  <a href="/"><span aria-hidden="true">🏚️</span> the hoodie zone</a>
+  <a href="/room/"><span aria-hidden="true">🛏️</span> slop's room</a>
+  <a href="/arcade/" aria-current="page"><span aria-hidden="true">🕹️</span> arcade</a>
+  <a href="/office/"><span aria-hidden="true">🏢</span> slop office</a>
+  <a href="/guestbook/"><span aria-hidden="true">📖</span> guestbook</a>
+  <a href="/about/"><span aria-hidden="true">📜</span> about</a>
+</nav>
+
+<aside class="controls tilt" aria-label="slop controls">
+  <b>slop controls</b>
+  <button id="mop" type="button" title="mop up the slop">🧽 mop</button>
+  <button id="more" type="button" title="increase slop output">💧 more<span class="lbl"> slop</span></button>
+  <button id="sound" type="button" title="toggle squelch sounds" aria-pressed="false">🔇 sound</button>
+  <button id="passport-btn" type="button" title="your slop passport">🛂 passport</button>
+  <button id="terminal-btn" type="button" title="open the terminal (or press the key left of 1: ` or ^)">💻<span class="lbl"> terminal</span></button>
+</aside>
+
+<header class="hero hero-small">
+  <a class="logo" href="/" aria-label="FREIFICK home"><span class="title title-small" aria-hidden="true"><span>F</span><span>R</span><span>E</span><span>I</span><span>F</span><span>I</span><span>C</span><span>K</span></span></a>
+  <h1 class="page-title tilt">🎈 Bloon Assembly</h1>
+  <p class="subtag">the grass is under attack. an assembly-powered balloon defense game built in handwritten WebAssembly. finish campaign rounds to earn passport stamps.</p>
+</header>
+
+<main class="bloons-main">
+
+<nav class="cabinets" aria-label="pick a game">
+  <a href="/arcade/bloons/" aria-current="true">🎈 bloon assembly</a>
+  <a href="/arcade/#whack">🔔 whack-a-ping</a>
+  <a href="/arcade/#flappy">🪽 flappy slop</a>
+  <a href="/arcade/#catcher">🍗 catch the tendies</a>
+  <a href="/arcade/#memory">🧠 slop memory</a>
+</nav>
+
+<p class="card tilt development-notice">
+  <b>Development build · BTD6 feature parity is the target.</b> This build features six partial towers with named early upgrades (dart tiers 1–3, others 1–2), physical projectile travel and pierce, the first 40 standard rounds, and a balloon sandbox; full BTD6 features are in active development. <a href="https://github.com/slopinger/slop-landing/tree/main/assembly">View WAT source ↗</a>
+</p>
+
+<section class="card tilt game" aria-label="Balloon defense game">
+  <div class="hud">
+    <div><span class="label">CASH</span><strong id="cash">$650</strong></div>
+    <div><span class="label">LIVES</span><strong id="lives">150</strong></div>
+    <div><span class="label">ROUND</span><strong id="round">0 <small>/ 40</small></strong></div>
+    <div><span class="label">POPS</span><strong id="pops">0</strong></div>
+    <span id="phase" class="phase">PREPARE YOUR DEFENSE</span>
+  </div>
+
+  <div class="play-layout">
+    <div class="field-wrap">
+      <canvas id="field" class="arena" width="960" height="480" tabindex="0" aria-label="Battlefield. Select a tower, then click the grass to build. Arrow keys move the placement cursor; Enter places or selects, Escape cancels."></canvas>
+      <div id="overlay" class="overlay" hidden>
+        <div class="overlay-card">
+          <p id="outcome-kicker" class="eyebrow"></p>
+          <h2 id="outcome"></h2>
+          <p id="outcome-detail"></p>
+          <button type="button" id="play-again" class="big">Play again ↗</button>
+        </div>
+      </div>
+      <div class="field-caption">
+        <span><b class="live-dot"></b> ALL GAME RULES RUN IN WEBASSEMBLY</span>
+        <span id="remaining">No balloons on the field</span>
+      </div>
+    </div>
+
+    <aside class="shop" aria-label="Tower shop">
+      <div class="shop-title">
+        <h2>Build a defense</h2>
+        <span>01—06</span>
+      </div>
+      <p class="shop-hint">Pick a tower. Find a patch of grass.</p>
+      <div id="tower-shop">
+        <button class="tower-card" type="button" data-type="0" aria-pressed="false"><span class="tower-icon dart">↗</span><span><b>Dart monkey</b><small>Quick, precise shots</small></span><strong>$200</strong><kbd>1</kbd></button>
+        <button class="tower-card" type="button" data-type="1" aria-pressed="false"><span class="tower-icon tack">✳</span><span><b>Tack shooter</b><small>Close-range crowd control</small></span><strong>$260</strong><kbd>2</kbd></button>
+        <button class="tower-card" type="button" data-type="2" aria-pressed="false"><span class="tower-icon bomb">●</span><span><b>Bomb shooter</b><small>Splash damage · breaks lead</small></span><strong>$375</strong><kbd>3</kbd></button>
+        <button class="tower-card" type="button" data-type="3" aria-pressed="false"><span class="tower-icon ice">❄</span><span><b>Ice monkey</b><small>Freezes ordinary balloons</small></span><strong>$400</strong><kbd>4</kbd></button>
+        <button class="tower-card" type="button" data-type="4" aria-pressed="false"><span class="tower-icon super">★</span><span><b>Super monkey</b><small>A relentless stream of darts</small></span><strong>$2,500</strong><kbd>5</kbd></button>
+        <button class="tower-card" type="button" data-type="5" aria-pressed="false"><span class="tower-icon ninja">✦</span><span><b>Ninja monkey</b><small>Sees camo · sharp shots</small></span><strong>$400</strong><kbd>6</kbd></button>
+      </div>
+      <div class="inspect" id="inspect">
+        <p class="eyebrow">FIELD NOTES</p>
+        <h3 id="inspect-name">Every corner counts.</h3>
+        <p id="inspect-detail">Cover several stretches of the track with one tower. Camo arrives on round 24, lead on 28, and the MOAB on 40.</p>
+        <label id="targeting-wrap" hidden>Target priority <select id="targeting"><option value="0">First</option><option value="1">Last</option><option value="2">Close</option><option value="3">Strong</option></select></label>
+        <div id="tower-actions" hidden>
+          <div id="upgrade-paths" aria-label="Upgrade paths">
+            <button data-path="0" type="button"><small>TOP PATH</small><b></b><span></span></button>
+            <button data-path="1" type="button"><small>MIDDLE PATH</small><b></b><span></span></button>
+            <button data-path="2" type="button"><small>BOTTOM PATH</small><b></b><span></span></button>
+          </div>
+          <button id="sell" type="button"></button>
+        </div>
+        <button id="cancel" class="quiet" type="button" hidden>Cancel placement <kbd>ESC</kbd></button>
+      </div>
+    </aside>
+  </div>
+
+  <div id="sandbox-controls" class="sandbox-controls" hidden>
+    <label>Balloon <select id="spawn-type">
+      <option value="0">Red</option><option value="1">Blue</option><option value="2">Green</option>
+      <option value="3">Yellow</option><option value="4">Pink</option><option value="5">Black</option>
+      <option value="6">White</option><option value="7">Purple</option><option value="8">Lead</option>
+      <option value="9">Zebra</option><option value="10">Rainbow</option><option value="11">Ceramic</option>
+      <option value="12">MOAB</option><option value="13">BFB</option><option value="14">ZOMG</option>
+      <option value="15">DDT</option><option value="16">BAD</option>
+    </select></label>
+    <label>Count <input id="spawn-count" type="number" min="1" max="100" value="1"></label>
+    <label><input type="checkbox" id="spawn-camo"> Camo</label>
+    <label><input type="checkbox" id="spawn-regrow"> Regrow</label>
+    <label><input type="checkbox" id="spawn-fortified"> Fortified</label>
+    <button type="button" id="clear-field">Clear balloons</button>
+  </div>
+
+  <div class="toolbar">
+    <label class="mode-label">Mode <select id="mode"><option value="0">40-round campaign</option><option value="1">Sandbox</option></select></label>
+    <button type="button" id="start" class="big primary" disabled>Loading engine…</button>
+    <button type="button" id="pause" disabled>Ⅱ Pause</button>
+    <button type="button" id="speed" aria-label="Change speed">1× speed</button>
+    <button type="button" id="game-sound" aria-pressed="false">🔇 Sound off</button>
+    <button type="button" id="restart" class="quiet">Restart</button>
+    <span id="best">Best: —</span>
+  </div>
+
+  <p id="message" class="message" role="status" aria-live="polite">Loading the WebAssembly engine…</p>
 </section>
-<div class="below"><section><span class="section-number">01 / HOW TO PLAY</span><h2>Build. Pop. Repeat.</h2><p>Spend cash on towers beside the track, then send the next wave. Add camo detection before round 24 and lead damage before round 28. Popped layers pay for upgrades. Select a placed tower to choose upgrades along two of its three paths, or sell it for 70% of your investment. This build supports dart tiers 1–3 and tiers 1–2 for the other towers.</p><p class="key-help"><kbd>1</kbd>–<kbd>6</kbd> select · <kbd>SPACE</kbd> send wave / pause · <kbd>ESC</kbd> cancel</p></section><section><span class="section-number">02 / KNOW YOUR BALLOONS</span><h2>They have layers.</h2><p>Balloons shed layers and split into children. Black resists bombs, white resists ice, and lead resists sharp shots. Camo needs detection; regrow recovers layers. Try all 17 types and fortified variants in the sandbox.</p></section><section><span class="section-number">03 / UNDER THE HOOD</span><h2>Handwritten assembly.</h2><p>Movement, targeting, damage, cash and placement run inside a Wasm module assembled from <a href="/arcade/bloons/engine.wat">readable WAT source</a>. Canvas draws the results. No account, no install, no server simulation.</p></section></div>
+
+<div class="below">
+  <section class="card tilt">
+    <span class="section-number">01 / HOW TO PLAY</span>
+    <h2>Build. Pop. Repeat.</h2>
+    <p>Spend cash on towers beside the track, then send the next wave. Add camo detection before round 24 and lead damage before round 28. Popped layers pay for upgrades. Select a placed tower to choose upgrades along two of its three paths, or sell it for 70% of your investment. This build supports dart tiers 1–3 and tiers 1–2 for the other towers.</p>
+    <p class="key-help"><kbd>1</kbd>–<kbd>6</kbd> select · <kbd>SPACE</kbd> send wave / pause · <kbd>ESC</kbd> cancel</p>
+  </section>
+  <section class="card tilt">
+    <span class="section-number">02 / KNOW YOUR BALLOONS</span>
+    <h2>They have layers.</h2>
+    <p>Balloons shed layers and split into children. Black resists bombs, white resists ice, and lead resists sharp shots. Camo needs detection; regrow recovers layers. Try all 17 types and fortified variants in the sandbox.</p>
+  </section>
+  <section class="card tilt">
+    <span class="section-number">03 / UNDER THE HOOD</span>
+    <h2>Handwritten assembly.</h2>
+    <p>Movement, targeting, damage, cash and placement run inside a Wasm module assembled from <a href="/arcade/bloons/engine.wat">readable WAT source</a>. Canvas draws the results. No account, no install, no server simulation.</p>
+  </section>
+</div>
+
 </main>
-<footer><span>Built on freifick.net · original artwork · MIT source</span><span>An independent fan project. Bloons TD belongs to Ninja Kiwi.</span></footer>
+
+<footer>
+  <div class="badges" aria-label="badges">
+    <span class="badge b1">MADE WITH<br><b>SLOP</b></span>
+    <span class="badge b2">HTML<br><b>0.9 beta</b></span>
+    <span class="badge b3">powered by<br><b>CADDY</b></span>
+    <span class="badge b4">SSL LABS<br><b>A+</b></span>
+    <span class="badge b5">best viewed<br><b>w/ eyes closed</b></span>
+    <span class="badge b6">🖤 MOM<br><b>APPROVED</b></span>
+    <a class="badge b7" href="https://github.com/slopinger">100%<br><b>OPEN SOURCE</b></a>
+  </div>
+  <p class="webring"><a href="/" title="there is only one site in this webring">← prev</a> · 🖤 the slop webring (1 member) 🖤 · <a href="/" title="there is only one site in this webring">next →</a></p>
+  <p class="small">© 2026 freifick.net · all slop reserved · no cookies, only slop · <a href="https://github.com/slopinger/slop-landing">source code</a> · <a href="/definitely-not-a-real-page">sitemap</a></p>
+  <p class="small konami-hint">psst: ↑ ↑ ↓ ↓ ← → ← → B A</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/slop.js"></script>
+<script src="/js/passport.js"></script>
+<script src="/js/oracle.js"></script>
+<script src="/js/pot.js"></script>
+<script src="/js/terminal.js"></script>
+<script src="/js/cookies.js"></script>
+<script type="module" src="./game.js"></script>
 <noscript>This game needs JavaScript and WebAssembly enabled.</noscript>
 </body>
 </html>

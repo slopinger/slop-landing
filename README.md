@@ -21,7 +21,7 @@ Pages (plain HTML; the marquee, nav, controls and footer are copied into each pa
 Scripts (every page loads the core ones; page modules return early if their section is missing):
 
 - `site/slop.js`: core: slime engine, toast, sounds, event bus (`slop.on` / `slop.emit`), API helper, MAXIMUM SLOP
-- `site/js/passport.js`: 24 achievement stamps (localStorage), popup + passport dialog
+- `site/js/passport.js`: 25 achievement stamps (localStorage), popup + passport dialog
 - `site/js/oracle.js`: daily mood (seeded by UTC date) and seeded fortunes
 - `site/js/pot.js`: batches splats/ladles to `/api/pot`, draws the cauldron on the home page
 - `site/js/terminal.js`: slopsh, the fake terminal (` key or 💻 button)
@@ -36,9 +36,9 @@ Scripts (every page loads the core ones; page modules return early if their sect
   `slopd.service` (sandboxed systemd unit), `slopd.sysusers` and the `slopctl` moderation wrapper
 
 Features: metaball slime engine (canvas; drips, splats on click, pool that slurps itself),
-the Slop-o-matic 3000 (buzzword generator, intensity 1–11), slop at his desk (food coma after
+the Slop-o-matic 3000 (buzzword generator, intensity 1–11), slop at her desk (food coma after
 12 tendies), 5 arcade games, a real guestbook, visitor counter and global slop pot, a passport
-with 24 stamps, a fake terminal, slop's daily brainworm forecast and fortunes, a certificate generator,
+with 25 stamps, a fake terminal, slop's daily brainworm forecast and fortunes, a certificate generator,
 a parody cookie banner, and a Konami-code MAXIMUM SLOP mode that persists across pages.
 Respects `prefers-reduced-motion`. Sounds are opt-in. Feature ideas were brainstormed with an AI model.
 

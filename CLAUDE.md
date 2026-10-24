@@ -66,8 +66,9 @@ and README current as part of every behavior, page structure, test or operationa
   then assembles ignored Wasm/WAT assets for local preview. Rules and scheduling stay in WAT.
   ABI v3 has a 4096-slot balloon pool and 2048 persistent projectile slots with child splits, camo/regrow/fortified properties and
   First/Last/Close/Strong targeting. Do not add browser-side simulation shortcuts.
-  Use `python3 -m http.server 8768 --bind 127.0.0.1 --directory site` for game-only browser QA.
-  This standalone game page makes no API requests and does not affect guestbook/counter state.
+  Use `python3 -m http.server 8768 --bind 127.0.0.1 --directory site` for game browser QA.
+  This game page shares the freifick site shell, navigation, sound and passport systems while
+  preventing battlefield clicks from generating global splat/pot API writes or capturing terminal/passport keystrokes.
 - Hydra project `slop-landing`, flake jobset `main` on hydra.kyouma.net checks site/slopd for
   x86_64-linux and aarch64-linux. Keep `hydraJobs` exported.
 

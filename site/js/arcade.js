@@ -69,8 +69,8 @@
   // CABINET PICKER: one game on screen at a time (less scrolling), chosen by #hash
   // =====================================================================
   {
-    const tabs = [...document.querySelectorAll('.cabinets a')];
-    const games = tabs.map((t) => document.getElementById(t.dataset.game));
+    const tabs = [...document.querySelectorAll('.cabinets a[data-game]')];
+    const games = tabs.map((t) => document.getElementById(t.dataset.game)).filter(Boolean);
     function show(id) {
       if (!games.some((g) => g && g.id === id)) id = store.get('cabinet', 'whack');
       for (const g of games) if (g) g.hidden = g.id !== id;
@@ -78,7 +78,14 @@
       store.set('cabinet', id);
       dispatchEvent(new Event('resize')); // canvases measure their card; it was hidden a moment ago
     }
-    for (const t of tabs) t.addEventListener('click', (e) => { e.preventDefault(); history.replaceState(null, '', '#' + t.dataset.game); show(t.dataset.game); });
+    for (const t of tabs) {
+      t.addEventListener('click', (e) => {
+        if (!t.dataset.game) return;
+        e.preventDefault();
+        history.replaceState(null, '', '#' + t.dataset.game);
+        show(t.dataset.game);
+      });
+    }
     addEventListener('hashchange', () => show(location.hash.slice(1)));
     show(location.hash.slice(1));
   }
