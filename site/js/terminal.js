@@ -3,7 +3,7 @@
   'use strict';
   const { $, pick, toast, squelch, sigh, splat, store, api, emit, setMaxSlop } = window.slop;
 
-  const PAGES = { '~': '/', basement: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
+  const PAGES = { '~': '/', basement: '/', home: '/', room: '/room/', pigpen: '/room/', arcade: '/arcade/', bloons: '/arcade/bloons/', 'arcade/bloons': '/arcade/bloons/', office: '/office/', guestbook: '/guestbook/', about: '/about/' };
   const FILES = {
     'slop.txt': "slop. age: yes. lives: the boymoder room. likes: tendies, energy drinks, loving the slop, being right online.\ndislikes: sunlight, phone calls, mondays. last touched grass: 2019. has passed out from tendies 1,000+ times.",
     'gerald.txt': 'Gerald. pig. retired to a farm upstate. sends a postcard sometimes. it just says "oink".',
@@ -52,9 +52,10 @@
 
   const commands = {
     help: () => 'commands: help ls cat cd pwd whoami neofetch fortune mood copesay cope visitors pot passport\n' +
-      '          echo date uptime history clear exit sudo rm vim git ping bgp lantern driftline projects make touch maxslop ...and some secret ones',
+      '          echo date uptime history clear exit sudo rm vim git ping bgp lantern driftline boybrowse hydra\n' +
+      '          bloons weather blinds tendies nix hoodie projects make touch maxslop ...and some secret ones',
     ls: (a) => (a.includes('-a') ? '.  ..  .slop_history  .diary (locked)\n' : '') +
-      'arcade/  room/  office/  guestbook/  about/  ' + Object.keys(FILES).join('  '),
+      'arcade/  bloons/  room/  office/  guestbook/  about/  ' + Object.keys(FILES).join('  '),
     cat: (a) => {
       const f = a[0];
       if (!f) return 'cat: needs a file. try `cat slop.txt`';
@@ -140,14 +141,38 @@
     driftline: () => '📐 driftline: local OpenAPI change impact analyzer & migration reporter.\n' +
       'inspect schema diffs, breaking contract changes, and client migration impact.\n' +
       'demo: https://driftline.freifick.net/ · code: https://github.com/slopinger/driftline',
+    boybrowse: () => '🌐 boybrowse: personal Chromium source fork & private encrypted Perl sync.\n' +
+      'sync server at https://boybrowse-sync.freifick.net with daily verified backups;\n' +
+      'builds for Linux and macOS. (the browser for girlies in oversized hoodies)\n' +
+      'code: https://github.com/slopinger/boybrowse',
+    hydra: () => '🐉 hydra: soft fork of Lix\'s Hydra CI with live build status & streaming logs.\n' +
+      'dev instance at https://hydra.freifick.net, CI builds on hydra.kyouma.net.\n' +
+      'paired with hydra-mcp for agentic control: https://github.com/slopinger/hydra-mcp\n' +
+      'code: https://github.com/slopinger/hydra',
+    opengrind: () => '📱 open-grind-ios: native SwiftUI iOS port of Open Grind.\n' +
+      'Rust grindr transport via UniFFI, hermetic Linux checks via Nix.\n' +
+      'code: https://github.com/slopinger/open-grind-ios',
+    xyremote: () => '📻 xy-remote: SwiftUI iOS app & XYAmpKit BLE protocol library.\n' +
+      'reverse-engineered control for XinYi / Sinilink Bluetooth audio amplifiers.\n' +
+      'code: https://github.com/slopinger/xy-remote',
+    bloons: () => { setTimeout(() => { location.href = '/arcade/bloons/'; }, 350); return 'launching Bloon Assembly in handwritten Wasm...'; },
+    weather: () => 'hoodie weather: 100% chance of oversized sleeves. temperature: room temperature. sunlight: avoided.',
+    blinds: () => 'the blinds are closed. opening them 2cm... error: sunlight detected. closing immediately.',
+    tendies: () => { window.slop?.squelch?.(1.1, .3); return '🍗 tendies served. dipping sauce: required.'; },
+    nix: () => '❄️ NixOS server slopbox declared in ~/src/nixfiles. flake-based, hermetic, 100% reproducible slop.',
+    hoodie: () => 'b♂y hoodie status: oversized, sleeves over hands, doing 100% of the emotional heavy lifting.',
     projects: () => '💻 slop\'s projects:\n' +
       '  slopbgp:        Gleam BGP-4 & MP-BGP daemon on OTP BEAM (AS4242420125)\n' +
       '  lantern:        Experimental Haskell webserver (HTTP/1.1, TLS 1.3, ACME)\n' +
+      '  boybrowse:      Personal Chromium fork & encrypted Perl sync (boybrowse-sync.freifick.net)\n' +
       '  trough:         ActivityPub fediverse server in Go + SQLite (fedi.freifick.net)\n' +
       '  slopbox:        Ephemeral file sharing in Gleam (slopbox.freifick.net)\n' +
+      '  hydra:          Hydra CI soft fork with live streaming logs (hydra.freifick.net)\n' +
       '  driftline:      OpenAPI change analyzer (driftline.freifick.net)\n' +
       '  arbeitsagentur: MCP server for Bundesagentur für Arbeit customer APIs\n' +
       '  therapie:       MCP server for therapie.de therapist directory search\n' +
+      '  open-grind-ios: SwiftUI iOS port of Open Grind (Rust via UniFFI)\n' +
+      '  xy-remote:      SwiftUI iOS app & BLE protocol library for Sinilink amplifiers\n' +
       '  all repos:      https://github.com/slopinger',
     make: (a) => (a.join(' ') === 'me a sandwich' ? 'what? make it yourself.' : "make: *** No rule to make target 'slop'. Stop. (just kidding, slop is made automatically)"),
     maxslop: () => { setMaxSlop(!window.slop.maxSlop); return window.slop.maxSlop ? '☢️ engaged.' : 'disengaged. for now.'; },
@@ -164,6 +189,9 @@
   commands.quit = commands.logout = commands.exit;
   commands.dir = commands.ls;
   commands.cls = commands.clear;
+  commands.nixos = commands.nix;
+  commands.grindr = commands.opengrind;
+  commands['xy-remote'] = commands.xyremote;
 
   async function run(line) {
     print('slop@freifick:~$ ' + line, 'term-cmd');
